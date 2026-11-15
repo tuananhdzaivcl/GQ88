@@ -122,12 +122,12 @@
 
   /* ADMIN TABS & LISTS */
   .admin-tabs { display: flex; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-  .admin-tab { flex: 1; padding: 10px; border: none; border-radius: 8px; background: #eee; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .admin-tab { flex: 1; padding: 10px; border: none; border-radius: 8px; background: #eee; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 12px; }
   .admin-tab.active { background: #00e5ff; color: #000; }
   .admin-content { display: none; }
   .admin-content.active { display: block; }
   
-  .history-list { max-height: 150px; overflow-y: auto; font-size: 12px; background: #f7f9fc; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid #d0d5df; }
+  .history-list { max-height: 200px; overflow-y: auto; font-size: 12px; background: #f7f9fc; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid #d0d5df; }
   .history-item { padding: 5px 0; border-bottom: 1px dashed #ccc; display: flex; justify-content: space-between; }
   .history-item.win { color: #0a8f4d; font-weight: bold; }
   .history-item.lose { color: #d62839; }
@@ -140,6 +140,10 @@
   .btn-approve { background: #00ffae; color: #000; }
   .btn-reject { background: #ff6b8a; color: #fff; }
 
+  .user-list-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 13px; }
+  .user-list-item .u-name { font-weight: bold; }
+  .user-list-item .u-edge { font-size: 11px; color: #888; }
+  .user-list-item .u-bal { color: #0a8f4d; font-weight: bold; }
 </style>
 </head>
 <body>
@@ -234,13 +238,8 @@
       <button class="amount-opt" data-val="1000000">1.000.000đ<span class="bonus">+10%</span></button>
       <button class="amount-opt" data-val="2000000">2.000.000đ<span class="bonus">+15%</span></button>
     </div>
-    
-    <!-- ĐÃ ĐỔI SANG FILE QR.JPG -->
     <img src="qr.jpg" style="width:100%;max-width:200px;display:block;margin:0 auto 14px;border-radius:10px;" alt="QR Nạp Tiền">
-    
-    <!-- Ô NHẬP NỘI DUNG XÁC MINH -->
     <input type="text" id="nap-note" placeholder="Nhập nội dung chuyển khoản (VD: GQ88 user1)" style="width:100%;padding:12px 14px;margin-bottom:10px;border:1px solid #d0d5df;border-radius:10px;font-size:15px;font-family:inherit;outline:none;color:#172033;">
-    
     <button class="action-btn" id="btn-confirm-nap">GỬI YÊU CẦU NẠP</button>
     <button class="close-btn" onclick="document.getElementById('modal-nap').classList.remove('active')">Đóng</button>
   </div>
@@ -272,8 +271,9 @@
     <h3><i class="fas fa-crown" style="color:#c17fff"></i> ADMIN PANEL</h3>
     
     <div class="admin-tabs">
-      <button class="admin-tab active" data-atab="users">QUẢN LÝ USER</button>
+      <button class="admin-tab active" data-atab="users">QUẢN LÝ</button>
       <button class="admin-tab" data-atab="deposits">DUYỆT NẠP</button>
+      <button class="admin-tab" data-atab="userlist">DANH SÁCH</button>
     </div>
 
     <!-- TAB QUẢN LÝ USER -->
@@ -283,13 +283,25 @@
         Số dư: <b id="admin-current-balance">-</b>
       </div>
       <input type="number" id="admin-amount" placeholder="Số tiền (VNĐ)">
-      <button class="action-btn purple" id="btn-admin-add">+ CỘNG TIỀN</button>
-      <button class="action-btn red" id="btn-admin-sub" style="margin-top:6px">- TRỪ TIỀN</button>
       
-      <!-- Lịch sử user -->
-      <div style="margin-top: 15px; font-weight: bold; font-size: 14px;">Lịch sử gần đây:</div>
-      <div id="admin-history-list" class="history-list">
-        Nhập username để xem lịch sử...
+      <div style="display:flex; gap:6px;">
+         <button class="action-btn purple" id="btn-admin-add" style="flex:1">+ CỘNG</button>
+         <button class="action-btn red" id="btn-admin-sub" style="flex:1">- TRỪ</button>
+      </div>
+
+      <!-- TÍNH NĂNG GIẢM NHÂN PHẨM -->
+      <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc;">
+         <div style="font-weight: bold; font-size: 13px; margin-bottom: 8px; color: #d62839;">GIẢM NHÂN PHẨM (Tỷ lệ thua)</div>
+         <div style="display:flex; gap:6px;">
+            <input type="number" id="admin-edge" placeholder="VD: 90 (tức 90% thua)" style="margin-bottom:0; flex:1;">
+            <button class="action-btn red" id="btn-admin-edge" style="width: 100px; margin-top:0;">ÁP DỤNG</button>
+         </div>
+      </div>
+
+      <!-- NÚT XEM LỊCH SỬ -->
+      <button class="action-btn gold" id="btn-admin-history" style="margin-top:15px;">XEM LỊCH SỬ</button>
+      
+      <div id="admin-history-list" class="history-list" style="display:none;">
       </div>
     </div>
 
@@ -297,6 +309,14 @@
     <div class="admin-content" id="admin-tab-deposits">
       <div id="admin-deposit-list">
         Đang tải danh sách...
+      </div>
+    </div>
+
+    <!-- TAB DANH SÁCH USER -->
+    <div class="admin-content" id="admin-tab-userlist">
+      <button class="action-btn" id="btn-refresh-users">TẢI LẠI DANH SÁCH</button>
+      <div id="user-list-container" style="margin-top: 10px; max-height: 300px; overflow-y: auto;">
+        Bấm nút trên để tải...
       </div>
     </div>
 
@@ -319,7 +339,7 @@
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, increment, collection, query, where, getDocs, addDoc, arrayUnion, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, increment, collection, query, where, getDocs, addDoc, arrayUnion } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
 
 // CONFIG CỦA M
 const firebaseConfig = {
@@ -344,9 +364,10 @@ let unsubscribeBalance = null;
 let unsubscribeDeposits = null;
 let selectedNapAmount = 0;
 let selectedBank = '';
+let currentTargetUser = null; // Lưu user đang thao tác bên Admin
 
-// CẤU HÌNH TỶ LỆ NHÀ CÁI (0.65 = 65% nghiêng về nhà cái)
-const HOUSE_EDGE = 0.65; 
+const HOUSE_EDGE_DEFAULT = 0.65; // 65% thua mặc định
+let currentHouseEdge = HOUSE_EDGE_DEFAULT; // Sẽ bị ghi đè bởi DB nếu có
 
 // DOM REFS
 const loading = document.getElementById('loading');
@@ -394,13 +415,14 @@ onAuthStateChanged(auth, async (user) => {
     if (unsubscribeBalance) unsubscribeBalance();
     unsubscribeBalance = onSnapshot(doc(db, 'users', user.uid), (snap) => {
       if (snap.exists()) {
+        const data = snap.data();
         const oldBal = balance;
-        balance = snap.data().balance || 0;
+        balance = data.balance || 0;
+        currentHouseEdge = data.house_edge !== undefined ? data.house_edge : HOUSE_EDGE_DEFAULT;
         updateBalance(balance > oldBal ? 'flash' : balance < oldBal ? 'flash-red' : null);
       }
     });
     
-    // Nếu là admin, tự động load danh sách nạp
     if (data.isAdmin) {
       loadAdminDeposits();
     }
@@ -457,15 +479,13 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
   await signOut(auth); location.reload();
 });
 
-// ========================================================================
-// GAME LOGIC (CÓ HOUSE EDGE)
-// ========================================================================
+// GAME LOGIC (DÙNG HOUSE EDGE CỦA USER)
 const suits = [{ symbol: "♠", color: "black" }, { symbol: "♥", color: "red" }, { symbol: "♦", color: "red" }, { symbol: "♣", color: "black" }];
 const ranks = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
 const deck = suits.flatMap(s => ranks.map(r => ({ rank: r, suit: s.symbol, color: s.color, joker: false })));
 
 function drawCard() {
-  const isHouseWinning = Math.random() < HOUSE_EDGE;
+  const isHouseWinning = Math.random() < currentHouseEdge;
   if (isHouseWinning) {
     let card = deck[Math.floor(Math.random() * deck.length)];
     while(card.joker) { card = deck[Math.floor(Math.random() * deck.length)]; }
@@ -662,6 +682,7 @@ document.querySelectorAll('.admin-tab').forEach(tab => {
     const target = tab.dataset.atab;
     document.getElementById('admin-tab-users').classList.toggle('active', target === 'users');
     document.getElementById('admin-tab-deposits').classList.toggle('active', target === 'deposits');
+    document.getElementById('admin-tab-userlist').classList.toggle('active', target === 'userlist');
   });
 });
 
@@ -672,28 +693,26 @@ const adminAmountInput = document.getElementById('admin-amount');
 
 adminTargetInput.addEventListener('input', async () => {
   const t = adminTargetInput.value.trim();
-  if (!t) { adminCurrentBalance.textContent = '-'; adminHistoryList.innerHTML = 'Nhập username để xem lịch sử...'; return; }
+  if (!t) { 
+    adminCurrentBalance.textContent = '-'; 
+    adminHistoryList.innerHTML = ''; 
+    adminHistoryList.style.display = 'none';
+    currentTargetUser = null;
+    return; 
+  }
   const q = query(collection(db, 'users'), where('username', '==', t));
   const snap = await getDocs(q);
-  if (snap.empty) { adminCurrentBalance.textContent = 'Không tồn tại'; adminHistoryList.innerHTML = ''; return; }
-  
-  const userData = snap.docs[0].data();
-  adminCurrentBalance.textContent = fmt(userData.balance || 0);
-
-  if (userData.history && userData.history.length > 0) {
-    const recentHistory = [...userData.history].reverse().slice(0, 10);
-    adminHistoryList.innerHTML = recentHistory.map(h => {
-      const date = new Date(h.time).toLocaleTimeString();
-      const cls = h.result === 'win' ? 'win' : 'lose';
-      const text = h.result === 'win' ? `+${fmt(h.win)}` : `-${fmt(h.bet)}`;
-      return `<div class="history-item ${cls}">
-        <span>${date} | Cược: ${fmt(h.bet)}</span>
-        <span>${text}</span>
-      </div>`;
-    }).join('');
-  } else {
-    adminHistoryList.innerHTML = '<div style="text-align:center;padding:10px;">Chưa có lịch sử</div>';
+  if (snap.empty) { 
+    adminCurrentBalance.textContent = 'Không tồn tại'; 
+    currentTargetUser = null;
+    return; 
   }
+  currentTargetUser = { id: snap.docs[0].id, data: snap.docs[0].data() };
+  adminCurrentBalance.textContent = fmt(currentTargetUser.data.balance || 0);
+  
+  // Cập nhật edge hiện tại vào ô input
+  const edge = currentTargetUser.data.house_edge !== undefined ? (currentTargetUser.data.house_edge * 100) : (HOUSE_EDGE_DEFAULT * 100);
+  document.getElementById('admin-edge').value = Math.round(edge);
 });
 
 async function adjustBalance(sign) {
@@ -717,6 +736,65 @@ async function adjustBalance(sign) {
 document.getElementById('btn-admin-add').addEventListener('click', () => adjustBalance(1));
 document.getElementById('btn-admin-sub').addEventListener('click', () => adjustBalance(-1));
 
+// NÚT GIẢM NHÂN PHẨM
+document.getElementById('btn-admin-edge').addEventListener('click', async () => {
+  if (!currentTargetUser) return alert('Nhập username trước!');
+  const percent = parseInt(document.getElementById('admin-edge').value);
+  if (isNaN(percent) || percent < 0 || percent > 99) return alert('Nhập tỷ lệ từ 0 đến 99');
+  
+  const edgeValue = percent / 100;
+  try {
+    await updateDoc(doc(db, 'users', currentTargetUser.id), { house_edge: edgeValue });
+    alert(`Đã set tỷ lệ thua của ${currentTargetUser.data.username} thành ${percent}%`);
+    currentTargetUser.data.house_edge = edgeValue;
+  } catch(e) { alert('Lỗi: ' + e.message); }
+});
+
+// NÚT XEM LỊCH SỬ
+document.getElementById('btn-admin-history').addEventListener('click', () => {
+  if (!currentTargetUser) return alert('Nhập username trước!');
+  const userData = currentTargetUser.data;
+  adminHistoryList.style.display = 'block';
+  
+  if (userData.history && userData.history.length > 0) {
+    const recentHistory = [...userData.history].reverse().slice(0, 20);
+    adminHistoryList.innerHTML = recentHistory.map(h => {
+      const date = new Date(h.time).toLocaleString('vi-VN');
+      const cls = h.result === 'win' ? 'win' : 'lose';
+      const text = h.result === 'win' ? `+${fmt(h.win)}` : `-${fmt(h.bet)}`;
+      return `<div class="history-item ${cls}">
+        <span>${date} | Cược: ${fmt(h.bet)}</span>
+        <span>${text}</span>
+      </div>`;
+    }).join('');
+  } else {
+    adminHistoryList.innerHTML = '<div style="text-align:center;padding:10px;">Chưa có lịch sử</div>';
+  }
+});
+
+// TAB DANH SÁCH USER
+document.getElementById('btn-refresh-users').addEventListener('click', async () => {
+  const container = document.getElementById('user-list-container');
+  container.innerHTML = 'Đang tải...';
+  try {
+    const snap = await getDocs(collection(db, 'users'));
+    if (snap.empty) return container.innerHTML = 'Không có user nào.';
+    
+    let html = '';
+    snap.forEach(doc => {
+      const u = doc.data();
+      const edge = u.house_edge !== undefined ? (u.house_edge * 100) : (HOUSE_EDGE_DEFAULT * 100);
+      html += `<div class="user-list-item">
+        <div>
+          <div class="u-name">${u.username} ${u.isAdmin ? '👑' : ''}</div>
+          <div class="u-edge">Tỷ lệ thua: ${Math.round(edge)}%</div>
+        </div>
+        <div class="u-bal">${fmt(u.balance || 0)}</div>
+      </div>`;
+    });
+    container.innerHTML = html;
+  } catch(e) { container.innerHTML = 'Lỗi: ' + e.message; }
+});
 
 // XỬ LÝ DUYỆT NẠP
 function loadAdminDeposits() {
