@@ -257,7 +257,7 @@
 </head>
 <body>
 
-<!-- ÂM THANH (THÊM PRELOAD AUTO) -->
+<!-- ÂM THANH -->
 <audio id="bgm" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
 <audio id="sfx-spin" preload="auto"><source src="quay.mp3" type="audio/mpeg"></audio>
 <audio id="sfx-win" preload="auto"><source src="hu.mp3" type="audio/mpeg"></audio>
@@ -569,11 +569,8 @@ let isAudioUnlocked = false;
 function unlockAudio() {
   if (isAudioUnlocked) return;
   isAudioUnlocked = true;
-  
-  // Play and immediately pause to unlock audio contexts on mobile
   bgm.volume = 0.5;
-  bgm.play().then(() => { if(!isMuted) { /* keep playing */ } else { bgm.pause(); } }).catch(() => {});
-  
+  bgm.play().then(() => { if(isMuted) bgm.pause(); }).catch(() => {});
   sfxSpin.load();
   sfxWin.load();
 }
@@ -927,7 +924,7 @@ async function finishSpin(finalCards, bet) {
         winTimeout = setTimeout(() => {
           sfxWin.pause();
           sfxWin.currentTime = 0;
-        }, 2000);
+        }, 4000); // CẬP NHẬT THÀNH 4 GIÂY
       }
       
       floatAmount(winAmount, 'win');
