@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>JACKPOT 777 - Quay Hũ Firebase</title>
+<title>GQ88 - JACKPOT 777</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -62,7 +62,7 @@
   }
 
   .auth-box { position: relative; z-index: 10; width: 100%; max-width: 380px; background: linear-gradient(145deg, #1a2740, #0f1828); border: 1px solid rgba(255, 214, 107, 0.3); border-radius: 20px; padding: 30px 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); text-align: center; }
-  .auth-logo { font-size: 26px; font-weight: 800; color: var(--gold); letter-spacing: 2px; margin-bottom: 4px; }
+  .auth-logo { font-size: 26px; font-weight: 800; color: var(--gold); letter-spacing: 2px; margin-bottom: 4px; text-shadow: 0 0 10px rgba(255,214,107,0.5); }
   .auth-logo i { color: var(--neon-cyan); margin-right: 6px; }
   .auth-sub { font-size: 13px; color: #8f96ad; margin-bottom: 24px; }
   .auth-tabs { display: flex; gap: 6px; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 10px; }
@@ -77,44 +77,46 @@
   .auth-msg.ok { color: #00ffae; }
 
   /* TOP BAR */
-  .top-bar { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgba(10, 15, 28, 0.85); border-bottom: 1px solid rgba(255, 214, 107, 0.2); backdrop-filter: blur(10px); }
-  .logo { font-weight: 800; font-size: 18px; color: var(--gold); text-shadow: 0 0 10px rgba(255,214,107,0.5); }
+  .top-bar { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: rgba(10, 15, 28, 0.95); border-bottom: 1px solid rgba(255, 214, 107, 0.2); backdrop-filter: blur(10px); overflow-x: auto; white-space: nowrap; gap: 6px; }
+  .top-bar::-webkit-scrollbar { display: none; }
+  .logo { font-weight: 800; font-size: 15px; color: var(--gold); text-shadow: 0 0 10px rgba(255,214,107,0.5); flex-shrink: 0; }
   .logo i { color: var(--neon-cyan); }
-  .nav-actions { display: flex; gap: 8px; align-items: center; }
-  .user-badge { font-size: 12px; color: var(--gold); font-weight: 700; padding: 6px 10px; background: rgba(255, 214, 107, 0.1); border: 1px solid rgba(255, 214, 107, 0.3); border-radius: 8px; }
-  .btn-nav { border: none; cursor: pointer; border-radius: 8px; padding: 8px 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 5px; font-family: inherit; transition: transform 0.1s; }
+  .nav-actions { display: flex; gap: 6px; align-items: center; }
+  .user-badge { font-size: 11px; color: var(--gold); font-weight: 700; padding: 5px 8px; background: rgba(255, 214, 107, 0.1); border: 1px solid rgba(255, 214, 107, 0.3); border-radius: 6px; flex-shrink: 0; }
+  .btn-nav { border: none; cursor: pointer; border-radius: 6px; padding: 6px 8px; font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 4px; font-family: inherit; transition: transform 0.1s; flex-shrink: 0; }
   .btn-nav:active { transform: scale(0.95); }
   .btn-cskh { background: transparent; color: var(--neon-cyan); border: 1px solid var(--neon-cyan); }
   .btn-nap { background: linear-gradient(135deg, #00e5ff, #0099cc); color: #000; }
-  .btn-rut { background: linear-gradient(135deg, #ffd66b, #ff9f43); color: #000; }
+  .btn-card { background: linear-gradient(135deg, #ffd66b, #ff9f43); color: #000; }
+  .btn-rut { background: linear-gradient(135deg, #ff9f43, #ff6b8a); color: #000; }
   .btn-logout { background: transparent; color: #ff6b8a; border: 1px solid #ff6b8a; }
   .btn-admin { background: transparent; color: #c17fff; border: 1px solid #c17fff; }
-  .btn-mute { background: transparent; color: #fff; border: 1px solid #fff; }
+  .btn-mute { background: transparent; color: #fff; border: 1px solid #fff; padding: 6px; }
 
   /* BALANCE */
-  .balance-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: rgba(23, 35, 61, 0.8); backdrop-filter: blur(5px); border-bottom: 1px solid rgba(255, 214, 107, 0.15); font-size: 14px; flex-wrap: wrap; gap: 10px; }
+  .balance-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(23, 35, 61, 0.8); backdrop-filter: blur(5px); border-bottom: 1px solid rgba(255, 214, 107, 0.15); font-size: 13px; flex-wrap: wrap; gap: 8px; }
   .balance-bar .label { color: #8f96ad; }
-  .balance-bar strong { color: var(--gold); font-size: 20px; font-weight: 800; }
+  .balance-bar strong { color: var(--gold); font-size: 18px; font-weight: 800; }
   .balance-bar strong.flash { color: #00ffae; text-shadow: 0 0 15px #00ffae; }
   .balance-bar strong.flash-red { color: #ff6b8a; text-shadow: 0 0 15px #ff6b8a; }
 
   /* JACKPOT POOL DISPLAY */
-  .jackpot-pool { display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(90deg, rgba(255, 159, 67, 0.2), rgba(255, 61, 127, 0.2)); border: 1px solid #ff9f43; padding: 8px 16px; border-radius: 30px; margin: 15px auto 0; width: fit-content; box-shadow: 0 0 20px rgba(255, 159, 67, 0.4); animation: pulsePool 2s infinite; }
-  .jackpot-pool i { font-size: 24px; color: #ffd66b; text-shadow: 0 0 10px #ffd66b; }
-  .jackpot-pool .amount { font-size: 20px; font-weight: 900; color: #00ffae; text-shadow: 0 0 15px #00ffae; font-variant-numeric: tabular-nums; }
+  .jackpot-pool { display: flex; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(90deg, rgba(255, 159, 67, 0.2), rgba(255, 61, 127, 0.2)); border: 1px solid #ff9f43; padding: 6px 12px; border-radius: 20px; box-shadow: 0 0 15px rgba(255, 159, 67, 0.4); animation: pulsePool 2s infinite; }
+  .jackpot-pool i { font-size: 18px; color: #ffd66b; text-shadow: 0 0 10px #ffd66b; }
+  .jackpot-pool .amount { font-size: 16px; font-weight: 900; color: #00ffae; text-shadow: 0 0 10px #00ffae; font-variant-numeric: tabular-nums; }
   @keyframes pulsePool { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
   /* GAME 5x4 */
-  .game-wrapper { display: grid; place-items: center; padding: 20px; flex: 1; }
-  .game { width: min(760px, 100%); padding: clamp(18px, 4vw, 32px); border: 2px solid #b98c37; border-radius: 24px; background: rgba(16, 25, 44, 0.9); backdrop-filter: blur(10px); text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-  .sub { color: #c2cce0; margin: 0 0 22px; font-size: 0.95rem; }
+  .game-wrapper { display: grid; place-items: center; padding: 15px 10px; flex: 1; }
+  .game { width: min(760px, 100%); padding: 15px; border: 2px solid #b98c37; border-radius: 20px; background: rgba(16, 25, 44, 0.9); backdrop-filter: blur(10px); text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+  .sub { color: #c2cce0; margin: 0 0 15px; font-size: 0.85rem; }
 
   .grid-wrapper {
     position: relative;
     width: 100%;
     background: rgba(0, 0, 0, 0.7);
-    border-radius: 16px;
-    padding: 12px;
+    border-radius: 12px;
+    padding: 8px;
     box-shadow: 0 0 30px rgba(0, 212, 255, 0.15), inset 0 0 20px rgba(0,0,0,0.9);
     border: 2px solid #2a3550;
     overflow: hidden;
@@ -125,7 +127,7 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    gap: 8px;
+    gap: 6px;
     position: relative;
   }
 
@@ -134,7 +136,7 @@
     top: 62.5%;
     left: 0;
     width: 100%;
-    height: calc(25% - 8px);
+    height: calc(25% - 6px);
     transform: translateY(-50%);
     background: rgba(255, 216, 77, 0.1);
     border-top: 2px solid #ffd84d;
@@ -150,7 +152,7 @@
     transition: all 0.3s;
   }
   
-  .indicator-line canvas { width: 24px; height: 24px; }
+  .indicator-line canvas { width: 20px; height: 20px; }
 
   .is-spinning .indicator-line {
     border-color: #00e5ff;
@@ -174,17 +176,17 @@
     transition: transform 0.1s, box-shadow 0.3s;
   }
 
-  .card .corner { align-self: flex-start; font-size: 12px; line-height: 1; font-family: monospace; }
+  .card .corner { align-self: flex-start; font-size: 10px; line-height: 1; font-family: monospace; }
   .card .corner.bottom { align-self: flex-end; transform: rotate(180deg); }
-  .card .suit { font-size: 26px; line-height: 1; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); }
-  .card .rank { font-size: 18px; line-height: 1; font-family: monospace; }
+  .card .suit { font-size: 22px; line-height: 1; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); }
+  .card .rank { font-size: 16px; line-height: 1; font-family: monospace; }
   .card.red { color: #d62839; }
   .card.black { color: #1e293b; }
 
   .card.joker { background: linear-gradient(145deg, #fff3bd, #e9d9ff); color: #6527a8; }
-  .card.joker .suit { font-size: 30px; }
-  .card.joker .corner { font-size: 16px; }
-  .card.joker .rank { font-size: 12px; letter-spacing: 1px; }
+  .card.joker .suit { font-size: 26px; }
+  .card.joker .corner { font-size: 14px; }
+  .card.joker .rank { font-size: 10px; letter-spacing: 1px; }
 
   .is-spinning .card { animation: reelSpin 0.15s linear infinite; }
   @keyframes reelSpin {
@@ -229,90 +231,91 @@
     100% { background-position: 0% 0%; opacity: 0; }
   }
 
-  .bet-section { margin: 20px 0 0; padding: 14px; background: rgba(0,0,0,0.3); border-radius: 12px; }
-  .bet-label { font-size: 12px; color: #8f96ad; margin-bottom: 8px; font-weight: 700; text-transform: uppercase; }
-  .bet-presets { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 10px; }
-  .bet-preset { padding: 7px 14px; font-size: 12px; font-weight: 700; background: rgba(0, 229, 255, 0.1); color: var(--neon-cyan); border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 8px; cursor: pointer; font-family: inherit; }
+  .bet-section { margin: 15px 0 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+  .bet-label { font-size: 11px; color: #8f96ad; margin-bottom: 6px; font-weight: 700; text-transform: uppercase; }
+  .bet-presets { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-bottom: 8px; }
+  .bet-preset { padding: 6px 10px; font-size: 11px; font-weight: 700; background: rgba(0, 229, 255, 0.1); color: var(--neon-cyan); border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 6px; cursor: pointer; font-family: inherit; }
   .bet-preset.active { background: linear-gradient(135deg, #00e5ff, #0099cc); color: #000; }
-  .bet-input-wrap { display: flex; gap: 8px; align-items: center; max-width: 340px; margin: 0 auto; }
-  .bet-input-wrap input { flex: 1; padding: 11px 14px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255, 214, 107, 0.3); border-radius: 8px; color: var(--gold); font-family: inherit; font-size: 16px; font-weight: 800; text-align: center; outline: none; }
-  .bet-input-wrap .unit { color: #8f96ad; font-size: 13px; font-weight: 700; }
+  .bet-input-wrap { display: flex; gap: 6px; align-items: center; max-width: 300px; margin: 0 auto; }
+  .bet-input-wrap input { flex: 1; padding: 8px 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255, 214, 107, 0.3); border-radius: 6px; color: var(--gold); font-family: inherit; font-size: 14px; font-weight: 800; text-align: center; outline: none; }
+  .bet-input-wrap .unit { color: #8f96ad; font-size: 12px; font-weight: 700; }
 
-  .controls { margin: 16px 0; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; }
-  #spin { border: 0; border-radius: 999px; padding: 14px 40px; font-size: 1.05rem; font-weight: 800; cursor: pointer; background: linear-gradient(#ffe69a, #e5ad37); color: #332000; box-shadow: 0 5px 0 #91651c; font-family: inherit; }
-  #spin:active { transform: translateY(3px); box-shadow: 0 2px 0 #91651c; }
+  .controls { margin: 15px 0 10px; display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; }
+  #spin { border: 0; border-radius: 999px; padding: 12px 30px; font-size: 1rem; font-weight: 800; cursor: pointer; background: linear-gradient(#ffe69a, #e5ad37); color: #332000; box-shadow: 0 4px 0 #91651c; font-family: inherit; }
+  #spin:active { transform: translateY(3px); box-shadow: 0 1px 0 #91651c; }
   #spin:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
   
   /* NÚT ALL IN */
-  #btn-allin { border: 0; border-radius: 999px; padding: 14px 25px; font-size: 1rem; font-weight: 800; cursor: pointer; background: linear-gradient(#ff4d4d, #cc0000); color: #fff; box-shadow: 0 5px 0 #800000; font-family: inherit; text-shadow: 0 1px 2px #000; }
-  #btn-allin:active { transform: translateY(3px); box-shadow: 0 2px 0 #800000; }
+  #btn-allin { border: 0; border-radius: 999px; padding: 12px 20px; font-size: 0.95rem; font-weight: 800; cursor: pointer; background: linear-gradient(#ff4d4d, #cc0000); color: #fff; box-shadow: 0 4px 0 #800000; font-family: inherit; text-shadow: 0 1px 2px #000; }
+  #btn-allin:active { transform: translateY(3px); box-shadow: 0 1px 0 #800000; }
   #btn-allin:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
 
-  .btn-rule {
-    width: 46px; height: 46px;
+  .btn-circle {
+    width: 40px; height: 40px;
     border-radius: 50%;
     border: 2px solid var(--neon-cyan);
     background: rgba(0, 229, 255, 0.1);
     color: var(--neon-cyan);
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 900;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
     transition: all 0.2s;
     font-family: inherit;
+    flex-shrink: 0;
   }
-  .btn-rule:hover { background: rgba(0, 229, 255, 0.3); box-shadow: 0 0 25px rgba(0, 229, 255, 0.8); }
-  .btn-rule:active { transform: scale(0.9); }
+  .btn-circle:hover { background: rgba(0, 229, 255, 0.3); }
+  .btn-circle:active { transform: scale(0.9); }
 
-  .status { min-height: 56px; padding: 13px; border-radius: 12px; background: #0b1324; color: #e4ebf8; font-weight: 650; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .status { min-height: 50px; padding: 10px; border-radius: 10px; background: #0b1324; color: #e4ebf8; font-weight: 650; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 14px; }
   .status.win { color: #ffe17a; border: 1px solid #bd923d; box-shadow: 0 0 15px rgba(255, 225, 122, 0.5); }
   .status.lose { color: #ff6b8a; border: 1px solid #6b1c2b; }
 
-  .float-amount { position: absolute; top: 50%; left: 50%; font-size: 32px; font-weight: 900; pointer-events: none; z-index: 50; animation: floatUp 1.6s ease-out forwards; text-shadow: 0 0 20px currentColor, 0 4px 8px rgba(0,0,0,0.8); white-space: nowrap; }
+  .float-amount { position: absolute; top: 50%; left: 50%; font-size: 30px; font-weight: 900; pointer-events: none; z-index: 50; animation: floatUp 1.6s ease-out forwards; text-shadow: 0 0 20px currentColor, 0 4px 8px rgba(0,0,0,0.8); white-space: nowrap; }
   .float-amount.loss { color: #ff3d5e; }
   .float-amount.win { color: #00ffae; }
   @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, -30%) scale(0.6); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 40% { transform: translate(-50%, -60%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -180%) scale(0.9); } }
 
-  .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 15px; }
   .modal-overlay.active { display: flex; }
-  .modal-box { background: #fff; color: #172033; width: 100%; max-width: 420px; border-radius: 16px; padding: 24px; max-height: 90vh; overflow-y: auto; }
-  .modal-box h3 { margin: 0 0 6px; font-size: 18px; text-align: center; }
-  .modal-sub { font-size: 13px; color: #666; margin-bottom: 16px; text-align: center; }
+  .modal-box { background: #fff; color: #172033; width: 100%; max-width: 400px; border-radius: 16px; padding: 20px; max-height: 90vh; overflow-y: auto; }
+  .modal-box h3 { margin: 0 0 10px; font-size: 18px; text-align: center; }
+  .modal-sub { font-size: 13px; color: #666; margin-bottom: 15px; text-align: center; }
   
-  .amount-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
-  .amount-opt { padding: 14px 8px; border: 2px solid #d0d5df; border-radius: 10px; background: #f7f9fc; cursor: pointer; font-weight: 700; font-size: 14px; color: #172033; text-align: center; }
+  .amount-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 12px; }
+  .amount-opt { padding: 12px 8px; border: 2px solid #d0d5df; border-radius: 8px; background: #f7f9fc; cursor: pointer; font-weight: 700; font-size: 13px; color: #172033; text-align: center; }
   .amount-opt.selected { border-color: #00bcd4; background: linear-gradient(135deg, #00e5ff, #0099cc); color: #000; }
-  .amount-opt .bonus { display: block; font-size: 10px; color: #ff9f43; margin-top: 2px; }
-  .amount-opt.selected .bonus { color: #6b3a00; }
+  
   .bank-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
-  .bank-opt { padding: 10px 4px; border: 2px solid #d0d5df; border-radius: 10px; background: #f7f9fc; cursor: pointer; font-weight: 700; font-size: 11px; color: #172033; text-align: center; }
+  .bank-opt { padding: 8px 4px; border: 2px solid #d0d5df; border-radius: 8px; background: #f7f9fc; cursor: pointer; font-weight: 700; font-size: 11px; color: #172033; text-align: center; }
   .bank-opt.selected { border-color: #ff9f43; background: linear-gradient(135deg, #ffd66b, #ff9f43); color: #000; }
-  .modal-box input { width: 100%; padding: 12px 14px; margin-bottom: 10px; border: 1px solid #d0d5df; border-radius: 10px; font-size: 15px; font-family: inherit; outline: none; color: #172033; }
-  .action-btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; margin-top: 6px; background: linear-gradient(135deg, #00e5ff, #0099cc); color: #000; font-family: inherit; font-size: 15px; }
+  
+  .modal-box input, .modal-box select { width: 100%; padding: 10px 12px; margin-bottom: 8px; border: 1px solid #d0d5df; border-radius: 8px; font-size: 14px; font-family: inherit; outline: none; color: #172033; }
+  .action-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 5px; background: linear-gradient(135deg, #00e5ff, #0099cc); color: #000; font-family: inherit; font-size: 14px; }
   .action-btn.gold { background: linear-gradient(135deg, #ffd66b, #ff9f43); }
   .action-btn.purple { background: linear-gradient(135deg, #b57bff, #7a3dd8); color: #fff; }
   .action-btn.red { background: linear-gradient(135deg, #ff6b8a, #c9184a); color: #fff; }
-  .close-btn { width: 100%; padding: 12px; margin-top: 8px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; background: #f0f2f6; color: #5a6175; font-family: inherit; font-size: 14px; }
+  .close-btn { width: 100%; padding: 10px; margin-top: 8px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; background: #f0f2f6; color: #5a6175; font-family: inherit; font-size: 14px; }
 
-  .admin-tabs { display: flex; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-  .admin-tab { flex: 1; padding: 10px; border: none; border-radius: 8px; background: #eee; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 12px; }
+  .admin-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid #ddd; padding-bottom: 8px; overflow-x: auto; }
+  .admin-tab { flex: 1; padding: 8px; border: none; border-radius: 6px; background: #eee; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 11px; white-space: nowrap; }
   .admin-tab.active { background: #00e5ff; color: #000; }
   .admin-content { display: none; }
   .admin-content.active { display: block; }
   
   .history-list { max-height: 200px; overflow-y: auto; font-size: 12px; background: #f7f9fc; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid #d0d5df; }
-  .history-item { padding: 5px 0; border-bottom: 1px dashed #ccc; display: flex; justify-content: space-between; }
+  .history-item { padding: 6px 0; border-bottom: 1px dashed #ccc; display: flex; justify-content: space-between; }
   .history-item.win { color: #0a8f4d; font-weight: bold; }
   .history-item.lose { color: #d62839; }
   
   .deposit-item { padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px; background: #fff; }
-  .deposit-item .info { font-size: 13px; margin-bottom: 10px; }
+  .deposit-item .info { font-size: 13px; margin-bottom: 8px; }
   .deposit-item .info b { color: #00bcd4; }
   .deposit-btn-group { display: flex; gap: 5px; }
-  .deposit-btn-group button { flex: 1; padding: 8px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+  .deposit-btn-group button { flex: 1; padding: 6px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; }
   .btn-approve { background: #00ffae; color: #000; }
   .btn-reject { background: #ff6b8a; color: #fff; }
 
@@ -321,9 +324,14 @@
   .user-list-item .u-edge { font-size: 11px; color: #888; }
   .user-list-item .u-bal { color: #0a8f4d; font-weight: bold; }
 
-  /* THÔNG BÁO CHÀO MỪNG */
-  .welcome-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: linear-gradient(135deg, #00ffae, #0099cc); color: #000; padding: 12px 24px; border-radius: 30px; font-weight: 800; font-size: 16px; box-shadow: 0 10px 30px rgba(0, 255, 174, 0.4); z-index: 99999; display: flex; align-items: center; gap: 10px; opacity: 0; transition: all 0.5s cubic-bezier(0.2, 0.8, 0.3, 1); }
-  .welcome-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  /* THÔNG BÁO CHÀO MỪNG (SPLASH SCREEN) */
+  .splash-screen { position: fixed; inset: 0; z-index: 99999; background: radial-gradient(circle at center, #1e2c49, #05070a); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; transition: opacity 0.5s; }
+  .splash-screen.hidden { opacity: 0; pointer-events: none; }
+  .splash-title { font-size: 32px; font-weight: 900; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px rgba(255,214,107,0.5); margin-bottom: 10px; }
+  .splash-sub { font-size: 16px; color: var(--neon-cyan); margin-bottom: 20px; font-weight: bold; }
+  .splash-desc { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); font-size: 14px; line-height: 1.6; color: #ccc; margin-bottom: 30px; max-width: 400px; }
+  .splash-desc b { color: #fff; }
+  .splash-btn { background: linear-gradient(135deg, #00e5ff, #0055ff); color: #fff; border: none; padding: 12px 40px; border-radius: 30px; font-size: 16px; font-weight: 800; box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4); cursor: pointer; font-family: inherit; }
 </style>
 </head>
 <body>
@@ -333,7 +341,20 @@
 <audio id="sfx-spin" preload="auto" loop><source src="quay.mp3" type="audio/mpeg"></audio>
 <audio id="sfx-win" preload="auto"><source src="hu.mp3" type="audio/mpeg"></audio>
 
-<!-- LOADING ĐĂNG NHẬP -->
+<!-- SPLASH SCREEN -->
+<div id="splash" class="splash-screen hidden">
+  <div class="splash-title">GQ88</div>
+  <div class="splash-sub">🎉 GAME MỚI PHÁT HÀNH 🎉</div>
+  <div class="splash-desc">
+    Chào mừng bạn đến với <b>GQ88 - JACKPOT 777</b>!<br>
+    Phiên bản mới nhất đã chính thức ra mắt với <b>Cơ chế nổ Hũ 2 lần</b> siêu khủng.<br>
+    Nạp thẻ cào tự động, đổi thưởng siêu tốc.<br>
+    Chúc bạn may mắn và nổ hũ to!
+  </div>
+  <button class="splash-btn" onclick="document.getElementById('splash').classList.add('hidden')">VÀO GAME NGAY</button>
+</div>
+
+<!-- AUTH LOADING -->
 <div id="auth-loading">
   <div class="spinner"></div>
   <div style="margin-top: 15px; color: #00e5ff; font-weight: bold; font-size: 18px; font-family: inherit;">ĐANG ĐĂNG NHẬP...</div>
@@ -346,7 +367,7 @@
 <div id="auth-screen" class="hidden">
   <div id="login-bg"></div>
   <div class="auth-box">
-    <div class="auth-logo"><i class="fas fa-crown"></i> JACKPOT 777</div>
+    <div class="auth-logo"><i class="fas fa-crown"></i> GQ88</div>
     <div class="auth-sub">Đăng nhập hệ thống</div>
     <div class="auth-tabs">
       <button class="auth-tab active" data-tab="login">ĐĂNG NHẬP</button>
@@ -370,13 +391,14 @@
 
 <!-- TOP BAR -->
 <div class="top-bar">
-  <div class="logo"><i class="fas fa-crown"></i> JACKPOT 777</div>
+  <div class="logo"><i class="fas fa-crown"></i> GQ88</div>
   <div class="nav-actions">
     <button class="btn-nav btn-mute" id="btn-mute"><i class="fas fa-volume-up"></i></button>
     <span class="user-badge" id="user-badge">-</span>
     <button class="btn-nav btn-admin" id="open-admin" style="display:none"><i class="fas fa-crown"></i> ADMIN</button>
     <button class="btn-nav btn-cskh" id="open-cskh"><i class="fas fa-headset"></i></button>
     <button class="btn-nav btn-nap" id="open-nap"><i class="fas fa-wallet"></i> NẠP</button>
+    <button class="btn-nav btn-card" id="open-card"><i class="fas fa-credit-card"></i> THẺ</button>
     <button class="btn-nav btn-rut" id="open-rut"><i class="fas fa-money-bill-wave"></i> RÚT</button>
     <button class="btn-nav btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
   </div>
@@ -429,7 +451,8 @@
     <div class="controls">
       <button id="spin">QUAY NGAY</button>
       <button id="btn-allin">ALL IN</button>
-      <button class="btn-rule" onclick="document.getElementById('modal-rules').classList.add('active')">?</button>
+      <button class="btn-circle" onclick="document.getElementById('modal-user-history').classList.add('active'); loadUserHistory();">!</button>
+      <button class="btn-circle" onclick="document.getElementById('modal-rules').classList.add('active')">?</button>
     </div>
     <div class="status" id="status">Nhấn "QUAY NGAY" để bắt đầu!</div>
   </main>
@@ -445,8 +468,20 @@
       <p>3. <b>Nổ Thường:</b> Có từ 3 lá bài <b>cùng giá trị</b> (VD: 3 lá 7). Thắng <b>x2</b> tiền cược.</p>
       <p>4. <b>Nổ Joker:</b> Xuất hiện từ 3 lá <b>JOKER 🃏</b> trở lên. Thắng <b>x10</b> tiền cược.</p>
       <p style="color: #d62839; font-weight: bold;">5. ĐẶC BIỆT: NẾU BẠN NỔ JOKER 2 VÁN LIÊN TIẾP, BẠN SẼ LỤM TOÀN BỘ TIỀN TRONG HŨ JACKPOT!</p>
+      <p style="color: #0a8f4d; font-weight: bold;">6. HŨ SẼ TĂNG LÊN MỖI KHI NGƯỜI CHƠI THUA (10% TIỀN CƯỢC).</p>
     </div>
     <button class="close-btn" onclick="document.getElementById('modal-rules').classList.remove('active')">Đã hiểu</button>
+  </div>
+</div>
+
+<!-- MODAL LỊCH SỬ CỦA USER -->
+<div class="modal-overlay" id="modal-user-history">
+  <div class="modal-box">
+    <h3><i class="fas fa-history" style="color:#00e5ff"></i> LỊCH SỬ CHƠI CỦA BẠN</h3>
+    <div id="user-history-list" class="history-list">
+      Đang tải...
+    </div>
+    <button class="close-btn" onclick="document.getElementById('modal-user-history').classList.remove('active')">Đóng</button>
   </div>
 </div>
 
@@ -466,6 +501,32 @@
     <input type="text" id="nap-note" placeholder="Nhập nội dung chuyển khoản (VD: GQ88 user1)" style="width:100%;padding:12px 14px;margin-bottom:10px;border:1px solid #d0d5df;border-radius:10px;font-size:15px;font-family:inherit;outline:none;color:#172033;">
     <button class="action-btn" id="btn-confirm-nap">GỬI YÊU CẦU NẠP</button>
     <button class="close-btn" onclick="document.getElementById('modal-nap').classList.remove('active')">Đóng</button>
+  </div>
+</div>
+
+<!-- MODAL NẠP THẺ CÀO -->
+<div class="modal-overlay" id="modal-card">
+  <div class="modal-box">
+    <h3><i class="fas fa-credit-card"></i> NẠP THẺ CÀO</h3>
+    <p class="modal-sub">Nhập đúng thông tin, sai sẽ mất thẻ!</p>
+    <select id="card-telco">
+      <option value="VIETTEL">Viettel</option>
+      <option value="MOBIFONE">Mobifone</option>
+      <option value="VINAPHONE">Vinaphone</option>
+      <option value="VIETNAMOBILE">Vietnamobile</option>
+    </select>
+    <select id="card-amount">
+      <option value="10000">Mệnh giá 10.000đ</option>
+      <option value="20000">Mệnh giá 20.000đ</option>
+      <option value="50000">Mệnh giá 50.000đ</option>
+      <option value="100000">Mệnh giá 100.000đ</option>
+      <option value="200000">Mệnh giá 200.000đ</option>
+      <option value="500000">Mệnh giá 500.000đ</option>
+    </select>
+    <input type="text" id="card-seri" placeholder="Nhập Seri (dãy số in trên thẻ)">
+    <input type="text" id="card-pin" placeholder="Nhập Mã thẻ (mã cào)">
+    <button class="action-btn gold" id="btn-confirm-card">GỬI THẺ</button>
+    <button class="close-btn" onclick="document.getElementById('modal-card').classList.remove('active')">Đóng</button>
   </div>
 </div>
 
@@ -496,7 +557,8 @@
     
     <div class="admin-tabs">
       <button class="admin-tab active" data-atab="users">QUẢN LÝ</button>
-      <button class="admin-tab" data-atab="deposits">DUYỆT NẠP</button>
+      <button class="admin-tab" data-atab="deposits">DUYỆT BANK</button>
+      <button class="admin-tab" data-atab="cards">DUYỆT THẺ</button>
       <button class="admin-tab" data-atab="userlist">DANH SÁCH</button>
     </div>
 
@@ -513,7 +575,6 @@
          <button class="action-btn red" id="btn-admin-sub" style="flex:1">- TRỪ</button>
       </div>
 
-      <!-- TÍNH NĂNG GIẢM NHÂN PHẨM -->
       <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc;">
          <div style="font-weight: bold; font-size: 13px; margin-bottom: 8px; color: #d62839;">GIẢM NHÂN PHẨM (Tỷ lệ thua)</div>
          <div style="display:flex; gap:6px;">
@@ -522,15 +583,18 @@
          </div>
       </div>
 
-      <!-- NÚT XEM LỊCH SỬ -->
       <button class="action-btn gold" id="btn-admin-history" style="margin-top:15px;">XEM LỊCH SỬ</button>
-      
       <div id="admin-history-list" class="history-list" style="display:none;"></div>
     </div>
 
-    <!-- TAB DUYỆT NẠP -->
+    <!-- TAB DUYỆT BANK -->
     <div class="admin-content" id="admin-tab-deposits">
       <div id="admin-deposit-list">Đang tải danh sách...</div>
+    </div>
+
+    <!-- TAB DUYỆT THẺ CÀO -->
+    <div class="admin-content" id="admin-tab-cards">
+      <div id="admin-card-list">Đang tải danh sách...</div>
     </div>
 
     <!-- TAB DANH SÁCH USER -->
@@ -577,13 +641,15 @@ const db = getFirestore(app);
 
 // BIẾN TOÀN CỤC
 let currentUser = null;
+let currentUserData = null; 
 let balance = 0;
 let jackpotPool = 0;
-let isHoldingJackpot = false; // Cờ đánh dấu đang giữ chuỗi nổ hũ (lần 1)
+let isHoldingJackpot = false; 
 let spinning = false;
 let unsubscribeBalance = null;
 let unsubscribeJackpot = null;
 let unsubscribeDeposits = null;
+let unsubscribeCards = null;
 let selectedNapAmount = 0;
 let selectedBank = '';
 let currentTargetUser = null; 
@@ -630,20 +696,6 @@ function updateBalance(flashType = null) {
   const bet = parseInt(betInput.value) || 0;
   spinBtn.disabled = spinning || balance < bet || bet < 1000;
   allinBtn.disabled = spinning || balance < 1000;
-}
-
-function showWelcomeToast(name) {
-  const toast = document.createElement('div');
-  toast.className = 'welcome-toast';
-  toast.innerHTML = `<i class="fas fa-check-circle"></i> Chào mừng ${name} trở lại!`;
-  document.body.appendChild(toast);
-  
-  // Trigger animation
-  setTimeout(() => toast.classList.add('show'), 100);
-  setTimeout(() => {
-    toast.classList.remove('show');
-    setTimeout(() => toast.remove(), 500);
-  }, 3000);
 }
 
 // ==========================================
@@ -771,20 +823,14 @@ function generateResult(win) {
   if (win) {
     if (Math.random() < 0.2) {
       const joker = { rank: 'JOKER', suit: '🃏', color: 'joker', isJoker: true };
-      cards[10] = { ...joker };
-      cards[11] = { ...joker };
-      cards[12] = { ...joker };
+      cards[10] = { ...joker }; cards[11] = { ...joker }; cards[12] = { ...joker };
       if (Math.random() < 0.1) cards[13] = { ...joker };
       if (Math.random() < 0.05) cards[14] = { ...joker };
     } else {
       const matchRank = ranks[Math.floor(Math.random() * ranks.length)];
       const suit1 = suits[Math.floor(Math.random() * suits.length)];
       const matchCard = { rank: matchRank, suit: suit1.symbol, color: suit1.color, isJoker: false };
-      
-      cards[10] = { ...matchCard };
-      cards[11] = { ...matchCard };
-      cards[12] = { ...matchCard };
-      
+      cards[10] = { ...matchCard }; cards[11] = { ...matchCard }; cards[12] = { ...matchCard };
       if (Math.random() < 0.1) cards[13] = { ...matchCard };
       if (Math.random() < 0.05) cards[14] = { ...matchCard };
     }
@@ -793,10 +839,7 @@ function generateResult(win) {
     let counts = {};
     for (let i = 10; i <= 14; i++) {
       if (cards[i].isJoker) jokerCount++;
-      else {
-        let r = cards[i].rank;
-        counts[r] = (counts[r] || 0) + 1;
-      }
+      else { let r = cards[i].rank; counts[r] = (counts[r] || 0) + 1; }
     }
 
     if (jokerCount >= 3) {
@@ -804,8 +847,7 @@ function generateResult(win) {
         if (cards[i].isJoker) {
           let newCard = getRandomCard();
           while (newCard.isJoker) newCard = getRandomCard();
-          cards[i] = newCard;
-          jokerCount--;
+          cards[i] = newCard; jokerCount--;
           if (jokerCount < 3) break;
         }
       }
@@ -818,8 +860,7 @@ function generateResult(win) {
           if (!cards[i].isJoker && cards[i].rank === r && toReplace > 0) {
             let newCard = getRandomCard();
             while (newCard.isJoker || newCard.rank === r) newCard = getRandomCard();
-            cards[i] = newCard;
-            toReplace--;
+            cards[i] = newCard; toReplace--;
           }
         }
       }
@@ -854,9 +895,7 @@ function checkWinCondition(finalCards) {
   
   for (let r in counts) {
     if (counts[r] > maxMatch) { 
-      maxMatch = counts[r]; 
-      matchRank = r; 
-      winningIndices = rankIndices[r];
+      maxMatch = counts[r]; matchRank = r; winningIndices = rankIndices[r];
     }
   }
 
@@ -880,17 +919,20 @@ onAuthStateChanged(auth, async (user) => {
     }
     const data = userDoc.exists() ? userDoc.data() : { username: user.email.split('@')[0], balance: 0, isAdmin: false, history: [] };
     currentUser = { uid: user.uid, username: data.username, isAdmin: !!data.isAdmin };
+    currentUserData = data;
     userBadge.textContent = data.username;
     adminBtn.style.display = data.isAdmin ? 'flex' : 'none';
     authScreen.classList.add('hidden');
     
-    showWelcomeToast(data.username);
+    // Hiển thị thông báo game mới phát hành (Splash)
+    document.getElementById('splash').classList.remove('hidden');
 
     // LẮNG NGHE SỐ DƯ USER
     if (unsubscribeBalance) unsubscribeBalance();
     unsubscribeBalance = onSnapshot(doc(db, 'users', user.uid), (snap) => {
       if (snap.exists()) {
         const data = snap.data();
+        currentUserData = data;
         const oldBal = balance;
         balance = data.balance || 0;
         currentHouseEdge = data.house_edge !== undefined ? data.house_edge : HOUSE_EDGE_DEFAULT;
@@ -907,15 +949,19 @@ onAuthStateChanged(auth, async (user) => {
       }
     });
     
-    if (data.isAdmin) loadAdminDeposits();
+    if (data.isAdmin) {
+      loadAdminDeposits();
+      loadAdminCards();
+    }
     initGrid();
   } else {
     currentUser = null;
+    currentUserData = null;
     if (unsubscribeBalance) { unsubscribeBalance(); unsubscribeBalance = null; }
     if (unsubscribeJackpot) { unsubscribeJackpot(); unsubscribeJackpot = null; }
     if (unsubscribeDeposits) { unsubscribeDeposits(); unsubscribeDeposits = null; }
+    if (unsubscribeCards) { unsubscribeCards(); unsubscribeCards = null; }
     authScreen.classList.remove('hidden');
-    
     spawnLoginCards(); 
   }
 });
@@ -973,6 +1019,59 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
 });
 
 // ==========================================
+// NẠP THẺ CÀO
+// ==========================================
+document.getElementById('open-card').addEventListener('click', () => document.getElementById('modal-card').classList.add('active'));
+
+document.getElementById('btn-confirm-card').addEventListener('click', async () => {
+  const telco = document.getElementById('card-telco').value;
+  const amount = parseInt(document.getElementById('card-amount').value);
+  const seri = document.getElementById('card-seri').value.trim();
+  const pin = document.getElementById('card-pin').value.trim();
+
+  if (!seri || !pin) return alert('Vui lòng nhập đủ Seri và Mã thẻ!');
+  
+  try {
+    await addDoc(collection(db, 'card_deposits'), {
+      uid: currentUser.uid,
+      username: currentUser.username,
+      telco: telco,
+      amount: amount,
+      seri: seri,
+      pin: pin,
+      status: 'pending',
+      createdAt: Date.now()
+    });
+    alert('Đã gửi thẻ! Vui lòng chờ Admin duyệt.');
+    document.getElementById('modal-card').classList.remove('active');
+    document.getElementById('card-seri').value = '';
+    document.getElementById('card-pin').value = '';
+  } catch (e) { alert('Lỗi: ' + e.message); }
+});
+
+// ==========================================
+// LỊCH SỬ CỦA USER
+// ==========================================
+window.loadUserHistory = () => {
+  const list = document.getElementById('user-history-list');
+  if (!currentUserData || !currentUserData.history || currentUserData.history.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:20px;">Bạn chưa có lịch sử chơi.</div>';
+    return;
+  }
+  
+  const recent = [...currentUserData.history].reverse().slice(0, 30); // Lấy 30 ván gần nhất
+  list.innerHTML = recent.map(h => {
+    const date = new Date(h.time).toLocaleString('vi-VN');
+    const cls = h.result === 'win' ? 'win' : 'lose';
+    const text = h.result === 'win' ? `+${fmt(h.win)}` : `-${fmt(h.bet)}`;
+    return `<div class="history-item ${cls}">
+      <span>${date} | Cược: ${fmt(h.bet)}</div>
+      <span>${text}</span>
+    </div>`;
+  }).join('');
+};
+
+// ==========================================
 // SPIN & FINISH
 // ==========================================
 function floatAmount(amount, type) {
@@ -997,12 +1096,11 @@ betInput.addEventListener('input', () => {
   updateBalance();
 });
 
-// NÚT ALL IN
 allinBtn.addEventListener('click', () => {
   if (balance < 1000) return alert("Số dư không đủ!");
   betInput.value = balance;
   updateBalance();
-  spin(); // Gọi hàm quay luôn
+  spin();
 });
 
 async function spin() {
@@ -1013,28 +1111,19 @@ async function spin() {
   if (bet < 1000) { status.textContent = "Đặt tối thiểu 1.000đ!"; status.className = "status lose"; return; }
   if (balance < bet) { status.textContent = "Số dư không đủ!"; status.className = "status lose"; return; }
   
-  spinning = true; 
-  spinBtn.disabled = true;
-  allinBtn.disabled = true;
+  spinning = true; spinBtn.disabled = true; allinBtn.disabled = true;
   resultText.classList.remove('show', 'win', 'lose');
   gridWrapper.classList.add('is-spinning');
   updateArrows(true);
 
-  // Clear win classes
   for (let i = 0; i < 20; i++) {
-    const el = document.getElementById(`card-${i}`);
-    el.classList.remove('winning-glow', 'slashed');
+    document.getElementById(`card-${i}`).classList.remove('winning-glow', 'slashed');
   }
 
-  sfxWin.pause();
-  sfxWin.currentTime = 0;
+  sfxWin.pause(); sfxWin.currentTime = 0;
   if (winTimeout) clearTimeout(winTimeout);
 
-  // Phát nhạc quay và loop
-  if(!isMuted) { 
-    sfxSpin.currentTime = 0; 
-    sfxSpin.play().catch(() => {}); 
-  }
+  if(!isMuted) { sfxSpin.currentTime = 0; sfxSpin.play().catch(() => {}); }
 
   try { await updateDoc(doc(db, 'users', currentUser.uid), { balance: increment(-bet) }); } 
   catch (e) { spinning = false; return alert("Lỗi mạng!"); }
@@ -1046,7 +1135,7 @@ async function spin() {
   const finalCards = generateResult(isWin);
 
   let tickCount = 0;
-  const maxTicks = 60; // 3 giây (60 * 50ms) khớp với nhạc quay
+  const maxTicks = 60; // 3 giây
 
   const spinInterval = setInterval(() => {
     for (let i = 0; i < 20; i++) {
@@ -1061,35 +1150,19 @@ async function spin() {
 }
 
 async function finishSpin(finalCards, bet) {
-  if(!isMuted) {
-    sfxSpin.pause();
-    sfxSpin.currentTime = 0;
-  }
+  if(!isMuted) { sfxSpin.pause(); sfxSpin.currentTime = 0; }
 
   gridWrapper.classList.remove('is-spinning');
   updateArrows(false);
   
-  // HIỆU ỨNG PHI BÀI CẮM TƯỜNG
   for (let i = 0; i < 20; i++) {
     const cardEl = document.getElementById(`card-${i}`);
     renderCard(finalCards[i], cardEl);
-    
-    const randomRot = (Math.random() * 120 - 60) + 'deg';
-    const randomDx = (Math.random() * 200 - 100) + 'px';
-    
-    cardEl.style.setProperty('--rot', randomRot);
-    cardEl.style.setProperty('--dx', randomDx);
-    
-    cardEl.classList.remove('thrown');
-    void cardEl.offsetWidth; 
-    cardEl.classList.add('thrown');
-    
+    cardEl.style.setProperty('--rot', (Math.random() * 120 - 60) + 'deg');
+    cardEl.style.setProperty('--dx', (Math.random() * 200 - 100) + 'px');
+    cardEl.classList.remove('thrown'); void cardEl.offsetWidth; cardEl.classList.add('thrown');
     cardEl.style.animationDelay = (Math.random() * 0.2) + 's';
-    
-    setTimeout(() => {
-      cardEl.classList.remove('thrown');
-      cardEl.style.animationDelay = '0s';
-    }, 800); 
+    setTimeout(() => { cardEl.classList.remove('thrown'); cardEl.style.animationDelay = '0s'; }, 800); 
   }
 
   setTimeout(async () => {
@@ -1098,63 +1171,54 @@ async function finishSpin(finalCards, bet) {
 
     if (check.isJackpot) {
       if (isHoldingJackpot) {
-        // NỔ 2 LẦN LIÊN TIẾP -> LỤM HŨ
         winAmount = jackpotPool; 
         msg = `💥💥 NỔ HŨ LIÊN TIẾP! BẠN ĐÃ LỤM TOÀN BỘ HŨ ${fmt(winAmount)}!`;
         status.className = "status win"; type = 'win';
-        isHoldingJackpot = false; // Reset chuỗi
-        // Reset hũ trên hệ thống
-        await updateDoc(doc(db, 'system', 'jackpot'), { amount: 0 });
+        isHoldingJackpot = false;
+        try { await updateDoc(doc(db, 'system', 'jackpot'), { amount: 0 }); } catch (e) {}
       } else {
-        // NỔ LẦN 1 -> x10
         winAmount = bet * 10;
         msg = `👑 NỔ HŨ LẦN 1! THẮNG x10 = +${fmt(winAmount)}. QUAY TIẾP ĐỂ LỤM HŨ!`;
         status.className = "status win"; type = 'win';
-        isHoldingJackpot = true; // Bật cờ giữ chuỗi
+        isHoldingJackpot = true;
       }
     } else if (check.win) {
       winAmount = bet * 2;
       msg = `💥 ${check.matchCount} LÁ ${check.matchRank} — Thắng x2 = +${fmt(winAmount)}`;
       status.className = "status win"; type = 'win';
-      isHoldingJackpot = false; // Mất chuỗi nếu không nổ Joker
+      isHoldingJackpot = false;
     } else {
-      msg = `Chưa trúng! Mất ${fmt(bet)}`;
+      msg = `Chưa trúng! Mất ${fmt(bet)} (10% vào Hũ)`;
       status.className = "status lose";
-      isHoldingJackpot = false; // Mất chuỗi nếu thua
-      // CỘNG 10% TIỀN CƯỢC VÀO HŨ KHI THUA
-      const houseCut = bet * 0.1;
+      isHoldingJackpot = false;
+      
+      // CỘNG HŨ KHI THUA
+      const houseCut = Math.floor(bet * 0.1);
       if (houseCut > 0) {
-        try { await updateDoc(doc(db, 'system', 'jackpot'), { amount: increment(houseCut) }); } catch (e) {}
+        try { 
+          await updateDoc(doc(db, 'system', 'jackpot'), { amount: increment(houseCut) }); 
+        } catch (e) { console.log("Lỗi cộng hũ: ", e); }
       }
     }
     
     status.textContent = msg;
 
-    // HIỆU ỨNG CHÉM ĐÔI VÀ PHÁT SÁNG NẾU THẮNG
     if (check.win) {
       check.winningIndices.forEach((idx, i) => {
         const el = document.getElementById(`card-${idx}`);
         setTimeout(() => {
           el.classList.add('winning-glow');
-          setTimeout(() => {
-            el.classList.add('slashed');
-          }, 150);
+          setTimeout(() => { el.classList.add('slashed'); }, 150);
         }, i * 100); 
       });
     }
 
     if (winAmount > 0) {
       if(!isMuted) { 
-        sfxWin.pause(); 
-        sfxWin.currentTime = 0; 
-        sfxWin.volume = 1.0;
+        sfxWin.pause(); sfxWin.currentTime = 0; sfxWin.volume = 1.0;
         sfxWin.play().catch((e) => console.log("Lỗi phát hu.mp3:", e)); 
-        
         if (winTimeout) clearTimeout(winTimeout);
-        winTimeout = setTimeout(() => {
-          sfxWin.pause();
-          sfxWin.currentTime = 0;
-        }, 4000); 
+        winTimeout = setTimeout(() => { sfxWin.pause(); sfxWin.currentTime = 0; }, 4000); 
       }
       
       floatAmount(winAmount, 'win');
@@ -1174,7 +1238,7 @@ async function finishSpin(finalCards, bet) {
 spinBtn.addEventListener("click", spin);
 
 // ==========================================
-// MODAL CONTROL
+// MODAL CONTROL & NẠP BANK
 // ==========================================
 const openModal = (id) => document.getElementById(id).classList.add('active');
 document.getElementById('open-nap').addEventListener('click', () => openModal('modal-nap'));
@@ -1186,9 +1250,6 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
 });
 
-// ==========================================
-// NẠP TIỀN & RÚT TIỀN & ADMIN PANEL
-// ==========================================
 document.querySelectorAll('#nap-amounts .amount-opt').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('#nap-amounts .amount-opt').forEach(b => b.classList.remove('selected'));
@@ -1216,6 +1277,7 @@ document.getElementById('btn-confirm-nap').addEventListener('click', async () =>
   } catch (e) { alert('Lỗi: ' + e.message); }
 });
 
+// RÚT TIỀN
 document.querySelectorAll('#rut-banks .bank-opt').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('#rut-banks .bank-opt').forEach(b => b.classList.remove('selected'));
@@ -1239,6 +1301,9 @@ document.getElementById('btn-submit-rut').addEventListener('click', async () => 
   } catch (e) { alert('Lỗi: ' + e.message); }
 });
 
+// ==========================================
+// ADMIN PANEL LOGIC
+// ==========================================
 document.querySelectorAll('.admin-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
@@ -1246,6 +1311,7 @@ document.querySelectorAll('.admin-tab').forEach(tab => {
     const target = tab.dataset.atab;
     document.getElementById('admin-tab-users').classList.toggle('active', target === 'users');
     document.getElementById('admin-tab-deposits').classList.toggle('active', target === 'deposits');
+    document.getElementById('admin-tab-cards').classList.toggle('active', target === 'cards');
     document.getElementById('admin-tab-userlist').classList.toggle('active', target === 'userlist');
   });
 });
@@ -1334,12 +1400,13 @@ document.getElementById('btn-refresh-users').addEventListener('click', async () 
   } catch(e) { container.innerHTML = 'Lỗi: ' + e.message; }
 });
 
+// DUYỆT NẠP BANK
 function loadAdminDeposits() {
   if (unsubscribeDeposits) unsubscribeDeposits();
   const q = query(collection(db, 'deposits'), where('status', '==', 'pending'));
   unsubscribeDeposits = onSnapshot(q, (snapshot) => {
     const listEl = document.getElementById('admin-deposit-list');
-    if (snapshot.empty) { listEl.innerHTML = '<div style="text-align:center;padding:20px;color:#888;">Không có lệnh nạp nào đang chờ duyệt.</div>'; return; }
+    if (snapshot.empty) { listEl.innerHTML = '<div style="text-align:center;padding:20px;color:#888;">Không có lệnh nạp bank nào.</div>'; return; }
     const docs = snapshot.docs.sort((a,b) => b.data().createdAt - a.data().createdAt);
     listEl.innerHTML = docs.map(docSnap => {
       const d = docSnap.data();
@@ -1348,7 +1415,7 @@ function loadAdminDeposits() {
           <div class="info">
             <div>User: <b>${d.username}</b></div>
             <div>Số tiền: <b style="color:#0a8f4d">+${fmt(d.amount)}</b></div>
-            <div style="color:#d62839;font-size:12px;margin-top:4px;">Nội dung CK: <b>${d.note || 'Không có'}</b></div>
+            <div style="color:#d62839;font-size:12px;margin-top:4px;">Nội dung: <b>${d.note || 'Không có'}</b></div>
             <div style="font-size:11px;color:#888;margin-top:4px;">${time}</div>
           </div>
           <div class="deposit-btn-group">
@@ -1372,6 +1439,48 @@ window.rejectDeposit = async (depositId) => {
   try {
     await updateDoc(doc(db, 'deposits', depositId), { status: 'rejected' });
     alert(`Đã từ chối lệnh nạp!`);
+  } catch (e) { alert('Lỗi: ' + e.message); }
+};
+
+// DUYỆT NẠP THẺ CÀO
+function loadAdminCards() {
+  if (unsubscribeCards) unsubscribeCards();
+  const q = query(collection(db, 'card_deposits'), where('status', '==', 'pending'));
+  unsubscribeCards = onSnapshot(q, (snapshot) => {
+    const listEl = document.getElementById('admin-card-list');
+    if (snapshot.empty) { listEl.innerHTML = '<div style="text-align:center;padding:20px;color:#888;">Không có thẻ cào nào.</div>'; return; }
+    const docs = snapshot.docs.sort((a,b) => b.data().createdAt - a.data().createdAt);
+    listEl.innerHTML = docs.map(docSnap => {
+      const d = docSnap.data();
+      const time = new Date(d.createdAt).toLocaleString('vi-VN');
+      return `<div class="deposit-item">
+          <div class="info">
+            <div>User: <b>${d.username}</b></div>
+            <div>Nhà mạng: <b>${d.telco}</b> - Mệnh giá: <b style="color:#0a8f4d">${fmt(d.amount)}</b></div>
+            <div style="font-size:12px;margin-top:4px;">Seri: <b>${d.seri}</b> - Mã: <b>${d.pin}</b></div>
+            <div style="font-size:11px;color:#888;margin-top:4px;">${time}</div>
+          </div>
+          <div class="deposit-btn-group">
+            <button class="btn-approve" onclick="approveCard('${docSnap.id}', '${d.uid}', ${d.amount})">DUYỆT</button>
+            <button class="btn-reject" onclick="rejectCard('${docSnap.id}')">TỪ CHỐI</button>
+          </div>
+        </div>`;
+    }).join('');
+  });
+}
+
+window.approveCard = async (docId, userUid, amount) => {
+  try {
+    await updateDoc(doc(db, 'users', userUid), { balance: increment(amount) });
+    await updateDoc(doc(db, 'card_deposits', docId), { status: 'approved' });
+    alert(`Đã duyệt thẻ thành công ${fmt(amount)}!`);
+  } catch (e) { alert('Lỗi duyệt thẻ: ' + e.message); }
+};
+
+window.rejectCard = async (docId) => {
+  try {
+    await updateDoc(doc(db, 'card_deposits', docId), { status: 'rejected' });
+    alert(`Đã từ chối thẻ!`);
   } catch (e) { alert('Lỗi: ' + e.message); }
 };
 
