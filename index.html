@@ -101,9 +101,10 @@
   /* MODAL */
   .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal-overlay.active { display: flex; }
-  .modal-box { background: #fff; color: #172033; width: 100%; max-width: 380px; border-radius: 16px; padding: 24px; max-height: 90vh; overflow-y: auto; }
+  .modal-box { background: #fff; color: #172033; width: 100%; max-width: 420px; border-radius: 16px; padding: 24px; max-height: 90vh; overflow-y: auto; }
   .modal-box h3 { margin: 0 0 6px; font-size: 18px; text-align: center; }
   .modal-sub { font-size: 13px; color: #666; margin-bottom: 16px; text-align: center; }
+  
   .amount-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
   .amount-opt { padding: 14px 8px; border: 2px solid #d0d5df; border-radius: 10px; background: #f7f9fc; cursor: pointer; font-weight: 700; font-size: 14px; color: #172033; text-align: center; }
   .amount-opt.selected { border-color: #00bcd4; background: linear-gradient(135deg, #00e5ff, #0099cc); color: #000; }
@@ -118,6 +119,27 @@
   .action-btn.purple { background: linear-gradient(135deg, #b57bff, #7a3dd8); color: #fff; }
   .action-btn.red { background: linear-gradient(135deg, #ff6b8a, #c9184a); color: #fff; }
   .close-btn { width: 100%; padding: 12px; margin-top: 8px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; background: #f0f2f6; color: #5a6175; font-family: inherit; font-size: 14px; }
+
+  /* ADMIN TABS & LISTS */
+  .admin-tabs { display: flex; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+  .admin-tab { flex: 1; padding: 10px; border: none; border-radius: 8px; background: #eee; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .admin-tab.active { background: #00e5ff; color: #000; }
+  .admin-content { display: none; }
+  .admin-content.active { display: block; }
+  
+  .history-list { max-height: 150px; overflow-y: auto; font-size: 12px; background: #f7f9fc; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid #d0d5df; }
+  .history-item { padding: 5px 0; border-bottom: 1px dashed #ccc; display: flex; justify-content: space-between; }
+  .history-item.win { color: #0a8f4d; font-weight: bold; }
+  .history-item.lose { color: #d62839; }
+  
+  .deposit-item { padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px; background: #fff; }
+  .deposit-item .info { font-size: 13px; margin-bottom: 10px; }
+  .deposit-item .info b { color: #00bcd4; }
+  .deposit-btn-group { display: flex; gap: 5px; }
+  .deposit-btn-group button { flex: 1; padding: 8px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+  .btn-approve { background: #00ffae; color: #000; }
+  .btn-reject { background: #ff6b8a; color: #fff; }
+
 </style>
 </head>
 <body>
@@ -146,9 +168,6 @@
       <input type="password" id="reg-pass" placeholder="Mật khẩu (≥6 ký tự)">
       <button id="btn-register">TẠO TÀI KHOẢN</button>
       <div class="auth-msg" id="reg-msg"></div>
-    </div>
-    <div style="margin-top:20px;font-size:11px;color:#5a6175;padding:10px;border-radius:8px;background:rgba(0,0,0,0.2)">
-      Admin mặc định: <b>admin12@lc79.local</b> / <b>admin12</b>
     </div>
   </div>
 </div>
@@ -216,7 +235,7 @@
       <button class="amount-opt" data-val="2000000">2.000.000đ<span class="bonus">+15%</span></button>
     </div>
     <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=STK_CA_BAN_DAY" style="width:100%;max-width:200px;display:block;margin:0 auto 14px;border-radius:10px;">
-    <button class="action-btn" id="btn-confirm-nap">XÁC NHẬN ĐÃ NẠP</button>
+    <button class="action-btn" id="btn-confirm-nap">GỬI YÊU CẦU NẠP</button>
     <button class="close-btn" onclick="document.getElementById('modal-nap').classList.remove('active')">Đóng</button>
   </div>
 </div>
@@ -245,11 +264,36 @@
 <div class="modal-overlay" id="modal-admin">
   <div class="modal-box">
     <h3><i class="fas fa-crown" style="color:#c17fff"></i> ADMIN PANEL</h3>
-    <input type="text" id="admin-target" placeholder="Username cần chỉnh">
-    <div style="padding:10px;background:#f7f9fc;border-radius:8px;font-size:13px;text-align:center;margin-bottom:10px;">Số dư: <b id="admin-current-balance">-</b></div>
-    <input type="number" id="admin-amount" placeholder="Số tiền (VNĐ)">
-    <button class="action-btn purple" id="btn-admin-add">+ CỘNG TIỀN</button>
-    <button class="action-btn red" id="btn-admin-sub" style="margin-top:6px">- TRỪ TIỀN</button>
+    
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-atab="users">QUẢN LÝ USER</button>
+      <button class="admin-tab" data-atab="deposits">DUYỆT NẠP</button>
+    </div>
+
+    <!-- TAB QUẢN LÝ USER -->
+    <div class="admin-content active" id="admin-tab-users">
+      <input type="text" id="admin-target" placeholder="Username cần chỉnh">
+      <div style="padding:10px;background:#f7f9fc;border-radius:8px;font-size:13px;text-align:center;margin-bottom:10px;">
+        Số dư: <b id="admin-current-balance">-</b>
+      </div>
+      <input type="number" id="admin-amount" placeholder="Số tiền (VNĐ)">
+      <button class="action-btn purple" id="btn-admin-add">+ CỘNG TIỀN</button>
+      <button class="action-btn red" id="btn-admin-sub" style="margin-top:6px">- TRỪ TIỀN</button>
+      
+      <!-- Lịch sử user -->
+      <div style="margin-top: 15px; font-weight: bold; font-size: 14px;">Lịch sử gần đây:</div>
+      <div id="admin-history-list" class="history-list">
+        Nhập username để xem lịch sử...
+      </div>
+    </div>
+
+    <!-- TAB DUYỆT NẠP -->
+    <div class="admin-content" id="admin-tab-deposits">
+      <div id="admin-deposit-list">
+        Đang tải danh sách...
+      </div>
+    </div>
+
     <button class="close-btn" onclick="document.getElementById('modal-admin').classList.remove('active')">Đóng</button>
   </div>
 </div>
@@ -269,7 +313,7 @@
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, increment, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, increment, collection, query, where, getDocs, addDoc, arrayUnion, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
 
 // CONFIG CỦA M
 const firebaseConfig = {
@@ -286,13 +330,19 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// STATE
+// BIẾN TOÀN CỤC
 let currentUser = null;
 let balance = 0;
 let spinning = false;
 let unsubscribeBalance = null;
+let unsubscribeDeposits = null;
+let unsubscribeUserDoc = null;
 let selectedNapAmount = 0;
 let selectedBank = '';
+
+// CẤU HÌNH TỶ LỆ NHÀ CÁI (0.6 = 60% nghiêng về nhà cái, user chỉ có 40% tỷ lệ thắng mặc định)
+// M có thể sửa số này cao hơn (0.8) để user thua nhiều hơn.
+const HOUSE_EDGE = 0.65; 
 
 // DOM REFS
 const loading = document.getElementById('loading');
@@ -306,9 +356,7 @@ const gameBox = document.getElementById('game-box');
 const betInput = document.getElementById('bet-amount');
 const reels = [...document.querySelectorAll('.reel')];
 
-function fmt(n) {
-  return Math.max(0, Math.floor(n)).toLocaleString("vi-VN") + "đ";
-}
+function fmt(n) { return Math.max(0, Math.floor(n)).toLocaleString("vi-VN") + "đ"; }
 
 function updateBalance(flashType = null) {
   balanceEl.textContent = fmt(balance);
@@ -330,10 +378,10 @@ onAuthStateChanged(auth, async (user) => {
     if (!userDoc.exists()) {
       await setDoc(doc(db, 'users', user.uid), {
         username: user.email.split('@')[0],
-        balance: 0, isAdmin: false, email: user.email, createdAt: Date.now()
+        balance: 0, isAdmin: false, email: user.email, history: [], createdAt: Date.now()
       });
     }
-    const data = userDoc.exists() ? userDoc.data() : { username: user.email.split('@')[0], balance: 0, isAdmin: false };
+    const data = userDoc.exists() ? userDoc.data() : { username: user.email.split('@')[0], balance: 0, isAdmin: false, history: [] };
     currentUser = { uid: user.uid, username: data.username, isAdmin: !!data.isAdmin };
     userBadge.textContent = data.username;
     adminBtn.style.display = data.isAdmin ? 'flex' : 'none';
@@ -347,10 +395,17 @@ onAuthStateChanged(auth, async (user) => {
         updateBalance(balance > oldBal ? 'flash' : balance < oldBal ? 'flash-red' : null);
       }
     });
+    
+    // Nếu là admin, tự động load danh sách nạp
+    if (data.isAdmin) {
+      loadAdminDeposits();
+    }
+
     reels.forEach(el => render(el, drawCard()));
   } else {
     currentUser = null;
     if (unsubscribeBalance) { unsubscribeBalance(); unsubscribeBalance = null; }
+    if (unsubscribeDeposits) { unsubscribeDeposits(); unsubscribeDeposits = null; }
     authScreen.classList.remove('hidden');
   }
 });
@@ -389,22 +444,40 @@ document.getElementById('btn-register').addEventListener('click', async () => {
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await setDoc(doc(db, 'users', cred.user.uid), {
-      username, balance: 0, isAdmin: false, email, createdAt: Date.now()
+      username, balance: 0, isAdmin: false, email, history: [], createdAt: Date.now()
     });
   } catch (e) { showMsg('reg-msg', 'Email đã tồn tại hoặc lỗi!'); }
 });
 
 document.getElementById('btn-logout').addEventListener('click', async () => {
-  await signOut(auth);
-  location.reload();
+  await signOut(auth); location.reload();
 });
 
-// GAME LOGIC
+// ========================================================================
+// GAME LOGIC (CÓ CẤU HÌNH TỶ LỆ NHÀ CÁI)
+// ========================================================================
 const suits = [{ symbol: "♠", color: "black" }, { symbol: "♥", color: "red" }, { symbol: "♦", color: "red" }, { symbol: "♣", color: "black" }];
 const ranks = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
 const deck = suits.flatMap(s => ranks.map(r => ({ rank: r, suit: s.symbol, color: s.color, joker: false })));
 
-function drawCard() { return [...deck, { joker: true, rank: "JOKER", suit: "🃏", color: "joker" }][Math.floor(Math.random() * 53)]; }
+function drawCard() {
+  // Thay vì random hoàn toàn, ta dùng biến HOUSE_EDGE để can thiệp.
+  // Nếu Math.random() < HOUSE_EDGE, ta ưu tiên nhả ra các lá bài rác (không tạo thành bộ 3, không ra Joker).
+  // Cách chơi ở đây: Giới hạn tỷ lệ ra Joker cực thấp và ngẫu nhiên đều các lá khác.
+  const isHouseWinning = Math.random() < HOUSE_EDGE;
+  
+  if (isHouseWinning) {
+    // Trả về lá bài ngẫu nhiên (tránh ra Joker nếu đang trong "lượt nhà cái thắng")
+    let card = deck[Math.floor(Math.random() * deck.length)];
+    while(card.joker) { card = deck[Math.floor(Math.random() * deck.length)]; } // Cấm ra Joker
+    return card;
+  } else {
+    // Lượt này user có cơ hội thắng -> Có thể ra Joker hoặc lá ngẫu nhiên
+    // Tỉ lệ ra Joker cũng bị giảm bớt để tránh nổ hũ liên tục.
+    if (Math.random() < 0.05) return { joker: true, rank: "JOKER", suit: "🃏", color: "joker" };
+    return deck[Math.floor(Math.random() * deck.length)];
+  }
+}
 
 function render(el, card) {
   el.className = "reel";
@@ -468,21 +541,45 @@ async function finish(cards, bet) {
   const counts = {}; cards.filter(c => !c.joker).forEach(c => counts[c.rank] = (counts[c.rank] || 0) + 1);
   const triple = Object.entries(counts).filter(([, n]) => n >= 3).sort((a, b) => b[1] - a[1])[0];
   
-  let winAmount = 0, msg = '';
-  if (jokers >= 3) { winAmount = bet * 10; msg = `👑 NỔ HŨ ${jokers} Joker — Thắng x10 = +${fmt(winAmount)}`; status.className = "status win"; } 
-  else if (triple) { winAmount = bet * 2; msg = `💥 3 LÁ ${triple[0]} — Thắng x2 = +${fmt(winAmount)}`; status.className = "status win"; } 
+  let winAmount = 0, msg = '', type = 'lose';
+  if (jokers >= 3) { winAmount = bet * 10; msg = `👑 NỔ HŨ ${jokers} Joker — Thắng x10 = +${fmt(winAmount)}`; status.className = "status win"; type = 'win'; } 
+  else if (triple) { winAmount = bet * 2; msg = `💥 3 LÁ ${triple[0]} — Thắng x2 = +${fmt(winAmount)}`; status.className = "status win"; type = 'win'; } 
   else { msg = `Chưa trúng! Mất ${fmt(bet)}`; status.className = "status lose"; }
   
   status.textContent = msg;
+
+  // Ghi lịch sử
+  const historyLog = {
+    time: Date.now(),
+    bet: bet,
+    win: winAmount,
+    result: type,
+    cards: cards.map(c => c.joker ? 'JOKER' : `${c.rank}${c.suit}`).join(' ')
+  };
+
   if (winAmount > 0) {
-    try { await updateDoc(doc(db, 'users', currentUser.uid), { balance: increment(winAmount) }); floatAmount(winAmount, 'win'); } 
-    catch (e) { status.textContent = "Lỗi cập nhật thắng!"; }
+    try { 
+      await updateDoc(doc(db, 'users', currentUser.uid), { 
+        balance: increment(winAmount),
+        history: arrayUnion(historyLog)
+      }); 
+      floatAmount(winAmount, 'win'); 
+    } catch (e) { status.textContent = "Lỗi cập nhật thắng!"; }
+  } else {
+    try {
+      await updateDoc(doc(db, 'users', currentUser.uid), { 
+        history: arrayUnion(historyLog)
+      });
+    } catch(e) {}
   }
+  
   spinning = false; updateBalance();
 }
 spinBtn.addEventListener("click", spin);
 
+// ========================================================================
 // MODAL CONTROL
+// ========================================================================
 const openModal = (id) => document.getElementById(id).classList.add('active');
 document.getElementById('open-nap').addEventListener('click', () => openModal('modal-nap'));
 document.getElementById('open-rut').addEventListener('click', () => openModal('modal-rut'));
@@ -493,7 +590,9 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
 });
 
-// NẠP TIỀN
+// ========================================================================
+// NẠP TIỀN (GỬI YÊU CẦU)
+// ========================================================================
 document.querySelectorAll('#nap-amounts .amount-opt').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('#nap-amounts .amount-opt').forEach(b => b.classList.remove('selected'));
@@ -511,14 +610,23 @@ document.getElementById('btn-confirm-nap').addEventListener('click', async () =>
   
   const total = selectedNapAmount + bonus;
   try {
-    await updateDoc(doc(db, 'users', currentUser.uid), { balance: increment(total) });
-    alert(`Nạp thành công ${fmt(total)}`);
+    // Gửi lệnh nạp lên Firestore để admin duyệt
+    await addDoc(collection(db, 'deposits'), {
+      uid: currentUser.uid,
+      username: currentUser.username,
+      amount: total,
+      status: 'pending',
+      createdAt: Date.now()
+    });
+    alert(`Đã gửi yêu cầu nạp ${fmt(total)}!\nVui lòng chờ Admin duyệt.`);
     document.getElementById('modal-nap').classList.remove('active');
     selectedNapAmount = 0; document.querySelectorAll('#nap-amounts .amount-opt').forEach(b => b.classList.remove('selected'));
   } catch (e) { alert('Lỗi: ' + e.message); }
 });
 
+// ========================================================================
 // RÚT TIỀN
+// ========================================================================
 document.querySelectorAll('#rut-banks .bank-opt').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('#rut-banks .bank-opt').forEach(b => b.classList.remove('selected'));
@@ -544,18 +652,50 @@ document.getElementById('btn-submit-rut').addEventListener('click', async () => 
   } catch (e) { alert('Lỗi: ' + e.message); }
 });
 
-// ADMIN PANEL
+// ========================================================================
+// ADMIN PANEL LOGIC
+// ========================================================================
+document.querySelectorAll('.admin-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const target = tab.dataset.atab;
+    document.getElementById('admin-tab-users').classList.toggle('active', target === 'users');
+    document.getElementById('admin-tab-deposits').classList.toggle('active', target === 'deposits');
+  });
+});
+
 const adminTargetInput = document.getElementById('admin-target');
 const adminCurrentBalance = document.getElementById('admin-current-balance');
+const adminHistoryList = document.getElementById('admin-history-list');
 const adminAmountInput = document.getElementById('admin-amount');
 
 adminTargetInput.addEventListener('input', async () => {
   const t = adminTargetInput.value.trim();
-  if (!t) { adminCurrentBalance.textContent = '-'; return; }
+  if (!t) { adminCurrentBalance.textContent = '-'; adminHistoryList.innerHTML = 'Nhập username để xem lịch sử...'; return; }
   const q = query(collection(db, 'users'), where('username', '==', t));
   const snap = await getDocs(q);
-  if (snap.empty) { adminCurrentBalance.textContent = 'User không tồn tại'; return; }
-  adminCurrentBalance.textContent = fmt(snap.docs[0].data().balance || 0);
+  if (snap.empty) { adminCurrentBalance.textContent = 'Không tồn tại'; adminHistoryList.innerHTML = ''; return; }
+  
+  const userData = snap.docs[0].data();
+  adminCurrentBalance.textContent = fmt(userData.balance || 0);
+
+  // Render Lịch sử
+  if (userData.history && userData.history.length > 0) {
+    // Lấy 10 lịch sử gần nhất, đảo ngược để mới nhất lên đầu
+    const recentHistory = [...userData.history].reverse().slice(0, 10);
+    adminHistoryList.innerHTML = recentHistory.map(h => {
+      const date = new Date(h.time).toLocaleTimeString();
+      const cls = h.result === 'win' ? 'win' : 'lose';
+      const text = h.result === 'win' ? `+${fmt(h.win)}` : `-${fmt(h.bet)}`;
+      return `<div class="history-item ${cls}">
+        <span>${date} | Cược: ${fmt(h.bet)}</span>
+        <span>${text}</span>
+      </div>`;
+    }).join('');
+  } else {
+    adminHistoryList.innerHTML = '<div style="text-align:center;padding:10px;">Chưa có lịch sử</div>';
+  }
 });
 
 async function adjustBalance(sign) {
@@ -576,9 +716,58 @@ async function adjustBalance(sign) {
     adminAmountInput.value = '';
   } catch (e) { alert('Lỗi: ' + e.message); }
 }
-
 document.getElementById('btn-admin-add').addEventListener('click', () => adjustBalance(1));
 document.getElementById('btn-admin-sub').addEventListener('click', () => adjustBalance(-1));
+
+
+// XỬ LÝ DUYỆT NẠP
+function loadAdminDeposits() {
+  if (unsubscribeDeposits) unsubscribeDeposits();
+  const q = query(collection(db, 'deposits'), where('status', '==', 'pending'));
+  unsubscribeDeposits = onSnapshot(q, (snapshot) => {
+    const listEl = document.getElementById('admin-deposit-list');
+    if (snapshot.empty) {
+      listEl.innerHTML = '<div style="text-align:center;padding:20px;color:#888;">Không có lệnh nạp nào đang chờ duyệt.</div>';
+      return;
+    }
+    
+    // Sắp xếp theo thời gian tạo mới nhất
+    const docs = snapshot.docs.sort((a,b) => b.data().createdAt - a.data().createdAt);
+    
+    listEl.innerHTML = docs.map(docSnap => {
+      const d = docSnap.data();
+      const time = new Date(d.createdAt).toLocaleString('vi-VN');
+      return `
+        <div class="deposit-item">
+          <div class="info">
+            <div>User: <b>${d.username}</b></div>
+            <div>Số tiền: <b style="color:#0a8f4d">+${fmt(d.amount)}</b></div>
+            <div style="font-size:11px;color:#888;">${time}</div>
+          </div>
+          <div class="deposit-btn-group">
+            <button class="btn-approve" onclick="approveDeposit('${docSnap.id}', '${d.uid}', ${d.amount})">DUYỆT</button>
+            <button class="btn-reject" onclick="rejectDeposit('${docSnap.id}')">TỪ CHỐI</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  });
+}
+
+window.approveDeposit = async (depositId, userUid, amount) => {
+  try {
+    await updateDoc(doc(db, 'users', userUid), { balance: increment(amount) });
+    await updateDoc(doc(db, 'deposits', depositId), { status: 'approved' });
+    alert(`Đã duyệt thành công ${fmt(amount)}!`);
+  } catch (e) { alert('Lỗi duyệt: ' + e.message); }
+};
+
+window.rejectDeposit = async (depositId) => {
+  try {
+    await updateDoc(doc(db, 'deposits', depositId), { status: 'rejected' });
+    alert(`Đã từ chối lệnh nạp!`);
+  } catch (e) { alert('Lỗi: ' + e.message); }
+};
 
 // INIT
 reels.forEach(el => render(el, drawCard()));
