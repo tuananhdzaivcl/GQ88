@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>GQ88 - Quay Hũ Firebase</title>
+<title>JACKPOT 777 - Quay Hũ Firebase</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -32,10 +32,36 @@
     background: radial-gradient(ellipse at top, rgba(52, 77, 121, 0.8) 0, rgba(18, 26, 45, 0.9) 55%, rgba(9, 14, 25, 0.95) 100%);
   }
 
-  /* AUTH */
-  #auth-screen { position: fixed; inset: 0; z-index: 9999; background: radial-gradient(ellipse at center, #1e2c49 0, #090e19 80%); display: flex; align-items: center; justify-content: center; padding: 20px; }
+  /* AUTH LOADING */
+  #auth-loading { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+  .spinner { width: 50px; height: 50px; border: 4px solid rgba(0, 229, 255, 0.2); border-top-color: #00e5ff; border-radius: 50%; animation: spin 1s linear infinite; }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+
+  /* AUTH SCREEN */
+  #auth-screen { position: fixed; inset: 0; z-index: 9999; background: rgba(15, 20, 35, 0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; overflow: hidden; }
   #auth-screen.hidden { display: none; }
-  .auth-box { width: 100%; max-width: 380px; background: linear-gradient(145deg, #1a2740, #0f1828); border: 1px solid rgba(255, 214, 107, 0.3); border-radius: 20px; padding: 30px 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); text-align: center; }
+  
+  /* HIỆU ỨNG BÀI CẮM TƯỜNG Ở LOGIN */
+  #login-bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .login-card {
+    position: absolute;
+    width: 45px; height: 65px;
+    background: linear-gradient(145deg, #fff, #e2e8f0);
+    border-radius: 6px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 900;
+    opacity: 0;
+    animation: stickWall 1.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+  }
+  @keyframes stickWall {
+    0% { top: -150px; opacity: 0; transform: rotate(var(--rot)) scale(1.5); }
+    70% { top: var(--y); opacity: 1; transform: rotate(var(--rot)) scale(1); }
+    85% { top: calc(var(--y) + 8px); opacity: 1; transform: rotate(var(--rot)) scale(0.95); }
+    100% { top: var(--y); opacity: 0.35; transform: rotate(var(--rot)) scale(1); }
+  }
+
+  .auth-box { position: relative; z-index: 10; width: 100%; max-width: 380px; background: linear-gradient(145deg, #1a2740, #0f1828); border: 1px solid rgba(255, 214, 107, 0.3); border-radius: 20px; padding: 30px 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); text-align: center; }
   .auth-logo { font-size: 26px; font-weight: 800; color: var(--gold); letter-spacing: 2px; margin-bottom: 4px; }
   .auth-logo i { color: var(--neon-cyan); margin-right: 6px; }
   .auth-sub { font-size: 13px; color: #8f96ad; margin-bottom: 24px; }
@@ -52,7 +78,7 @@
 
   /* TOP BAR */
   .top-bar { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgba(10, 15, 28, 0.85); border-bottom: 1px solid rgba(255, 214, 107, 0.2); backdrop-filter: blur(10px); }
-  .logo { font-weight: 800; font-size: 16px; color: var(--gold); }
+  .logo { font-weight: 800; font-size: 18px; color: var(--gold); text-shadow: 0 0 10px rgba(255,214,107,0.5); }
   .logo i { color: var(--neon-cyan); }
   .nav-actions { display: flex; gap: 8px; align-items: center; }
   .user-badge { font-size: 12px; color: var(--gold); font-weight: 700; padding: 6px 10px; background: rgba(255, 214, 107, 0.1); border: 1px solid rgba(255, 214, 107, 0.3); border-radius: 8px; }
@@ -66,11 +92,17 @@
   .btn-mute { background: transparent; color: #fff; border: 1px solid #fff; }
 
   /* BALANCE */
-  .balance-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: rgba(23, 35, 61, 0.8); backdrop-filter: blur(5px); border-bottom: 1px solid rgba(255, 214, 107, 0.15); font-size: 14px; }
+  .balance-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: rgba(23, 35, 61, 0.8); backdrop-filter: blur(5px); border-bottom: 1px solid rgba(255, 214, 107, 0.15); font-size: 14px; flex-wrap: wrap; gap: 10px; }
   .balance-bar .label { color: #8f96ad; }
   .balance-bar strong { color: var(--gold); font-size: 20px; font-weight: 800; }
   .balance-bar strong.flash { color: #00ffae; text-shadow: 0 0 15px #00ffae; }
   .balance-bar strong.flash-red { color: #ff6b8a; text-shadow: 0 0 15px #ff6b8a; }
+
+  /* JACKPOT POOL DISPLAY */
+  .jackpot-pool { display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(90deg, rgba(255, 159, 67, 0.2), rgba(255, 61, 127, 0.2)); border: 1px solid #ff9f43; padding: 8px 16px; border-radius: 30px; margin: 15px auto 0; width: fit-content; box-shadow: 0 0 20px rgba(255, 159, 67, 0.4); animation: pulsePool 2s infinite; }
+  .jackpot-pool i { font-size: 24px; color: #ffd66b; text-shadow: 0 0 10px #ffd66b; }
+  .jackpot-pool .amount { font-size: 20px; font-weight: 900; color: #00ffae; text-shadow: 0 0 15px #00ffae; font-variant-numeric: tabular-nums; }
+  @keyframes pulsePool { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
   /* GAME 5x4 */
   .game-wrapper { display: grid; place-items: center; padding: 20px; flex: 1; }
@@ -139,7 +171,7 @@
     position: relative;
     will-change: transform, opacity;
     backface-visibility: hidden;
-    transition: transform 0.1s;
+    transition: transform 0.1s, box-shadow 0.3s;
   }
 
   .card .corner { align-self: flex-start; font-size: 12px; line-height: 1; font-family: monospace; }
@@ -161,10 +193,40 @@
     100% { transform: translateY(15%) scaleY(0.9); opacity: 0.3; }
   }
 
-  .card.landed { animation: landBounce 0.3s ease-out forwards; }
-  @keyframes landBounce {
-    0% { transform: translateY(-20px) scale(1.1); opacity: 0; }
-    100% { transform: translateY(0) scale(1); opacity: 1; }
+  /* HIỆU ỨNG PHI BÀI CẮM TƯỜNG */
+  .card.thrown {
+    animation: throwStick 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+  }
+  @keyframes throwStick {
+    0% { transform: translateY(300px) translateX(var(--dx)) rotate(var(--rot)) scale(1.3); opacity: 0; filter: blur(2px); }
+    75% { transform: translateY(-10px) translateX(0) rotate(0deg) scale(1.05); opacity: 1; filter: blur(0); }
+    88% { transform: translateY(5px) scale(0.95); }
+    100% { transform: translateY(0) scale(1); }
+  }
+
+  /* HIỆU ỨNG PHÁT SÁNG VÀ CHÉM ĐÔI KHI THẮNG */
+  .card.winning-glow {
+    box-shadow: 0 0 15px #fff, 0 0 30px #ffd66b, 0 0 50px #ffd66b !important;
+    z-index: 20;
+    transform: scale(1.1) !important;
+    border: 2px solid #ffd66b;
+  }
+  
+  .card.slashed::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, transparent 40%, #ffffff 48%, #00e5ff 50%, #ffffff 52%, transparent 60%);
+    background-size: 250% 250%;
+    background-position: 100% 100%;
+    animation: slashAnim 0.4s ease-out forwards;
+    pointer-events: none;
+    border-radius: 6px;
+    z-index: 30;
+  }
+  @keyframes slashAnim {
+    0% { background-position: 100% 100%; opacity: 1; }
+    100% { background-position: 0% 0%; opacity: 0; }
   }
 
   .bet-section { margin: 20px 0 0; padding: 14px; background: rgba(0,0,0,0.3); border-radius: 12px; }
@@ -176,11 +238,16 @@
   .bet-input-wrap input { flex: 1; padding: 11px 14px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255, 214, 107, 0.3); border-radius: 8px; color: var(--gold); font-family: inherit; font-size: 16px; font-weight: 800; text-align: center; outline: none; }
   .bet-input-wrap .unit { color: #8f96ad; font-size: 13px; font-weight: 700; }
 
-  .controls { margin: 16px 0; display: flex; justify-content: center; align-items: center; gap: 15px; }
+  .controls { margin: 16px 0; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; }
   #spin { border: 0; border-radius: 999px; padding: 14px 40px; font-size: 1.05rem; font-weight: 800; cursor: pointer; background: linear-gradient(#ffe69a, #e5ad37); color: #332000; box-shadow: 0 5px 0 #91651c; font-family: inherit; }
   #spin:active { transform: translateY(3px); box-shadow: 0 2px 0 #91651c; }
   #spin:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
   
+  /* NÚT ALL IN */
+  #btn-allin { border: 0; border-radius: 999px; padding: 14px 25px; font-size: 1rem; font-weight: 800; cursor: pointer; background: linear-gradient(#ff4d4d, #cc0000); color: #fff; box-shadow: 0 5px 0 #800000; font-family: inherit; text-shadow: 0 1px 2px #000; }
+  #btn-allin:active { transform: translateY(3px); box-shadow: 0 2px 0 #800000; }
+  #btn-allin:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
+
   .btn-rule {
     width: 46px; height: 46px;
     border-radius: 50%;
@@ -200,8 +267,8 @@
   .btn-rule:hover { background: rgba(0, 229, 255, 0.3); box-shadow: 0 0 25px rgba(0, 229, 255, 0.8); }
   .btn-rule:active { transform: scale(0.9); }
 
-  .status { min-height: 56px; padding: 13px; border-radius: 12px; background: #0b1324; color: #e4ebf8; font-weight: 650; display: flex; align-items: center; justify-content: center; }
-  .status.win { color: #ffe17a; border: 1px solid #bd923d; }
+  .status { min-height: 56px; padding: 13px; border-radius: 12px; background: #0b1324; color: #e4ebf8; font-weight: 650; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .status.win { color: #ffe17a; border: 1px solid #bd923d; box-shadow: 0 0 15px rgba(255, 225, 122, 0.5); }
   .status.lose { color: #ff6b8a; border: 1px solid #6b1c2b; }
 
   .float-amount { position: absolute; top: 50%; left: 50%; font-size: 32px; font-weight: 900; pointer-events: none; z-index: 50; animation: floatUp 1.6s ease-out forwards; text-shadow: 0 0 20px currentColor, 0 4px 8px rgba(0,0,0,0.8); white-space: nowrap; }
@@ -253,22 +320,33 @@
   .user-list-item .u-name { font-weight: bold; }
   .user-list-item .u-edge { font-size: 11px; color: #888; }
   .user-list-item .u-bal { color: #0a8f4d; font-weight: bold; }
+
+  /* THÔNG BÁO CHÀO MỪNG */
+  .welcome-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: linear-gradient(135deg, #00ffae, #0099cc); color: #000; padding: 12px 24px; border-radius: 30px; font-weight: 800; font-size: 16px; box-shadow: 0 10px 30px rgba(0, 255, 174, 0.4); z-index: 99999; display: flex; align-items: center; gap: 10px; opacity: 0; transition: all 0.5s cubic-bezier(0.2, 0.8, 0.3, 1); }
+  .welcome-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 </style>
 </head>
 <body>
 
 <!-- ÂM THANH -->
 <audio id="bgm" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
-<audio id="sfx-spin" preload="auto"><source src="quay.mp3" type="audio/mpeg"></audio>
+<audio id="sfx-spin" preload="auto" loop><source src="quay.mp3" type="audio/mpeg"></audio>
 <audio id="sfx-win" preload="auto"><source src="hu.mp3" type="audio/mpeg"></audio>
 
-<!-- LOADING -->
+<!-- LOADING ĐĂNG NHẬP -->
+<div id="auth-loading">
+  <div class="spinner"></div>
+  <div style="margin-top: 15px; color: #00e5ff; font-weight: bold; font-size: 18px; font-family: inherit;">ĐANG ĐĂNG NHẬP...</div>
+</div>
+
+<!-- LOADING FIREBASE -->
 <div id="loading" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#090e19;z-index:99999;font-size:18px;color:#ffd66b;">Đang kết nối Firebase...</div>
 
 <!-- AUTH SCREEN -->
 <div id="auth-screen" class="hidden">
+  <div id="login-bg"></div>
   <div class="auth-box">
-    <div class="auth-logo"><i class="fas fa-dice"></i> GQ88</div>
+    <div class="auth-logo"><i class="fas fa-crown"></i> JACKPOT 777</div>
     <div class="auth-sub">Đăng nhập hệ thống</div>
     <div class="auth-tabs">
       <button class="auth-tab active" data-tab="login">ĐĂNG NHẬP</button>
@@ -292,7 +370,7 @@
 
 <!-- TOP BAR -->
 <div class="top-bar">
-  <div class="logo"><i class="fas fa-dice"></i> GQ88</div>
+  <div class="logo"><i class="fas fa-crown"></i> JACKPOT 777</div>
   <div class="nav-actions">
     <button class="btn-nav btn-mute" id="btn-mute"><i class="fas fa-volume-up"></i></button>
     <span class="user-badge" id="user-badge">-</span>
@@ -306,15 +384,22 @@
 
 <!-- BALANCE -->
 <div class="balance-bar">
-  <span class="label">Số dư khả dụng</span>
-  <strong id="balance">0đ</strong>
+  <div>
+    <span class="label">Số dư: </span>
+    <strong id="balance">0đ</strong>
+  </div>
+  <!-- HŨ JACKPOT -->
+  <div class="jackpot-pool">
+    <i class="fas fa-coins"></i>
+    <span class="amount" id="jackpot-amount">0đ</span>
+  </div>
 </div>
 
 <!-- GAME -->
 <div class="game-wrapper">
   <main class="game" id="game-box">
-    <h1>♠ QUAY HŨ BÀI ♥</h1>
-    <p class="sub">5x4 · Hàng giữa quyết định</p>
+    <h1>♠ JACKPOT 777 ♥</h1>
+    <p class="sub">Nổ 2 lần liên tiếp để lụm toàn bộ Hũ!</p>
     
     <div class="grid-wrapper" id="grid-wrapper">
       <div class="indicator-line">
@@ -343,6 +428,7 @@
     
     <div class="controls">
       <button id="spin">QUAY NGAY</button>
+      <button id="btn-allin">ALL IN</button>
       <button class="btn-rule" onclick="document.getElementById('modal-rules').classList.add('active')">?</button>
     </div>
     <div class="status" id="status">Nhấn "QUAY NGAY" để bắt đầu!</div>
@@ -356,8 +442,9 @@
     <div style="font-size: 14px; line-height: 1.6; color: #333;">
       <p>1. Chọn mức cược và bấm <b>QUAY NGAY</b>.</p>
       <p>2. Kết quả dựa vào <b>HÀNG THỨ 3</b> (được chỉ bởi 2 mũi tên vàng).</p>
-      <p>3. <b>Nổ Hũ (Jackpot):</b> Xuất hiện từ 3 lá <b>JOKER 🃏</b> trở lên ở hàng thứ 3. Thắng <b>x10</b> tiền cược.</p>
-      <p>4. <b>Nổ Thường:</b> Có từ 3 lá bài <b>cùng giá trị</b> (VD: 3 lá 7, 4 lá K) ở hàng thứ 3. Thắng <b>x2</b> tiền cược.</p>
+      <p>3. <b>Nổ Thường:</b> Có từ 3 lá bài <b>cùng giá trị</b> (VD: 3 lá 7). Thắng <b>x2</b> tiền cược.</p>
+      <p>4. <b>Nổ Joker:</b> Xuất hiện từ 3 lá <b>JOKER 🃏</b> trở lên. Thắng <b>x10</b> tiền cược.</p>
+      <p style="color: #d62839; font-weight: bold;">5. ĐẶC BIỆT: NẾU BẠN NỔ JOKER 2 VÁN LIÊN TIẾP, BẠN SẼ LỤM TOÀN BỘ TIỀN TRONG HŨ JACKPOT!</p>
     </div>
     <button class="close-btn" onclick="document.getElementById('modal-rules').classList.remove('active')">Đã hiểu</button>
   </div>
@@ -491,8 +578,11 @@ const db = getFirestore(app);
 // BIẾN TOÀN CỤC
 let currentUser = null;
 let balance = 0;
+let jackpotPool = 0;
+let isHoldingJackpot = false; // Cờ đánh dấu đang giữ chuỗi nổ hũ (lần 1)
 let spinning = false;
 let unsubscribeBalance = null;
+let unsubscribeJackpot = null;
 let unsubscribeDeposits = null;
 let selectedNapAmount = 0;
 let selectedBank = '';
@@ -511,11 +601,15 @@ let isMuted = false;
 
 // DOM REFS
 const loading = document.getElementById('loading');
+const authLoading = document.getElementById('auth-loading');
 const authScreen = document.getElementById('auth-screen');
+const loginBg = document.getElementById('login-bg');
 const userBadge = document.getElementById('user-badge');
 const adminBtn = document.getElementById('open-admin');
 const balanceEl = document.getElementById('balance');
+const jackpotEl = document.getElementById('jackpot-amount');
 const spinBtn = document.getElementById('spin');
+const allinBtn = document.getElementById('btn-allin');
 const status = document.getElementById('status');
 const gameBox = document.getElementById('game-box');
 const betInput = document.getElementById('bet-amount');
@@ -535,6 +629,45 @@ function updateBalance(flashType = null) {
   }
   const bet = parseInt(betInput.value) || 0;
   spinBtn.disabled = spinning || balance < bet || bet < 1000;
+  allinBtn.disabled = spinning || balance < 1000;
+}
+
+function showWelcomeToast(name) {
+  const toast = document.createElement('div');
+  toast.className = 'welcome-toast';
+  toast.innerHTML = `<i class="fas fa-check-circle"></i> Chào mừng ${name} trở lại!`;
+  document.body.appendChild(toast);
+  
+  // Trigger animation
+  setTimeout(() => toast.classList.add('show'), 100);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 500);
+  }, 3000);
+}
+
+// ==========================================
+// HIỆU ỨNG BÀI CẮM TƯỜNG Ở LOGIN
+// ==========================================
+function spawnLoginCards() {
+  loginBg.innerHTML = '';
+  const symbols = ['♠', '♥', '♦', '♣', '🃏'];
+  for (let i = 0; i < 20; i++) {
+    const card = document.createElement('div');
+    card.className = 'login-card';
+    const sym = symbols[Math.floor(Math.random() * symbols.length)];
+    card.textContent = sym;
+    card.style.color = (sym === '♥' || sym === '♦') ? '#d62839' : (sym === '🃏' ? '#6527a8' : '#172033');
+    
+    card.style.left = Math.random() * 90 + '%';
+    card.style.setProperty('--y', (Math.random() * 70 + 15) + '%');
+    card.style.setProperty('--rot', (Math.random() * 80 - 40) + 'deg');
+    
+    card.style.animationDelay = (Math.random() * 0.8) + 's';
+    card.style.animationDuration = (1 + Math.random() * 0.8) + 's';
+    
+    loginBg.appendChild(card);
+  }
 }
 
 // ==========================================
@@ -564,7 +697,7 @@ function updateArrows(isSpinning) {
   drawArrow('arrow-right', 'left', color);
 }
 
-// KHỞI TẠO ÂM THANH & UNLOCK AUDIO
+// KHỞI TẠO ÂM THANH
 let isAudioUnlocked = false;
 function unlockAudio() {
   if (isAudioUnlocked) return;
@@ -696,29 +829,38 @@ function generateResult(win) {
 }
 
 function checkWinCondition(finalCards) {
-  let jokerCount = 0;
+  let jokerIndices = [];
   let counts = {};
+  let rankIndices = {};
   
   for (let i = 10; i <= 14; i++) {
     if (finalCards[i].isJoker) {
-      jokerCount++;
+      jokerIndices.push(i);
     } else {
       let r = finalCards[i].rank;
       counts[r] = (counts[r] || 0) + 1;
+      if (!rankIndices[r]) rankIndices[r] = [];
+      rankIndices[r].push(i);
     }
   }
 
-  if (jokerCount >= 3) {
-    return { win: true, isJackpot: true, matchCount: jokerCount, matchRank: 'JOKER' };
+  if (jokerIndices.length >= 3) {
+    return { win: true, isJackpot: true, matchCount: jokerIndices.length, matchRank: 'JOKER', winningIndices: jokerIndices };
   }
 
   let maxMatch = 0;
   let matchRank = '';
+  let winningIndices = [];
+  
   for (let r in counts) {
-    if (counts[r] > maxMatch) { maxMatch = counts[r]; matchRank = r; }
+    if (counts[r] > maxMatch) { 
+      maxMatch = counts[r]; 
+      matchRank = r; 
+      winningIndices = rankIndices[r];
+    }
   }
 
-  return { win: maxMatch >= 3, isJackpot: false, matchCount: maxMatch, matchRank: matchRank };
+  return { win: maxMatch >= 3, isJackpot: false, matchCount: maxMatch, matchRank: matchRank, winningIndices: winningIndices };
 }
 
 // ==========================================
@@ -726,6 +868,8 @@ function checkWinCondition(finalCards) {
 // ==========================================
 onAuthStateChanged(auth, async (user) => {
   loading.style.display = 'none';
+  authLoading.style.display = 'none';
+  
   if (user) {
     const userDoc = await getDoc(doc(db, 'users', user.uid));
     if (!userDoc.exists()) {
@@ -739,7 +883,10 @@ onAuthStateChanged(auth, async (user) => {
     userBadge.textContent = data.username;
     adminBtn.style.display = data.isAdmin ? 'flex' : 'none';
     authScreen.classList.add('hidden');
+    
+    showWelcomeToast(data.username);
 
+    // LẮNG NGHE SỐ DƯ USER
     if (unsubscribeBalance) unsubscribeBalance();
     unsubscribeBalance = onSnapshot(doc(db, 'users', user.uid), (snap) => {
       if (snap.exists()) {
@@ -750,14 +897,26 @@ onAuthStateChanged(auth, async (user) => {
         updateBalance(balance > oldBal ? 'flash' : balance < oldBal ? 'flash-red' : null);
       }
     });
+
+    // LẮNG NGHE HŨ JACKPOT
+    if (unsubscribeJackpot) unsubscribeJackpot();
+    unsubscribeJackpot = onSnapshot(doc(db, 'system', 'jackpot'), (snap) => {
+      if (snap.exists()) {
+        jackpotPool = snap.data().amount || 0;
+        jackpotEl.textContent = fmt(jackpotPool);
+      }
+    });
     
     if (data.isAdmin) loadAdminDeposits();
     initGrid();
   } else {
     currentUser = null;
     if (unsubscribeBalance) { unsubscribeBalance(); unsubscribeBalance = null; }
+    if (unsubscribeJackpot) { unsubscribeJackpot(); unsubscribeJackpot = null; }
     if (unsubscribeDeposits) { unsubscribeDeposits(); unsubscribeDeposits = null; }
     authScreen.classList.remove('hidden');
+    
+    spawnLoginCards(); 
   }
 });
 
@@ -781,8 +940,13 @@ document.getElementById('btn-login').addEventListener('click', async () => {
   const email = document.getElementById('login-email').value.trim();
   const pass = document.getElementById('login-pass').value;
   if (!email || !pass) return showMsg('login-msg', 'Nhập đầy đủ!');
+  
+  authLoading.style.display = 'flex';
   try { await signInWithEmailAndPassword(auth, email, pass); } 
-  catch (e) { showMsg('login-msg', 'Sai email hoặc mật khẩu'); }
+  catch (e) { 
+    authLoading.style.display = 'none';
+    showMsg('login-msg', 'Sai email hoặc mật khẩu'); 
+  }
 });
 
 document.getElementById('btn-register').addEventListener('click', async () => {
@@ -791,12 +955,17 @@ document.getElementById('btn-register').addEventListener('click', async () => {
   const pass = document.getElementById('reg-pass').value;
   if (!username || !email || !pass) return showMsg('reg-msg', 'Nhập đầy đủ!');
   if (pass.length < 6) return showMsg('reg-msg', 'Mật khẩu ≥6 ký tự');
+  
+  authLoading.style.display = 'flex';
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await setDoc(doc(db, 'users', cred.user.uid), {
       username, balance: 0, isAdmin: false, email, history: [], createdAt: Date.now()
     });
-  } catch (e) { showMsg('reg-msg', 'Email đã tồn tại hoặc lỗi!'); }
+  } catch (e) { 
+    authLoading.style.display = 'none';
+    showMsg('reg-msg', 'Email đã tồn tại hoặc lỗi!'); 
+  }
 });
 
 document.getElementById('btn-logout').addEventListener('click', async () => {
@@ -828,25 +997,40 @@ betInput.addEventListener('input', () => {
   updateBalance();
 });
 
+// NÚT ALL IN
+allinBtn.addEventListener('click', () => {
+  if (balance < 1000) return alert("Số dư không đủ!");
+  betInput.value = balance;
+  updateBalance();
+  spin(); // Gọi hàm quay luôn
+});
+
 async function spin() {
-  unlockAudio(); // Đảm bảo âm thanh được mở khóa
+  unlockAudio();
 
   if (spinning || !currentUser) return;
   const bet = parseInt(betInput.value) || 0;
   if (bet < 1000) { status.textContent = "Đặt tối thiểu 1.000đ!"; status.className = "status lose"; return; }
   if (balance < bet) { status.textContent = "Số dư không đủ!"; status.className = "status lose"; return; }
   
-  spinning = true; spinBtn.disabled = true;
+  spinning = true; 
+  spinBtn.disabled = true;
+  allinBtn.disabled = true;
   resultText.classList.remove('show', 'win', 'lose');
   gridWrapper.classList.add('is-spinning');
   updateArrows(true);
 
-  // Dừng âm thanh thắng cũ (nếu có)
+  // Clear win classes
+  for (let i = 0; i < 20; i++) {
+    const el = document.getElementById(`card-${i}`);
+    el.classList.remove('winning-glow', 'slashed');
+  }
+
   sfxWin.pause();
   sfxWin.currentTime = 0;
   if (winTimeout) clearTimeout(winTimeout);
 
-  // Phát âm thanh quay
+  // Phát nhạc quay và loop
   if(!isMuted) { 
     sfxSpin.currentTime = 0; 
     sfxSpin.play().catch(() => {}); 
@@ -862,7 +1046,7 @@ async function spin() {
   const finalCards = generateResult(isWin);
 
   let tickCount = 0;
-  const maxTicks = 20; // 1 giây (20 * 50ms)
+  const maxTicks = 60; // 3 giây (60 * 50ms) khớp với nhạc quay
 
   const spinInterval = setInterval(() => {
     for (let i = 0; i < 20; i++) {
@@ -877,7 +1061,6 @@ async function spin() {
 }
 
 async function finishSpin(finalCards, bet) {
-  // Dừng nhạc quay
   if(!isMuted) {
     sfxSpin.pause();
     sfxSpin.currentTime = 0;
@@ -886,11 +1069,27 @@ async function finishSpin(finalCards, bet) {
   gridWrapper.classList.remove('is-spinning');
   updateArrows(false);
   
+  // HIỆU ỨNG PHI BÀI CẮM TƯỜNG
   for (let i = 0; i < 20; i++) {
     const cardEl = document.getElementById(`card-${i}`);
     renderCard(finalCards[i], cardEl);
-    cardEl.classList.add('landed');
-    setTimeout(() => cardEl.classList.remove('landed'), 300);
+    
+    const randomRot = (Math.random() * 120 - 60) + 'deg';
+    const randomDx = (Math.random() * 200 - 100) + 'px';
+    
+    cardEl.style.setProperty('--rot', randomRot);
+    cardEl.style.setProperty('--dx', randomDx);
+    
+    cardEl.classList.remove('thrown');
+    void cardEl.offsetWidth; 
+    cardEl.classList.add('thrown');
+    
+    cardEl.style.animationDelay = (Math.random() * 0.2) + 's';
+    
+    setTimeout(() => {
+      cardEl.classList.remove('thrown');
+      cardEl.style.animationDelay = '0s';
+    }, 800); 
   }
 
   setTimeout(async () => {
@@ -898,23 +1097,54 @@ async function finishSpin(finalCards, bet) {
     let winAmount = 0, msg = '', type = 'lose';
 
     if (check.isJackpot) {
-      winAmount = bet * 10; 
-      msg = `👑 NỔ HŨ ${check.matchCount} JOKER — Thắng x10 = +${fmt(winAmount)}`;
-      status.className = "status win"; type = 'win';
+      if (isHoldingJackpot) {
+        // NỔ 2 LẦN LIÊN TIẾP -> LỤM HŨ
+        winAmount = jackpotPool; 
+        msg = `💥💥 NỔ HŨ LIÊN TIẾP! BẠN ĐÃ LỤM TOÀN BỘ HŨ ${fmt(winAmount)}!`;
+        status.className = "status win"; type = 'win';
+        isHoldingJackpot = false; // Reset chuỗi
+        // Reset hũ trên hệ thống
+        await updateDoc(doc(db, 'system', 'jackpot'), { amount: 0 });
+      } else {
+        // NỔ LẦN 1 -> x10
+        winAmount = bet * 10;
+        msg = `👑 NỔ HŨ LẦN 1! THẮNG x10 = +${fmt(winAmount)}. QUAY TIẾP ĐỂ LỤM HŨ!`;
+        status.className = "status win"; type = 'win';
+        isHoldingJackpot = true; // Bật cờ giữ chuỗi
+      }
     } else if (check.win) {
       winAmount = bet * 2;
       msg = `💥 ${check.matchCount} LÁ ${check.matchRank} — Thắng x2 = +${fmt(winAmount)}`;
       status.className = "status win"; type = 'win';
+      isHoldingJackpot = false; // Mất chuỗi nếu không nổ Joker
     } else {
       msg = `Chưa trúng! Mất ${fmt(bet)}`;
       status.className = "status lose";
+      isHoldingJackpot = false; // Mất chuỗi nếu thua
+      // CỘNG 10% TIỀN CƯỢC VÀO HŨ KHI THUA
+      const houseCut = bet * 0.1;
+      if (houseCut > 0) {
+        try { await updateDoc(doc(db, 'system', 'jackpot'), { amount: increment(houseCut) }); } catch (e) {}
+      }
     }
     
     status.textContent = msg;
 
+    // HIỆU ỨNG CHÉM ĐÔI VÀ PHÁT SÁNG NẾU THẮNG
+    if (check.win) {
+      check.winningIndices.forEach((idx, i) => {
+        const el = document.getElementById(`card-${idx}`);
+        setTimeout(() => {
+          el.classList.add('winning-glow');
+          setTimeout(() => {
+            el.classList.add('slashed');
+          }, 150);
+        }, i * 100); 
+      });
+    }
+
     if (winAmount > 0) {
       if(!isMuted) { 
-        // Reset và phát âm thanh hu.mp3
         sfxWin.pause(); 
         sfxWin.currentTime = 0; 
         sfxWin.volume = 1.0;
@@ -924,7 +1154,7 @@ async function finishSpin(finalCards, bet) {
         winTimeout = setTimeout(() => {
           sfxWin.pause();
           sfxWin.currentTime = 0;
-        }, 4000); // CẬP NHẬT THÀNH 4 GIÂY
+        }, 4000); 
       }
       
       floatAmount(winAmount, 'win');
@@ -939,7 +1169,7 @@ async function finishSpin(finalCards, bet) {
     }
     
     spinning = false; updateBalance();
-  }, 300);
+  }, 1000); 
 }
 spinBtn.addEventListener("click", spin);
 
@@ -1147,6 +1377,7 @@ window.rejectDeposit = async (depositId) => {
 
 // Khởi tạo
 initGrid();
+spawnLoginCards();
 </script>
 </body>
 </html>
