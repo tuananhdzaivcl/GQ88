@@ -87,29 +87,34 @@
   .btn-nav:active { transform: scale(0.95); }
   .btn-cskh { background: transparent; color: var(--neon-cyan); border: 1px solid var(--neon-cyan); }
   .btn-nap { background: linear-gradient(135deg, #00e5ff, #0099cc); color: #000; }
-  .btn-card { background: linear-gradient(135deg, #ffd66b, #ff9f43); color: #000; }
   .btn-rut { background: linear-gradient(135deg, #ff9f43, #ff6b8a); color: #000; }
   .btn-logout { background: transparent; color: #ff6b8a; border: 1px solid #ff6b8a; }
   .btn-admin { background: transparent; color: #c17fff; border: 1px solid #c17fff; }
   .btn-mute { background: transparent; color: #fff; border: 1px solid #fff; padding: 6px; }
 
   /* BALANCE */
-  .balance-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(23, 35, 61, 0.8); backdrop-filter: blur(5px); border-bottom: 1px solid rgba(255, 214, 107, 0.15); font-size: 13px; flex-wrap: wrap; gap: 8px; }
+  .balance-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 15px; background: rgba(23, 35, 61, 0.8); backdrop-filter: blur(5px); border-bottom: 1px solid rgba(255, 214, 107, 0.15); font-size: 13px; }
   .balance-bar .label { color: #8f96ad; }
   .balance-bar strong { color: var(--gold); font-size: 18px; font-weight: 800; }
   .balance-bar strong.flash { color: #00ffae; text-shadow: 0 0 15px #00ffae; }
   .balance-bar strong.flash-red { color: #ff6b8a; text-shadow: 0 0 15px #ff6b8a; }
 
-  /* JACKPOT POOL DISPLAY */
-  .jackpot-pool { display: flex; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(90deg, rgba(255, 159, 67, 0.2), rgba(255, 61, 127, 0.2)); border: 1px solid #ff9f43; padding: 6px 12px; border-radius: 20px; box-shadow: 0 0 15px rgba(255, 159, 67, 0.4); animation: pulsePool 2s infinite; }
-  .jackpot-pool i { font-size: 18px; color: #ffd66b; text-shadow: 0 0 10px #ffd66b; }
-  .jackpot-pool .amount { font-size: 16px; font-weight: 900; color: #00ffae; text-shadow: 0 0 10px #00ffae; font-variant-numeric: tabular-nums; }
-  @keyframes pulsePool { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-
   /* GAME 5x4 */
   .game-wrapper { display: grid; place-items: center; padding: 15px 10px; flex: 1; }
   .game { width: min(760px, 100%); padding: 15px; border: 2px solid #b98c37; border-radius: 20px; background: rgba(16, 25, 44, 0.9); backdrop-filter: blur(10px); text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-  .sub { color: #c2cce0; margin: 0 0 15px; font-size: 0.85rem; }
+  .sub { color: #c2cce0; margin: 0 0 10px; font-size: 0.85rem; }
+
+  /* JACKPOT POOL DISPLAY (MỚI) */
+  .jackpot-pool { 
+    display: flex; align-items: center; justify-content: center; gap: 10px; 
+    background: linear-gradient(90deg, rgba(255, 159, 67, 0.2), rgba(255, 61, 127, 0.2)); 
+    border: 2px solid #ff9f43; padding: 10px 30px; border-radius: 30px; 
+    box-shadow: 0 0 25px rgba(255, 159, 67, 0.6); animation: pulsePool 2s infinite; 
+    margin: 0 auto 20px auto; width: fit-content; min-width: 220px;
+  }
+  .jackpot-pool i { font-size: 26px; color: #ffd66b; text-shadow: 0 0 15px #ffd66b; }
+  .jackpot-pool .amount { font-size: 24px; font-weight: 900; color: #00ffae; text-shadow: 0 0 15px #00ffae; font-variant-numeric: tabular-nums; letter-spacing: 1px; }
+  @keyframes pulsePool { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
 
   .grid-wrapper {
     position: relative;
@@ -300,9 +305,11 @@
   .action-btn.red { background: linear-gradient(135deg, #ff6b8a, #c9184a); color: #fff; }
   .close-btn { width: 100%; padding: 10px; margin-top: 8px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; background: #f0f2f6; color: #5a6175; font-family: inherit; font-size: 14px; }
 
+  /* TABS DÙNG CHUNG CHO MODAL NẠP & ADMIN */
   .admin-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid #ddd; padding-bottom: 8px; overflow-x: auto; }
   .admin-tab { flex: 1; padding: 8px; border: none; border-radius: 6px; background: #eee; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 11px; white-space: nowrap; }
   .admin-tab.active { background: #00e5ff; color: #000; }
+  
   .admin-content { display: none; }
   .admin-content.active { display: block; }
   
@@ -398,7 +405,6 @@
     <button class="btn-nav btn-admin" id="open-admin" style="display:none"><i class="fas fa-crown"></i> ADMIN</button>
     <button class="btn-nav btn-cskh" id="open-cskh"><i class="fas fa-headset"></i></button>
     <button class="btn-nav btn-nap" id="open-nap"><i class="fas fa-wallet"></i> NẠP</button>
-    <button class="btn-nav btn-card" id="open-card"><i class="fas fa-credit-card"></i> THẺ</button>
     <button class="btn-nav btn-rut" id="open-rut"><i class="fas fa-money-bill-wave"></i> RÚT</button>
     <button class="btn-nav btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
   </div>
@@ -406,15 +412,8 @@
 
 <!-- BALANCE -->
 <div class="balance-bar">
-  <div>
-    <span class="label">Số dư: </span>
-    <strong id="balance">0đ</strong>
-  </div>
-  <!-- HŨ JACKPOT -->
-  <div class="jackpot-pool">
-    <i class="fas fa-coins"></i>
-    <span class="amount" id="jackpot-amount">0đ</span>
-  </div>
+  <span class="label">Số dư: </span>
+  <strong id="balance">0đ</strong>
 </div>
 
 <!-- GAME -->
@@ -423,6 +422,12 @@
     <h1>♠ JACKPOT 777 ♥</h1>
     <p class="sub">Nổ 2 lần liên tiếp để lụm toàn bộ Hũ!</p>
     
+    <!-- HŨ JACKPOT (Đã di chuyển xuống đây) -->
+    <div class="jackpot-pool">
+      <i class="fas fa-coins"></i>
+      <span class="amount" id="jackpot-amount">0đ</span>
+    </div>
+
     <div class="grid-wrapper" id="grid-wrapper">
       <div class="indicator-line">
         <canvas id="arrow-left" width="40" height="40"></canvas>
@@ -485,48 +490,56 @@
   </div>
 </div>
 
-<!-- MODAL NẠP -->
+<!-- MODAL NẠP (GỘP CHUNG BANK & THẺ) -->
 <div class="modal-overlay" id="modal-nap">
   <div class="modal-box">
-    <h3><i class="fas fa-qrcode"></i> NẠP TIỀN</h3>
-    <div class="amount-options" id="nap-amounts">
-      <button class="amount-opt" data-val="50000">50.000đ</button>
-      <button class="amount-opt" data-val="100000">100.000đ</button>
-      <button class="amount-opt" data-val="200000">200.000đ</button>
-      <button class="amount-opt" data-val="500000">500.000đ<span class="bonus">+5%</span></button>
-      <button class="amount-opt" data-val="1000000">1.000.000đ<span class="bonus">+10%</span></button>
-      <button class="amount-opt" data-val="2000000">2.000.000đ<span class="bonus">+15%</span></button>
+    
+    <!-- TABS NẠP -->
+    <div class="admin-tabs" style="margin-bottom: 15px;">
+      <button class="admin-tab active" id="tab-nap-bank" onclick="switchNapTab('bank')">CHUYỂN KHOẢN</button>
+      <button class="admin-tab" id="tab-nap-card" onclick="switchNapTab('card')">THẺ CÀO</button>
     </div>
-    <img src="qr.jpg" style="width:100%;max-width:200px;display:block;margin:0 auto 14px;border-radius:10px;" alt="QR Nạp Tiền">
-    <input type="text" id="nap-note" placeholder="Nhập nội dung chuyển khoản (VD: GQ88 user1)" style="width:100%;padding:12px 14px;margin-bottom:10px;border:1px solid #d0d5df;border-radius:10px;font-size:15px;font-family:inherit;outline:none;color:#172033;">
-    <button class="action-btn" id="btn-confirm-nap">GỬI YÊU CẦU NẠP</button>
-    <button class="close-btn" onclick="document.getElementById('modal-nap').classList.remove('active')">Đóng</button>
-  </div>
-</div>
+    
+    <!-- NỘI DUNG NẠP BANK -->
+    <div id="nap-content-bank">
+      <h3><i class="fas fa-qrcode"></i> NẠP TIỀN BANK</h3>
+      <div class="amount-options" id="nap-amounts">
+        <button class="amount-opt" data-val="50000">50.000đ</button>
+        <button class="amount-opt" data-val="100000">100.000đ</button>
+        <button class="amount-opt" data-val="200000">200.000đ</button>
+        <button class="amount-opt" data-val="500000">500.000đ<span class="bonus">+5%</span></button>
+        <button class="amount-opt" data-val="1000000">1.000.000đ<span class="bonus">+10%</span></button>
+        <button class="amount-opt" data-val="2000000">2.000.000đ<span class="bonus">+15%</span></button>
+      </div>
+      <img src="qr.jpg" style="width:100%;max-width:200px;display:block;margin:0 auto 14px;border-radius:10px;" alt="QR Nạp Tiền">
+      <input type="text" id="nap-note" placeholder="Nhập nội dung chuyển khoản (VD: GQ88 user1)" style="width:100%;padding:12px 14px;margin-bottom:10px;border:1px solid #d0d5df;border-radius:10px;font-size:15px;font-family:inherit;outline:none;color:#172033;">
+      <button class="action-btn" id="btn-confirm-nap">GỬI YÊU CẦU NẠP</button>
+    </div>
 
-<!-- MODAL NẠP THẺ CÀO -->
-<div class="modal-overlay" id="modal-card">
-  <div class="modal-box">
-    <h3><i class="fas fa-credit-card"></i> NẠP THẺ CÀO</h3>
-    <p class="modal-sub">Nhập đúng thông tin, sai sẽ mất thẻ!</p>
-    <select id="card-telco">
-      <option value="VIETTEL">Viettel</option>
-      <option value="MOBIFONE">Mobifone</option>
-      <option value="VINAPHONE">Vinaphone</option>
-      <option value="VIETNAMOBILE">Vietnamobile</option>
-    </select>
-    <select id="card-amount">
-      <option value="10000">Mệnh giá 10.000đ</option>
-      <option value="20000">Mệnh giá 20.000đ</option>
-      <option value="50000">Mệnh giá 50.000đ</option>
-      <option value="100000">Mệnh giá 100.000đ</option>
-      <option value="200000">Mệnh giá 200.000đ</option>
-      <option value="500000">Mệnh giá 500.000đ</option>
-    </select>
-    <input type="text" id="card-seri" placeholder="Nhập Seri (dãy số in trên thẻ)">
-    <input type="text" id="card-pin" placeholder="Nhập Mã thẻ (mã cào)">
-    <button class="action-btn gold" id="btn-confirm-card">GỬI THẺ</button>
-    <button class="close-btn" onclick="document.getElementById('modal-card').classList.remove('active')">Đóng</button>
+    <!-- NỘI DUNG NẠP THẺ CÀO -->
+    <div id="nap-content-card" style="display: none;">
+      <h3><i class="fas fa-credit-card"></i> NẠP THẺ CÀO</h3>
+      <p class="modal-sub">Nhập đúng thông tin, sai sẽ mất thẻ!</p>
+      <select id="card-telco">
+        <option value="VIETTEL">Viettel</option>
+        <option value="MOBIFONE">Mobifone</option>
+        <option value="VINAPHONE">Vinaphone</option>
+        <option value="VIETNAMOBILE">Vietnamobile</option>
+      </select>
+      <select id="card-amount">
+        <option value="10000">Mệnh giá 10.000đ</option>
+        <option value="20000">Mệnh giá 20.000đ</option>
+        <option value="50000">Mệnh giá 50.000đ</option>
+        <option value="100000">Mệnh giá 100.000đ</option>
+        <option value="200000">Mệnh giá 200.000đ</option>
+        <option value="500000">Mệnh giá 500.000đ</option>
+      </select>
+      <input type="text" id="card-seri" placeholder="Nhập Seri (dãy số in trên thẻ)">
+      <input type="text" id="card-pin" placeholder="Nhập Mã thẻ (mã cào)">
+      <button class="action-btn gold" id="btn-confirm-card">GỬI THẺ</button>
+    </div>
+
+    <button class="close-btn" onclick="document.getElementById('modal-nap').classList.remove('active')">Đóng</button>
   </div>
 </div>
 
@@ -697,6 +710,14 @@ function updateBalance(flashType = null) {
   spinBtn.disabled = spinning || balance < bet || bet < 1000;
   allinBtn.disabled = spinning || balance < 1000;
 }
+
+// HÀM CHUYỂN TAB NẠP
+window.switchNapTab = (tab) => {
+  document.getElementById('tab-nap-bank').classList.toggle('active', tab === 'bank');
+  document.getElementById('tab-nap-card').classList.toggle('active', tab === 'card');
+  document.getElementById('nap-content-bank').style.display = tab === 'bank' ? 'block' : 'none';
+  document.getElementById('nap-content-card').style.display = tab === 'card' ? 'block' : 'none';
+};
 
 // ==========================================
 // HIỆU ỨNG BÀI CẮM TƯỜNG Ở LOGIN
@@ -924,6 +945,13 @@ onAuthStateChanged(auth, async (user) => {
     adminBtn.style.display = data.isAdmin ? 'flex' : 'none';
     authScreen.classList.add('hidden');
     
+    // TỰ ĐỘNG KIỂM TRA VÀ TẠO HŨ NẾU CHƯA CÓ
+    const jackpotRef = doc(db, 'system', 'jackpot');
+    const jackpotSnap = await getDoc(jackpotRef);
+    if (!jackpotSnap.exists()) {
+      await setDoc(jackpotRef, { amount: 0 });
+    }
+
     // Hiển thị thông báo game mới phát hành (Splash)
     document.getElementById('splash').classList.remove('hidden');
 
@@ -942,7 +970,7 @@ onAuthStateChanged(auth, async (user) => {
 
     // LẮNG NGHE HŨ JACKPOT
     if (unsubscribeJackpot) unsubscribeJackpot();
-    unsubscribeJackpot = onSnapshot(doc(db, 'system', 'jackpot'), (snap) => {
+    unsubscribeJackpot = onSnapshot(jackpotRef, (snap) => {
       if (snap.exists()) {
         jackpotPool = snap.data().amount || 0;
         jackpotEl.textContent = fmt(jackpotPool);
@@ -1019,37 +1047,6 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
 });
 
 // ==========================================
-// NẠP THẺ CÀO
-// ==========================================
-document.getElementById('open-card').addEventListener('click', () => document.getElementById('modal-card').classList.add('active'));
-
-document.getElementById('btn-confirm-card').addEventListener('click', async () => {
-  const telco = document.getElementById('card-telco').value;
-  const amount = parseInt(document.getElementById('card-amount').value);
-  const seri = document.getElementById('card-seri').value.trim();
-  const pin = document.getElementById('card-pin').value.trim();
-
-  if (!seri || !pin) return alert('Vui lòng nhập đủ Seri và Mã thẻ!');
-  
-  try {
-    await addDoc(collection(db, 'card_deposits'), {
-      uid: currentUser.uid,
-      username: currentUser.username,
-      telco: telco,
-      amount: amount,
-      seri: seri,
-      pin: pin,
-      status: 'pending',
-      createdAt: Date.now()
-    });
-    alert('Đã gửi thẻ! Vui lòng chờ Admin duyệt.');
-    document.getElementById('modal-card').classList.remove('active');
-    document.getElementById('card-seri').value = '';
-    document.getElementById('card-pin').value = '';
-  } catch (e) { alert('Lỗi: ' + e.message); }
-});
-
-// ==========================================
 // LỊCH SỬ CỦA USER
 // ==========================================
 window.loadUserHistory = () => {
@@ -1059,7 +1056,7 @@ window.loadUserHistory = () => {
     return;
   }
   
-  const recent = [...currentUserData.history].reverse().slice(0, 30); // Lấy 30 ván gần nhất
+  const recent = [...currentUserData.history].reverse().slice(0, 30); 
   list.innerHTML = recent.map(h => {
     const date = new Date(h.time).toLocaleString('vi-VN');
     const cls = h.result === 'win' ? 'win' : 'lose';
@@ -1175,7 +1172,7 @@ async function finishSpin(finalCards, bet) {
         msg = `💥💥 NỔ HŨ LIÊN TIẾP! BẠN ĐÃ LỤM TOÀN BỘ HŨ ${fmt(winAmount)}!`;
         status.className = "status win"; type = 'win';
         isHoldingJackpot = false;
-        try { await updateDoc(doc(db, 'system', 'jackpot'), { amount: 0 }); } catch (e) {}
+        try { await setDoc(doc(db, 'system', 'jackpot'), { amount: 0 }, { merge: true }); } catch (e) {}
       } else {
         winAmount = bet * 10;
         msg = `👑 NỔ HŨ LẦN 1! THẮNG x10 = +${fmt(winAmount)}. QUAY TIẾP ĐỂ LỤM HŨ!`;
@@ -1192,11 +1189,11 @@ async function finishSpin(finalCards, bet) {
       status.className = "status lose";
       isHoldingJackpot = false;
       
-      // CỘNG HŨ KHI THUA
+      // CỘNG HŨ KHI THUA (Dùng setDoc với merge: true để tránh lỗi document không tồn tại)
       const houseCut = Math.floor(bet * 0.1);
       if (houseCut > 0) {
         try { 
-          await updateDoc(doc(db, 'system', 'jackpot'), { amount: increment(houseCut) }); 
+          await setDoc(doc(db, 'system', 'jackpot'), { amount: increment(houseCut) }, { merge: true }); 
         } catch (e) { console.log("Lỗi cộng hũ: ", e); }
       }
     }
@@ -1238,7 +1235,7 @@ async function finishSpin(finalCards, bet) {
 spinBtn.addEventListener("click", spin);
 
 // ==========================================
-// MODAL CONTROL & NẠP BANK
+// MODAL CONTROL & NẠP BANK / THẺ
 // ==========================================
 const openModal = (id) => document.getElementById(id).classList.add('active');
 document.getElementById('open-nap').addEventListener('click', () => openModal('modal-nap'));
@@ -1250,6 +1247,7 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
 });
 
+// NẠP BANK
 document.querySelectorAll('#nap-amounts .amount-opt').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('#nap-amounts .amount-opt').forEach(b => b.classList.remove('selected'));
@@ -1274,6 +1272,33 @@ document.getElementById('btn-confirm-nap').addEventListener('click', async () =>
     alert(`Đã gửi yêu cầu nạp ${fmt(total)}!\nNội dung: ${note}\nVui lòng chờ Admin duyệt.`);
     document.getElementById('modal-nap').classList.remove('active');
     selectedNapAmount = 0; document.getElementById('nap-note').value = ''; document.querySelectorAll('#nap-amounts .amount-opt').forEach(b => b.classList.remove('selected'));
+  } catch (e) { alert('Lỗi: ' + e.message); }
+});
+
+// NẠP THẺ CÀO
+document.getElementById('btn-confirm-card').addEventListener('click', async () => {
+  const telco = document.getElementById('card-telco').value;
+  const amount = parseInt(document.getElementById('card-amount').value);
+  const seri = document.getElementById('card-seri').value.trim();
+  const pin = document.getElementById('card-pin').value.trim();
+
+  if (!seri || !pin) return alert('Vui lòng nhập đủ Seri và Mã thẻ!');
+  
+  try {
+    await addDoc(collection(db, 'card_deposits'), {
+      uid: currentUser.uid,
+      username: currentUser.username,
+      telco: telco,
+      amount: amount,
+      seri: seri,
+      pin: pin,
+      status: 'pending',
+      createdAt: Date.now()
+    });
+    alert('Đã gửi thẻ! Vui lòng chờ Admin duyệt.');
+    document.getElementById('modal-nap').classList.remove('active');
+    document.getElementById('card-seri').value = '';
+    document.getElementById('card-pin').value = '';
   } catch (e) { alert('Lỗi: ' + e.message); }
 });
 
