@@ -90,7 +90,6 @@
     perspective: 1000px;
   }
 
-  /* Grid (5 Cột, 4 Hàng) */
   .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -99,7 +98,6 @@
     position: relative;
   }
 
-  /* Line Indicator (Hàng Thứ 3) */
   .indicator-line {
     position: absolute;
     top: 62.5%;
@@ -128,7 +126,6 @@
     box-shadow: 0 0 30px rgba(0, 229, 255, 0.8);
   }
 
-  /* Card */
   .card {
     background: linear-gradient(145deg, #ffffff, #e2e8f0);
     aspect-ratio: 2/3;
@@ -153,7 +150,6 @@
   .card.red { color: #d62839; }
   .card.black { color: #1e293b; }
 
-  /* Hiệu ứng quay */
   .is-spinning .card { animation: reelSpin 0.15s linear infinite; }
   @keyframes reelSpin {
     0% { transform: translateY(-15%) scaleY(0.9); opacity: 0.3; }
@@ -185,13 +181,11 @@
   .status.win { color: #ffe17a; border: 1px solid #bd923d; }
   .status.lose { color: #ff6b8a; border: 1px solid #6b1c2b; }
 
-  /* ANIMATION FLOAT */
   .float-amount { position: absolute; top: 50%; left: 50%; font-size: 32px; font-weight: 900; pointer-events: none; z-index: 50; animation: floatUp 1.6s ease-out forwards; text-shadow: 0 0 20px currentColor, 0 4px 8px rgba(0,0,0,0.8); white-space: nowrap; }
   .float-amount.loss { color: #ff3d5e; }
   .float-amount.win { color: #00ffae; }
   @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, -30%) scale(0.6); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 40% { transform: translate(-50%, -60%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -180%) scale(0.9); } }
 
-  /* MODAL */
   .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal-overlay.active { display: flex; }
   .modal-box { background: #fff; color: #172033; width: 100%; max-width: 420px; border-radius: 16px; padding: 24px; max-height: 90vh; overflow-y: auto; }
@@ -213,7 +207,6 @@
   .action-btn.red { background: linear-gradient(135deg, #ff6b8a, #c9184a); color: #fff; }
   .close-btn { width: 100%; padding: 12px; margin-top: 8px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; background: #f0f2f6; color: #5a6175; font-family: inherit; font-size: 14px; }
 
-  /* ADMIN TABS & LISTS */
   .admin-tabs { display: flex; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
   .admin-tab { flex: 1; padding: 10px; border: none; border-radius: 8px; background: #eee; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 12px; }
   .admin-tab.active { background: #00e5ff; color: #000; }
@@ -464,6 +457,7 @@ let unsubscribeDeposits = null;
 let selectedNapAmount = 0;
 let selectedBank = '';
 let currentTargetUser = null; 
+let winTimeout = null; // Biến quản lý thời gian tắt tiếng nổ hũ
 
 const HOUSE_EDGE_DEFAULT = 0.65; 
 let currentHouseEdge = HOUSE_EDGE_DEFAULT; 
@@ -487,7 +481,7 @@ const gameBox = document.getElementById('game-box');
 const betInput = document.getElementById('bet-amount');
 const grid = document.getElementById('grid');
 const gridWrapper = document.getElementById('grid-wrapper');
-const resultText = document.getElementById('status'); // FIX: Khai báo resultText
+const resultText = document.getElementById('status');
 
 function fmt(n) { return Math.max(0, Math.floor(n)).toLocaleString("vi-VN") + "đ"; }
 
@@ -802,7 +796,19 @@ async function finishSpin(finalCards, bet) {
     status.textContent = msg;
 
     if (winAmount > 0) {
-      if(!isMuted) { sfxWin.currentTime = 0; sfxWin.play().catch(() => {}); }
+      if(!isMuted) { 
+        // Reset âm thanh thắng và phát
+        sfxWin.currentTime = 0; 
+        sfxWin.play().catch(() => {}); 
+        
+        // Tự động tắt sau 2s để đè lên nhạc nền mà không làm gián đoạn
+        if (winTimeout) clearTimeout(winTimeout);
+        winTimeout = setTimeout(() => {
+          sfxWin.pause();
+          sfxWin.currentTime = 0;
+        }, 2000);
+      }
+      
       floatAmount(winAmount, 'win');
       try { 
         await updateDoc(doc(db, 'users', currentUser.uid), { 
