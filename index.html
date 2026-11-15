@@ -150,6 +150,12 @@
   .card.red { color: #d62839; }
   .card.black { color: #1e293b; }
 
+  /* CSS CHO LÁ JOKER */
+  .card.joker { background: linear-gradient(145deg, #fff3bd, #e9d9ff); color: #6527a8; }
+  .card.joker .suit { font-size: 30px; }
+  .card.joker .corner { font-size: 16px; }
+  .card.joker .rank { font-size: 12px; letter-spacing: 1px; }
+
   .is-spinning .card { animation: reelSpin 0.15s linear infinite; }
   @keyframes reelSpin {
     0% { transform: translateY(-15%) scaleY(0.9); opacity: 0.3; }
@@ -172,11 +178,31 @@
   .bet-input-wrap input { flex: 1; padding: 11px 14px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255, 214, 107, 0.3); border-radius: 8px; color: var(--gold); font-family: inherit; font-size: 16px; font-weight: 800; text-align: center; outline: none; }
   .bet-input-wrap .unit { color: #8f96ad; font-size: 13px; font-weight: 700; }
 
-  .controls { margin: 16px 0; }
+  .controls { margin: 16px 0; display: flex; justify-content: center; align-items: center; gap: 15px; }
   #spin { border: 0; border-radius: 999px; padding: 14px 40px; font-size: 1.05rem; font-weight: 800; cursor: pointer; background: linear-gradient(#ffe69a, #e5ad37); color: #332000; box-shadow: 0 5px 0 #91651c; font-family: inherit; }
   #spin:active { transform: translateY(3px); box-shadow: 0 2px 0 #91651c; }
   #spin:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
   
+  /* CSS CHO NÚT THỂ LỆ */
+  .btn-rule {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 2px solid var(--neon-cyan);
+    background: rgba(0, 229, 255, 0.1);
+    color: var(--neon-cyan);
+    font-size: 24px;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-rule:hover { background: rgba(0, 229, 255, 0.3); box-shadow: 0 0 25px rgba(0, 229, 255, 0.8); }
+  .btn-rule:active { transform: scale(0.9); }
+
   .status { min-height: 56px; padding: 13px; border-radius: 12px; background: #0b1324; color: #e4ebf8; font-weight: 650; display: flex; align-items: center; justify-content: center; }
   .status.win { color: #ffe17a; border: 1px solid #bd923d; }
   .status.lose { color: #ff6b8a; border: 1px solid #6b1c2b; }
@@ -186,6 +212,7 @@
   .float-amount.win { color: #00ffae; }
   @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, -30%) scale(0.6); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 40% { transform: translate(-50%, -60%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -180%) scale(0.9); } }
 
+  /* MODAL */
   .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal-overlay.active { display: flex; }
   .modal-box { background: #fff; color: #172033; width: 100%; max-width: 420px; border-radius: 16px; padding: 24px; max-height: 90vh; overflow-y: auto; }
@@ -318,9 +345,26 @@
       </div>
     </div>
     
-    <div class="controls"><button id="spin">QUAY NGAY</button></div>
+    <div class="controls">
+      <button id="spin">QUAY NGAY</button>
+      <button class="btn-rule" onclick="document.getElementById('modal-rules').classList.add('active')">?</button>
+    </div>
     <div class="status" id="status">Nhấn "QUAY NGAY" để bắt đầu!</div>
   </main>
+</div>
+
+<!-- MODAL THỂ LỆ -->
+<div class="modal-overlay" id="modal-rules">
+  <div class="modal-box">
+    <h3><i class="fas fa-info-circle" style="color:#00e5ff"></i> THỂ LỆ TRÒ CHƠI</h3>
+    <div style="font-size: 14px; line-height: 1.6; color: #333;">
+      <p>1. Chọn mức cược và bấm <b>QUAY NGAY</b>.</p>
+      <p>2. Kết quả dựa vào <b>HÀNG THỨ 3</b> (được chỉ bởi 2 mũi tên vàng).</p>
+      <p>3. <b>Nổ Hũ (Jackpot):</b> Xuất hiện từ 3 lá <b>JOKER 🃏</b> trở lên ở hàng thứ 3. Thắng <b>x10</b> tiền cược.</p>
+      <p>4. <b>Nổ Thường:</b> Có từ 3 lá bài <b>cùng giá trị</b> (VD: 3 lá 7, 4 lá K) ở hàng thứ 3. Thắng <b>x2</b> tiền cược.</p>
+    </div>
+    <button class="close-btn" onclick="document.getElementById('modal-rules').classList.remove('active')">Đã hiểu</button>
+  </div>
 </div>
 
 <!-- MODAL NẠP -->
@@ -457,7 +501,7 @@ let unsubscribeDeposits = null;
 let selectedNapAmount = 0;
 let selectedBank = '';
 let currentTargetUser = null; 
-let winTimeout = null; // Biến quản lý thời gian tắt tiếng nổ hũ
+let winTimeout = null; 
 
 const HOUSE_EDGE_DEFAULT = 0.65; 
 let currentHouseEdge = HOUSE_EDGE_DEFAULT; 
@@ -547,19 +591,32 @@ const suits = [{ symbol: '♠', color: 'black' }, { symbol: '♥', color: 'red' 
 const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 
 function getRandomCard() {
+  if (Math.random() < 0.05) {
+    return { rank: 'JOKER', suit: '🃏', color: 'joker', isJoker: true };
+  }
   const suit = suits[Math.floor(Math.random() * suits.length)];
   const rank = ranks[Math.floor(Math.random() * ranks.length)];
-  return { rank, suit: suit.symbol, color: suit.color };
+  return { rank, suit: suit.symbol, color: suit.color, isJoker: false };
 }
 
 function renderCard(card, el) {
-  el.className = `card ${card.color}`;
-  el.innerHTML = `
-    <div class="corner">${card.rank}<br>${card.suit}</div>
-    <div class="suit">${card.suit}</div>
-    <div class="rank">${card.rank}</div>
-    <div class="corner bottom">${card.rank}<br>${card.suit}</div>
-  `;
+  if (card.isJoker) {
+    el.className = `card joker`;
+    el.innerHTML = `
+      <div class="corner">★</div>
+      <div class="suit">🃏</div>
+      <div class="rank">JOKER</div>
+      <div class="corner bottom">★</div>
+    `;
+  } else {
+    el.className = `card ${card.color}`;
+    el.innerHTML = `
+      <div class="corner">${card.rank}<br>${card.suit}</div>
+      <div class="suit">${card.suit}</div>
+      <div class="rank">${card.rank}</div>
+      <div class="corner bottom">${card.rank}<br>${card.suit}</div>
+    `;
+  }
 }
 
 function initGrid() {
@@ -579,27 +636,63 @@ function generateResult(win) {
   for (let i = 0; i < 20; i++) cards.push(getRandomCard());
 
   if (win) {
-    const matchRank = ranks[Math.floor(Math.random() * ranks.length)];
-    const suit1 = suits[Math.floor(Math.random() * suits.length)];
-    const matchCard = { rank: matchRank, suit: suit1.symbol, color: suit1.color };
-    
-    cards[10] = { ...matchCard };
-    cards[11] = { ...matchCard };
-    cards[12] = { ...matchCard };
-    
-    if (Math.random() < 0.1) {
-      cards[13] = { ...matchCard };
-      cards[14] = { ...matchCard };
+    // 20% tỷ lệ nổ hũ (3 Joker), 80% nổ thường (3 lá giống nhau)
+    if (Math.random() < 0.2) {
+      const joker = { rank: 'JOKER', suit: '🃏', color: 'joker', isJoker: true };
+      cards[10] = { ...joker };
+      cards[11] = { ...joker };
+      cards[12] = { ...joker };
+      if (Math.random() < 0.1) cards[13] = { ...joker };
+      if (Math.random() < 0.05) cards[14] = { ...joker };
+    } else {
+      const matchRank = ranks[Math.floor(Math.random() * ranks.length)];
+      const suit1 = suits[Math.floor(Math.random() * suits.length)];
+      const matchCard = { rank: matchRank, suit: suit1.symbol, color: suit1.color, isJoker: false };
+      
+      cards[10] = { ...matchCard };
+      cards[11] = { ...matchCard };
+      cards[12] = { ...matchCard };
+      
+      if (Math.random() < 0.1) cards[13] = { ...matchCard };
+      if (Math.random() < 0.05) cards[14] = { ...matchCard };
     }
   } else {
+    // NẾU THUA: Đảm bảo không có 3 Joker và không có 3 lá bài giống nhau
+    let jokerCount = 0;
     let counts = {};
     for (let i = 10; i <= 14; i++) {
-      let r = cards[i].rank;
-      counts[r] = (counts[r] || 0) + 1;
+      if (cards[i].isJoker) jokerCount++;
+      else {
+        let r = cards[i].rank;
+        counts[r] = (counts[r] || 0) + 1;
+      }
+    }
+
+    // Xử lý nếu lỡ ra >= 3 Joker
+    if (jokerCount >= 3) {
+      for (let i = 10; i <= 14; i++) {
+        if (cards[i].isJoker) {
+          let newCard = getRandomCard();
+          while (newCard.isJoker) newCard = getRandomCard();
+          cards[i] = newCard;
+          jokerCount--;
+          if (jokerCount < 3) break;
+        }
+      }
+    }
+
+    // Xử lý nếu lỡ ra >= 3 lá cùng rank
+    for (let r in counts) {
       if (counts[r] >= 3) {
-        let newCard = getRandomCard();
-        while (newCard.rank === r) newCard = getRandomCard();
-        cards[i] = newCard;
+        let toReplace = counts[r] - 2; // Chỉ giữ lại tối đa 2 lá
+        for (let i = 10; i <= 14; i++) {
+          if (!cards[i].isJoker && cards[i].rank === r && toReplace > 0) {
+            let newCard = getRandomCard();
+            while (newCard.isJoker || newCard.rank === r) newCard = getRandomCard();
+            cards[i] = newCard;
+            toReplace--;
+          }
+        }
       }
     }
   }
@@ -607,17 +700,29 @@ function generateResult(win) {
 }
 
 function checkWinCondition(finalCards) {
+  let jokerCount = 0;
   let counts = {};
+  
   for (let i = 10; i <= 14; i++) {
-    let r = finalCards[i].rank;
-    counts[r] = (counts[r] || 0) + 1;
+    if (finalCards[i].isJoker) {
+      jokerCount++;
+    } else {
+      let r = finalCards[i].rank;
+      counts[r] = (counts[r] || 0) + 1;
+    }
   }
+
+  if (jokerCount >= 3) {
+    return { win: true, isJackpot: true, matchCount: jokerCount, matchRank: 'JOKER' };
+  }
+
   let maxMatch = 0;
   let matchRank = '';
   for (let r in counts) {
     if (counts[r] > maxMatch) { maxMatch = counts[r]; matchRank = r; }
   }
-  return { win: maxMatch >= 3, maxMatch, matchRank };
+
+  return { win: maxMatch >= 3, isJackpot: false, matchCount: maxMatch, matchRank: matchRank };
 }
 
 // ==========================================
@@ -738,7 +843,6 @@ async function spin() {
   gridWrapper.classList.add('is-spinning');
   updateArrows(true);
 
-  // Âm thanh quay
   if(!isMuted) { sfxSpin.currentTime = 0; sfxSpin.play().catch(() => {}); }
 
   try { await updateDoc(doc(db, 'users', currentUser.uid), { balance: increment(-bet) }); } 
@@ -780,13 +884,13 @@ async function finishSpin(finalCards, bet) {
     const check = checkWinCondition(finalCards);
     let winAmount = 0, msg = '', type = 'lose';
 
-    if (check.maxMatch >= 5) {
+    if (check.isJackpot) {
       winAmount = bet * 10; 
-      msg = `👑 NỔ HŨ 5 LÁ ${check.matchRank} — Thắng x10 = +${fmt(winAmount)}`;
+      msg = `👑 NỔ HŨ ${check.matchCount} JOKER — Thắng x10 = +${fmt(winAmount)}`;
       status.className = "status win"; type = 'win';
-    } else if (check.maxMatch >= 3) {
+    } else if (check.win) {
       winAmount = bet * 2;
-      msg = `💥 3 LÁ ${check.matchRank} — Thắng x2 = +${fmt(winAmount)}`;
+      msg = `💥 ${check.matchCount} LÁ ${check.matchRank} — Thắng x2 = +${fmt(winAmount)}`;
       status.className = "status win"; type = 'win';
     } else {
       msg = `Chưa trúng! Mất ${fmt(bet)}`;
@@ -797,11 +901,9 @@ async function finishSpin(finalCards, bet) {
 
     if (winAmount > 0) {
       if(!isMuted) { 
-        // Reset âm thanh thắng và phát
         sfxWin.currentTime = 0; 
         sfxWin.play().catch(() => {}); 
         
-        // Tự động tắt sau 2s để đè lên nhạc nền mà không làm gián đoạn
         if (winTimeout) clearTimeout(winTimeout);
         winTimeout = setTimeout(() => {
           sfxWin.pause();
