@@ -26,7 +26,6 @@
     -webkit-tap-highlight-color: transparent; user-select: none;
   }
 
-  /* Lớp phủ tối để dễ đọc chữ */
   body::before {
     content: '';
     position: fixed; inset: 0; z-index: -1;
@@ -684,7 +683,7 @@ function generateResult(win) {
     // Xử lý nếu lỡ ra >= 3 lá cùng rank
     for (let r in counts) {
       if (counts[r] >= 3) {
-        let toReplace = counts[r] - 2; // Chỉ giữ lại tối đa 2 lá
+        let toReplace = counts[r] - 2; 
         for (let i = 10; i <= 14; i++) {
           if (!cards[i].isJoker && cards[i].rank === r && toReplace > 0) {
             let newCard = getRandomCard();
@@ -855,7 +854,7 @@ async function spin() {
   const finalCards = generateResult(isWin);
 
   let tickCount = 0;
-  const maxTicks = 60; // 3 giây
+  const maxTicks = 20; // Giảm xuống 20 lần * 50ms = 1 giây
 
   const spinInterval = setInterval(() => {
     for (let i = 0; i < 20; i++) {
@@ -870,6 +869,12 @@ async function spin() {
 }
 
 async function finishSpin(finalCards, bet) {
+  // Dừng nhạc quay ngay khi kết thúc
+  if(!isMuted) {
+    sfxSpin.pause();
+    sfxSpin.currentTime = 0;
+  }
+
   gridWrapper.classList.remove('is-spinning');
   updateArrows(false);
   
@@ -901,8 +906,10 @@ async function finishSpin(finalCards, bet) {
 
     if (winAmount > 0) {
       if(!isMuted) { 
+        // Đảm bảo âm lượng tối đa và phát
+        sfxWin.volume = 1.0; 
         sfxWin.currentTime = 0; 
-        sfxWin.play().catch(() => {}); 
+        sfxWin.play().catch((e) => console.log("Lỗi phát âm thanh:", e)); 
         
         if (winTimeout) clearTimeout(winTimeout);
         winTimeout = setTimeout(() => {
