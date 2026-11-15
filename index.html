@@ -234,7 +234,13 @@
       <button class="amount-opt" data-val="1000000">1.000.000đ<span class="bonus">+10%</span></button>
       <button class="amount-opt" data-val="2000000">2.000.000đ<span class="bonus">+15%</span></button>
     </div>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=STK_CA_BAN_DAY" style="width:100%;max-width:200px;display:block;margin:0 auto 14px;border-radius:10px;">
+    
+    <!-- ĐÃ ĐỔI SANG FILE QR.JPG -->
+    <img src="qr.jpg" style="width:100%;max-width:200px;display:block;margin:0 auto 14px;border-radius:10px;" alt="QR Nạp Tiền">
+    
+    <!-- Ô NHẬP NỘI DUNG XÁC MINH -->
+    <input type="text" id="nap-note" placeholder="Nhập nội dung chuyển khoản (VD: GQ88 user1)" style="width:100%;padding:12px 14px;margin-bottom:10px;border:1px solid #d0d5df;border-radius:10px;font-size:15px;font-family:inherit;outline:none;color:#172033;">
+    
     <button class="action-btn" id="btn-confirm-nap">GỬI YÊU CẦU NẠP</button>
     <button class="close-btn" onclick="document.getElementById('modal-nap').classList.remove('active')">Đóng</button>
   </div>
@@ -336,12 +342,10 @@ let balance = 0;
 let spinning = false;
 let unsubscribeBalance = null;
 let unsubscribeDeposits = null;
-let unsubscribeUserDoc = null;
 let selectedNapAmount = 0;
 let selectedBank = '';
 
-// CẤU HÌNH TỶ LỆ NHÀ CÁI (0.6 = 60% nghiêng về nhà cái, user chỉ có 40% tỷ lệ thắng mặc định)
-// M có thể sửa số này cao hơn (0.8) để user thua nhiều hơn.
+// CẤU HÌNH TỶ LỆ NHÀ CÁI (0.65 = 65% nghiêng về nhà cái)
 const HOUSE_EDGE = 0.65; 
 
 // DOM REFS
@@ -454,26 +458,19 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
 });
 
 // ========================================================================
-// GAME LOGIC (CÓ CẤU HÌNH TỶ LỆ NHÀ CÁI)
+// GAME LOGIC (CÓ HOUSE EDGE)
 // ========================================================================
 const suits = [{ symbol: "♠", color: "black" }, { symbol: "♥", color: "red" }, { symbol: "♦", color: "red" }, { symbol: "♣", color: "black" }];
 const ranks = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
 const deck = suits.flatMap(s => ranks.map(r => ({ rank: r, suit: s.symbol, color: s.color, joker: false })));
 
 function drawCard() {
-  // Thay vì random hoàn toàn, ta dùng biến HOUSE_EDGE để can thiệp.
-  // Nếu Math.random() < HOUSE_EDGE, ta ưu tiên nhả ra các lá bài rác (không tạo thành bộ 3, không ra Joker).
-  // Cách chơi ở đây: Giới hạn tỷ lệ ra Joker cực thấp và ngẫu nhiên đều các lá khác.
   const isHouseWinning = Math.random() < HOUSE_EDGE;
-  
   if (isHouseWinning) {
-    // Trả về lá bài ngẫu nhiên (tránh ra Joker nếu đang trong "lượt nhà cái thắng")
     let card = deck[Math.floor(Math.random() * deck.length)];
-    while(card.joker) { card = deck[Math.floor(Math.random() * deck.length)]; } // Cấm ra Joker
+    while(card.joker) { card = deck[Math.floor(Math.random() * deck.length)]; }
     return card;
   } else {
-    // Lượt này user có cơ hội thắng -> Có thể ra Joker hoặc lá ngẫu nhiên
-    // Tỉ lệ ra Joker cũng bị giảm bớt để tránh nổ hũ liên tục.
     if (Math.random() < 0.05) return { joker: true, rank: "JOKER", suit: "🃏", color: "joker" };
     return deck[Math.floor(Math.random() * deck.length)];
   }
@@ -548,7 +545,6 @@ async function finish(cards, bet) {
   
   status.textContent = msg;
 
-  // Ghi lịch sử
   const historyLog = {
     time: Date.now(),
     bet: bet,
@@ -567,9 +563,7 @@ async function finish(cards, bet) {
     } catch (e) { status.textContent = "Lỗi cập nhật thắng!"; }
   } else {
     try {
-      await updateDoc(doc(db, 'users', currentUser.uid), { 
-        history: arrayUnion(historyLog)
-      });
+      await updateDoc(doc(db, 'users', currentUser.uid), { history: arrayUnion(historyLog) });
     } catch(e) {}
   }
   
@@ -591,7 +585,7 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 });
 
 // ========================================================================
-// NẠP TIỀN (GỬI YÊU CẦU)
+// NẠP TIỀN (GỬI YÊU CẦU KÈM NỘI DUNG)
 // ========================================================================
 document.querySelectorAll('#nap-amounts .amount-opt').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -603,6 +597,10 @@ document.querySelectorAll('#nap-amounts .amount-opt').forEach(btn => {
 
 document.getElementById('btn-confirm-nap').addEventListener('click', async () => {
   if (!selectedNapAmount) return alert('Vui lòng chọn mức nạp!');
+  
+  const note = document.getElementById('nap-note').value.trim();
+  if (!note) return alert('Vui lòng nhập nội dung chuyển khoản để Admin xác minh!');
+
   let bonus = 0;
   if (selectedNapAmount >= 2000000) bonus = selectedNapAmount * 0.15;
   else if (selectedNapAmount >= 1000000) bonus = selectedNapAmount * 0.10;
@@ -610,17 +608,19 @@ document.getElementById('btn-confirm-nap').addEventListener('click', async () =>
   
   const total = selectedNapAmount + bonus;
   try {
-    // Gửi lệnh nạp lên Firestore để admin duyệt
     await addDoc(collection(db, 'deposits'), {
       uid: currentUser.uid,
       username: currentUser.username,
       amount: total,
+      note: note,
       status: 'pending',
       createdAt: Date.now()
     });
-    alert(`Đã gửi yêu cầu nạp ${fmt(total)}!\nVui lòng chờ Admin duyệt.`);
+    alert(`Đã gửi yêu cầu nạp ${fmt(total)}!\nNội dung: ${note}\nVui lòng chờ Admin duyệt.`);
     document.getElementById('modal-nap').classList.remove('active');
-    selectedNapAmount = 0; document.querySelectorAll('#nap-amounts .amount-opt').forEach(b => b.classList.remove('selected'));
+    selectedNapAmount = 0; 
+    document.getElementById('nap-note').value = '';
+    document.querySelectorAll('#nap-amounts .amount-opt').forEach(b => b.classList.remove('selected'));
   } catch (e) { alert('Lỗi: ' + e.message); }
 });
 
@@ -680,9 +680,7 @@ adminTargetInput.addEventListener('input', async () => {
   const userData = snap.docs[0].data();
   adminCurrentBalance.textContent = fmt(userData.balance || 0);
 
-  // Render Lịch sử
   if (userData.history && userData.history.length > 0) {
-    // Lấy 10 lịch sử gần nhất, đảo ngược để mới nhất lên đầu
     const recentHistory = [...userData.history].reverse().slice(0, 10);
     adminHistoryList.innerHTML = recentHistory.map(h => {
       const date = new Date(h.time).toLocaleTimeString();
@@ -731,7 +729,6 @@ function loadAdminDeposits() {
       return;
     }
     
-    // Sắp xếp theo thời gian tạo mới nhất
     const docs = snapshot.docs.sort((a,b) => b.data().createdAt - a.data().createdAt);
     
     listEl.innerHTML = docs.map(docSnap => {
@@ -742,7 +739,8 @@ function loadAdminDeposits() {
           <div class="info">
             <div>User: <b>${d.username}</b></div>
             <div>Số tiền: <b style="color:#0a8f4d">+${fmt(d.amount)}</b></div>
-            <div style="font-size:11px;color:#888;">${time}</div>
+            <div style="color:#d62839;font-size:12px;margin-top:4px;">Nội dung CK: <b>${d.note || 'Không có'}</b></div>
+            <div style="font-size:11px;color:#888;margin-top:4px;">${time}</div>
           </div>
           <div class="deposit-btn-group">
             <button class="btn-approve" onclick="approveDeposit('${docSnap.id}', '${d.uid}', ${d.amount})">DUYỆT</button>
