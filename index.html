@@ -479,14 +479,36 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
   await signOut(auth); location.reload();
 });
 
-// GAME LOGIC (DÙNG HOUSE EDGE CỦA USER)
+// ========================================================================
+// GAME LOGIC (HOUSE EDGE)
+// ========================================================================
 const suits = [{ symbol: "♠", color: "black" }, { symbol: "♥", color: "red" }, { symbol: "♦", color: "red" }, { symbol: "♣", color: "black" }];
 const ranks = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
 const deck = suits.flatMap(s => ranks.map(r => ({ rank: r, suit: s.symbol, color: s.color, joker: false })));
 
+// Hàm tạo bộ bài thắng (3 lá giống nhau hoặc 3 Joker)
+function generateWinningHand() {
+  // 10% cơ hội nổ hũ (3 Joker)
+  if (Math.random() < 0.1) {
+    return Array(5).fill(null).map((_, i) => i < 3 ? { joker: true, rank: "JOKER", suit: "🃏", color: "joker" } : deck[Math.floor(Math.random() * deck.length)]);
+  } 
+  // 90% cơ hội nổ 3 lá bài (x2 tiền)
+  else {
+    const randomRank = ranks[Math.floor(Math.random() * ranks.length)];
+    const randomSuit = suits[Math.floor(Math.random() * suits.length)];
+    const cardWin = { rank: randomRank, suit: randomSuit.symbol, color: randomSuit.color, joker: false };
+    
+    return [
+      cardWin, cardWin, cardWin, 
+      deck[Math.floor(Math.random() * deck.length)], 
+      deck[Math.floor(Math.random() * deck.length)]
+    ];
+  }
+}
+
+// Hàm rút bài bình thường (dành cho hiệu ứng quay và khi thua)
 function drawCard() {
-  const isHouseWinning = Math.random() < currentHouseEdge;
-  if (isHouseWinning) {
+  if (Math.random() < currentHouseEdge) {
     let card = deck[Math.floor(Math.random() * deck.length)];
     while(card.joker) { card = deck[Math.floor(Math.random() * deck.length)]; }
     return card;
@@ -540,7 +562,15 @@ async function spin() {
   
   floatAmount(bet, 'loss');
   status.className = "status"; status.textContent = "Đang quay...";
-  const result = reels.map(drawCard);
+  
+  let result;
+  // NẾU TỶ LỆ THUA LÀ 0% -> ÉP RA BÀI THẮNG
+  if (currentHouseEdge <= 0) {
+    result = generateWinningHand();
+  } else {
+    result = reels.map(drawCard);
+  }
+
   let ticks = 0;
   const anim = setInterval(() => {
     reels.forEach(el => render(el, drawCard()));
@@ -710,7 +740,6 @@ adminTargetInput.addEventListener('input', async () => {
   currentTargetUser = { id: snap.docs[0].id, data: snap.docs[0].data() };
   adminCurrentBalance.textContent = fmt(currentTargetUser.data.balance || 0);
   
-  // Cập nhật edge hiện tại vào ô input
   const edge = currentTargetUser.data.house_edge !== undefined ? (currentTargetUser.data.house_edge * 100) : (HOUSE_EDGE_DEFAULT * 100);
   document.getElementById('admin-edge').value = Math.round(edge);
 });
