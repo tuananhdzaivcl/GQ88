@@ -149,7 +149,6 @@
   .card.red { color: #d62839; }
   .card.black { color: #1e293b; }
 
-  /* CSS CHO LÁ JOKER */
   .card.joker { background: linear-gradient(145deg, #fff3bd, #e9d9ff); color: #6527a8; }
   .card.joker .suit { font-size: 30px; }
   .card.joker .corner { font-size: 16px; }
@@ -182,7 +181,6 @@
   #spin:active { transform: translateY(3px); box-shadow: 0 2px 0 #91651c; }
   #spin:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
   
-  /* CSS CHO NÚT THỂ LỆ */
   .btn-rule {
     width: 46px; height: 46px;
     border-radius: 50%;
@@ -211,7 +209,6 @@
   .float-amount.win { color: #00ffae; }
   @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, -30%) scale(0.6); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 40% { transform: translate(-50%, -60%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -180%) scale(0.9); } }
 
-  /* MODAL */
   .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal-overlay.active { display: flex; }
   .modal-box { background: #fff; color: #172033; width: 100%; max-width: 420px; border-radius: 16px; padding: 24px; max-height: 90vh; overflow-y: auto; }
@@ -260,10 +257,10 @@
 </head>
 <body>
 
-<!-- ÂM THANH -->
-<audio id="bgm" loop><source src="music.mp3" type="audio/mpeg"></audio>
-<audio id="sfx-spin"><source src="quay.mp3" type="audio/mpeg"></audio>
-<audio id="sfx-win"><source src="hu.mp3" type="audio/mpeg"></audio>
+<!-- ÂM THANH (THÊM PRELOAD AUTO) -->
+<audio id="bgm" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
+<audio id="sfx-spin" preload="auto"><source src="quay.mp3" type="audio/mpeg"></audio>
+<audio id="sfx-win" preload="auto"><source src="hu.mp3" type="audio/mpeg"></audio>
 
 <!-- LOADING -->
 <div id="loading" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#090e19;z-index:99999;font-size:18px;color:#ffd66b;">Đang kết nối Firebase...</div>
@@ -567,13 +564,20 @@ function updateArrows(isSpinning) {
   drawArrow('arrow-right', 'left', color);
 }
 
-// KHỞI TẠO ÂM THANH
-document.body.addEventListener('click', () => {
-  if (!isMuted && bgm.paused) {
-    bgm.volume = 0.5;
-    bgm.play().catch(() => {});
-  }
-}, { once: true });
+// KHỞI TẠO ÂM THANH & UNLOCK AUDIO
+let isAudioUnlocked = false;
+function unlockAudio() {
+  if (isAudioUnlocked) return;
+  isAudioUnlocked = true;
+  
+  // Play and immediately pause to unlock audio contexts on mobile
+  bgm.volume = 0.5;
+  bgm.play().then(() => { if(!isMuted) { /* keep playing */ } else { bgm.pause(); } }).catch(() => {});
+  
+  sfxSpin.load();
+  sfxWin.load();
+}
+document.body.addEventListener('click', unlockAudio, { once: true });
 
 btnMute.addEventListener('click', () => {
   isMuted = !isMuted;
@@ -635,7 +639,6 @@ function generateResult(win) {
   for (let i = 0; i < 20; i++) cards.push(getRandomCard());
 
   if (win) {
-    // 20% tỷ lệ nổ hũ (3 Joker), 80% nổ thường (3 lá giống nhau)
     if (Math.random() < 0.2) {
       const joker = { rank: 'JOKER', suit: '🃏', color: 'joker', isJoker: true };
       cards[10] = { ...joker };
@@ -656,7 +659,6 @@ function generateResult(win) {
       if (Math.random() < 0.05) cards[14] = { ...matchCard };
     }
   } else {
-    // NẾU THUA: Đảm bảo không có 3 Joker và không có 3 lá bài giống nhau
     let jokerCount = 0;
     let counts = {};
     for (let i = 10; i <= 14; i++) {
@@ -667,7 +669,6 @@ function generateResult(win) {
       }
     }
 
-    // Xử lý nếu lỡ ra >= 3 Joker
     if (jokerCount >= 3) {
       for (let i = 10; i <= 14; i++) {
         if (cards[i].isJoker) {
@@ -680,7 +681,6 @@ function generateResult(win) {
       }
     }
 
-    // Xử lý nếu lỡ ra >= 3 lá cùng rank
     for (let r in counts) {
       if (counts[r] >= 3) {
         let toReplace = counts[r] - 2; 
@@ -832,6 +832,8 @@ betInput.addEventListener('input', () => {
 });
 
 async function spin() {
+  unlockAudio(); // Đảm bảo âm thanh được mở khóa
+
   if (spinning || !currentUser) return;
   const bet = parseInt(betInput.value) || 0;
   if (bet < 1000) { status.textContent = "Đặt tối thiểu 1.000đ!"; status.className = "status lose"; return; }
@@ -842,7 +844,16 @@ async function spin() {
   gridWrapper.classList.add('is-spinning');
   updateArrows(true);
 
-  if(!isMuted) { sfxSpin.currentTime = 0; sfxSpin.play().catch(() => {}); }
+  // Dừng âm thanh thắng cũ (nếu có)
+  sfxWin.pause();
+  sfxWin.currentTime = 0;
+  if (winTimeout) clearTimeout(winTimeout);
+
+  // Phát âm thanh quay
+  if(!isMuted) { 
+    sfxSpin.currentTime = 0; 
+    sfxSpin.play().catch(() => {}); 
+  }
 
   try { await updateDoc(doc(db, 'users', currentUser.uid), { balance: increment(-bet) }); } 
   catch (e) { spinning = false; return alert("Lỗi mạng!"); }
@@ -854,7 +865,7 @@ async function spin() {
   const finalCards = generateResult(isWin);
 
   let tickCount = 0;
-  const maxTicks = 20; // Giảm xuống 20 lần * 50ms = 1 giây
+  const maxTicks = 20; // 1 giây (20 * 50ms)
 
   const spinInterval = setInterval(() => {
     for (let i = 0; i < 20; i++) {
@@ -869,7 +880,7 @@ async function spin() {
 }
 
 async function finishSpin(finalCards, bet) {
-  // Dừng nhạc quay ngay khi kết thúc
+  // Dừng nhạc quay
   if(!isMuted) {
     sfxSpin.pause();
     sfxSpin.currentTime = 0;
@@ -906,10 +917,11 @@ async function finishSpin(finalCards, bet) {
 
     if (winAmount > 0) {
       if(!isMuted) { 
-        // Đảm bảo âm lượng tối đa và phát
-        sfxWin.volume = 1.0; 
+        // Reset và phát âm thanh hu.mp3
+        sfxWin.pause(); 
         sfxWin.currentTime = 0; 
-        sfxWin.play().catch((e) => console.log("Lỗi phát âm thanh:", e)); 
+        sfxWin.volume = 1.0;
+        sfxWin.play().catch((e) => console.log("Lỗi phát hu.mp3:", e)); 
         
         if (winTimeout) clearTimeout(winTimeout);
         winTimeout = setTimeout(() => {
