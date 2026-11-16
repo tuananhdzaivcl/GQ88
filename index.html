@@ -507,6 +507,7 @@
       <button class="admin-tab active" data-atab="users">QUẢN LÝ</button>
       <button class="admin-tab" data-atab="deposits">DUYỆT BANK</button>
       <button class="admin-tab" data-atab="cards">DUYỆT THẺ</button>
+      <button class="admin-tab" data-atab="withdrawals">DUYỆT RÚT</button>
       <button class="admin-tab" data-atab="userlist">DANH SÁCH</button>
     </div>
 
@@ -552,6 +553,11 @@
 
     <div class="admin-content" id="admin-tab-cards">
       <div id="admin-card-list">Đang tải danh sách...</div>
+    </div>
+
+    <!-- ADMIN TAB RÚT TIỀN MỚI THÊM -->
+    <div class="admin-content" id="admin-tab-withdrawals">
+      <div id="admin-withdraw-list">Đang tải danh sách...</div>
     </div>
 
     <div class="admin-content" id="admin-tab-userlist">
@@ -602,6 +608,7 @@ let unsubscribeBalance = null;
 let unsubscribeJackpot = null;
 let unsubscribeDeposits = null;
 let unsubscribeCards = null;
+let unsubscribeWithdrawals = null; // Biến mới cho rút tiền
 let selectedNapAmount = 0;
 let selectedBank = '';
 let currentTargetUser = null; 
@@ -894,6 +901,7 @@ onAuthStateChanged(auth, async (user) => {
     if (data.isAdmin) {
       loadAdminDeposits();
       loadAdminCards();
+      loadAdminWithdrawals(); // Gọi load danh sách rút
     }
     
     cur=[0,1,2,3,4].map(()=>[0,1,2,3].map(()=>rc(.04)));
@@ -908,6 +916,7 @@ onAuthStateChanged(auth, async (user) => {
     if (unsubscribeJackpot) { unsubscribeJackpot(); unsubscribeJackpot = null; }
     if (unsubscribeDeposits) { unsubscribeDeposits(); unsubscribeDeposits = null; }
     if (unsubscribeCards) { unsubscribeCards(); unsubscribeCards = null; }
+    if (unsubscribeWithdrawals) { unsubscribeWithdrawals(); unsubscribeWithdrawals = null; } // Clean up
     authScreen.classList.remove('hidden');
     spawnLoginCards(); 
   }
@@ -1238,6 +1247,7 @@ document.querySelectorAll('#rut-banks .bank-opt').forEach(btn => {
   });
 });
 
+// --- CẬP NHẬT LỆNH RÚT TIỀN USER GỬI LÊN ---
 document.getElementById('btn-submit-rut').addEventListener('click', async () => {
   const stk = document.getElementById('rut-stk').value.trim();
   const name = document.getElementById('rut-name').value.trim();
@@ -1245,11 +1255,30 @@ document.getElementById('btn-submit-rut').addEventListener('click', async () => 
   if (!selectedBank) return alert('Chọn ngân hàng!');
   if (!stk || !name || amt < 50000) return alert('Điền đủ thông tin (tối thiểu 50k)!');
   if (amt > balance) return alert('Số dư không đủ!');
+  
   try {
+    // 1. Trừ tiền user
     await updateDoc(doc(db, 'users', currentUser.uid), { balance: increment(-amt) });
-    alert(`Đã tạo lệnh rút ${fmt(amt)}\nNH: ${selectedBank}\nSTK: ${stk}`);
+    
+    // 2. Lưu yêu cầu rút vào database
+    await addDoc(collection(db, 'withdrawals'), {
+      uid: currentUser.uid,
+      username: currentUser.username,
+      bank: selectedBank,
+      stk: stk,
+      name: name,
+      amount: amt,
+      status: 'pending',
+      createdAt: Date.now()
+    });
+
+    alert(`Đã tạo lệnh rút ${fmt(amt)}\nNH: ${selectedBank}\nSTK: ${stk}\nVui lòng chờ Admin duyệt!`);
     document.getElementById('modal-rut').classList.remove('active');
-    document.getElementById('rut-stk').value = ''; document.getElementById('rut-name').value = ''; document.getElementById('rut-amount').value = '';
+    document.getElementById('rut-stk').value = ''; 
+    document.getElementById('rut-name').value = ''; 
+    document.getElementById('rut-amount').value = '';
+    document.querySelectorAll('#rut-banks .bank-opt').forEach(b => b.classList.remove('selected'));
+    selectedBank = '';
   } catch (e) { alert('Lỗi: ' + e.message); }
 });
 
@@ -1261,6 +1290,7 @@ document.querySelectorAll('.admin-tab').forEach(tab => {
     document.getElementById('admin-tab-users').classList.toggle('active', target === 'users');
     document.getElementById('admin-tab-deposits').classList.toggle('active', target === 'deposits');
     document.getElementById('admin-tab-cards').classList.toggle('active', target === 'cards');
+    document.getElementById('admin-tab-withdrawals').classList.toggle('active', target === 'withdrawals'); // Tab rút
     document.getElementById('admin-tab-userlist').classList.toggle('active', target === 'userlist');
   });
 });
@@ -1463,6 +1493,52 @@ window.rejectCard = async (docId) => {
     await updateDoc(doc(db, 'card_deposits', docId), { status: 'rejected' });
     alert(`Đã từ chối thẻ!`);
   } catch (e) { alert('Lỗi: ' + e.message); }
+};
+
+// --- CÁC HÀM XỬ LÝ RÚT TIỀN BÊN ADMIN ---
+function loadAdminWithdrawals() {
+  if (unsubscribeWithdrawals) unsubscribeWithdrawals();
+  const q = query(collection(db, 'withdrawals'), where('status', '==', 'pending'));
+  unsubscribeWithdrawals = onSnapshot(q, (snapshot) => {
+    const listEl = document.getElementById('admin-withdraw-list');
+    if (snapshot.empty) { listEl.innerHTML = '<div style="text-align:center;padding:20px;color:#888;">Không có lệnh rút tiền nào.</div>'; return; }
+    const docs = snapshot.docs.sort((a,b) => b.data().createdAt - a.data().createdAt);
+    listEl.innerHTML = docs.map(docSnap => {
+      const d = docSnap.data();
+      const time = new Date(d.createdAt).toLocaleString('vi-VN');
+      return `<div class="deposit-item">
+          <div class="info">
+            <div>User: <b>${d.username}</b></div>
+            <div>Ngân hàng: <b>${d.bank}</b></div>
+            <div>STK: <b style="color:#d62839">${d.stk}</b> - Tên: <b>${d.name}</b></div>
+            <div>Số tiền: <b style="color:#0a8f4d">-${fmt(d.amount)}</b></div>
+            <div style="font-size:11px;color:#888;margin-top:4px;">${time}</div>
+          </div>
+          <div class="deposit-btn-group">
+            <button class="btn-approve" onclick="approveWithdrawal('${docSnap.id}')">DUYỆT</button>
+            <button class="btn-reject" onclick="rejectWithdrawal('${docSnap.id}', '${d.uid}', ${d.amount})">TỪ CHỐI</button>
+          </div>
+        </div>`;
+    }).join('');
+  });
+}
+
+window.approveWithdrawal = async (docId) => {
+  try {
+    // Chỉ cần đổi trạng thái thành công (Tiền đã bị trừ lúc User gửi lệnh)
+    await updateDoc(doc(db, 'withdrawals', docId), { status: 'approved' });
+    alert(`Đã duyệt lệnh rút tiền thành công!`);
+  } catch (e) { alert('Lỗi duyệt: ' + e.message); }
+};
+
+window.rejectWithdrawal = async (docId, userUid, amount) => {
+  try {
+    // 1. Đổi trạng thái thành từ chối
+    await updateDoc(doc(db, 'withdrawals', docId), { status: 'rejected' });
+    // 2. Hoàn lại tiền cho User
+    await updateDoc(doc(db, 'users', userUid), { balance: increment(amount) });
+    alert(`Đã từ chối lệnh rút và hoàn lại ${fmt(amount)} cho user!`);
+  } catch (e) { alert('Lỗi duyệt: ' + e.message); }
 };
 
 spawnLoginCards();
