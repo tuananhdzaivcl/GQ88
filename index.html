@@ -33,6 +33,11 @@
     background: radial-gradient(ellipse at top, rgba(52, 77, 121, 0.8) 0, rgba(18, 26, 45, 0.9) 55%, rgba(9, 14, 25, 0.95) 100%);
   }
 
+  /* THÔNG BÁO TOÀN SERVER */
+  #global-notice { display: none; background: linear-gradient(90deg, #ff0055, #ff9f43); color: #fff; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; position: relative; z-index: 999; box-shadow: 0 4px 15px rgba(255,0,85,0.5); animation: pulseNotice 2s infinite; }
+  @keyframes pulseNotice { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+  #global-notice .close-notice { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; background: rgba(0,0,0,0.3); border: none; color: #fff; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+
   #auth-loading { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
   .spinner { width: 50px; height: 50px; border: 4px solid rgba(0, 229, 255, 0.2); border-top-color: #00e5ff; border-radius: 50%; animation: spin 1s linear infinite; }
   @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -103,6 +108,18 @@
   .jackpot-pool i { font-size: 26px; color: #ffd66b; text-shadow: 0 0 15px #ffd66b; }
   .jackpot-pool .amount { font-size: 24px; font-weight: 900; color: #00ffae; text-shadow: 0 0 15px #00ffae; font-variant-numeric: tabular-nums; letter-spacing: 1px; }
   @keyframes pulsePool { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+
+  /* NÚT GIFTCODE NỔI BẬT */
+  .giftcode-btn {
+    background: linear-gradient(135deg, #ff0055, #ff9f43);
+    color: #fff; border: 2px solid #ffd66b; border-radius: 30px;
+    padding: 8px 20px; font-weight: 900; font-size: 14px; cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.6), inset 0 0 10px rgba(255,255,255,0.3);
+    margin: 0 auto 15px auto; display: flex; align-items: center; gap: 6px;
+    animation: pulseGift 1.5s infinite alternate; font-family: inherit;
+  }
+  @keyframes pulseGift { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 0, 85, 0.6); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 159, 67, 0.8); } }
+  .giftcode-btn i { font-size: 16px; }
 
   .cab{width:100%;padding:14px 16px 20px;border-radius:30px;position:relative;background:linear-gradient(160deg,#241a52,#120c30);border:3px solid var(--gold);box-shadow:inset 0 0 0 6px #0e0b24,inset 0 0 0 8px #e8c56a66,0 18px 0 #07051a,0 30px 60px #000a}
   .cab.jp{animation:glow .6s ease-in-out infinite alternate}
@@ -185,6 +202,7 @@
   .action-btn.gold { background: linear-gradient(135deg, #ffd66b, #ff9f43); }
   .action-btn.purple { background: linear-gradient(135deg, #b57bff, #7a3dd8); color: #fff; }
   .action-btn.red { background: linear-gradient(135deg, #ff6b8a, #c9184a); color: #fff; }
+  .action-btn.green { background: linear-gradient(135deg, #00ffae, #00b37a); color: #000; }
   .close-btn { width: 100%; padding: 10px; margin-top: 8px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; background: #f0f2f6; color: #5a6175; font-family: inherit; font-size: 14px; }
 
   .admin-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid #ddd; padding-bottom: 8px; overflow-x: auto; }
@@ -194,7 +212,7 @@
   .admin-content { display: none; }
   .admin-content.active { display: block; }
   
-  .history-list { max-height: 200px; overflow-y: auto; font-size: 12px; background: #f7f9fc; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid #d0d5df; }
+  .history-list { max-height: 250px; overflow-y: auto; font-size: 12px; background: #f7f9fc; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid #d0d5df; }
   .history-item { padding: 6px 0; border-bottom: 1px dashed #ccc; display: flex; justify-content: space-between; }
   .history-item.win { color: #0a8f4d; font-weight: bold; }
   .history-item.lose { color: #d62839; }
@@ -207,7 +225,7 @@
   .btn-approve { background: #00ffae; color: #000; }
   .btn-reject { background: #ff6b8a; color: #fff; }
 
-  .user-list-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 13px; }
+  .user-list-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 13px; align-items: center; }
   .user-list-item .u-name { font-weight: bold; }
   .user-list-item .u-edge { font-size: 11px; color: #888; }
   .user-list-item .u-bal { color: #0a8f4d; font-weight: bold; }
@@ -236,6 +254,11 @@
   .bank-modal .action-btn.gold { background: linear-gradient(175deg, #fcd34d, #f59e0b, #b45309) !important; border-color: rgba(255, 220, 100, 0.65) !important; box-shadow: 0 0 22px #f59e0b99, 0 0 45px #f59e0b4d !important; }
   .bank-modal .close-btn { background: transparent !important; color: #a0d2ff !important; border: 1px solid rgba(100, 200, 255, 0.3) !important; border-radius: 50px !important; font-size: 14px !important; font-weight: 600 !important; }
   .bank-modal .modal-sub { color: #a0d2ff99 !important; }
+
+  .status-badge { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-left: 5px; }
+  .st-pending { background: #ffd66b; color: #000; }
+  .st-approved { background: #00ffae; color: #000; }
+  .st-rejected { background: #ff6b8a; color: #fff; }
 
   .chat-container { position: fixed; bottom: 20px; left: 20px; width: 320px; background: rgba(15, 20, 35, 0.95); border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 12px; display: flex; flex-direction: column; z-index: 500; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transition: all 0.3s ease; transform-origin: bottom left; }
   .chat-container.hidden { transform: scale(0); opacity: 0; pointer-events: none; }
@@ -274,6 +297,11 @@
 <audio id="bgm" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
 <audio id="sfx-spin" preload="auto" loop><source src="quay.mp3" type="audio/mpeg"></audio>
 <audio id="sfx-win" preload="auto"><source src="hu.mp3" type="audio/mpeg"></audio>
+
+<div id="global-notice">
+  <span id="global-notice-text">Thông báo toàn server!</span>
+  <button class="close-notice" onclick="document.getElementById('global-notice').style.display='none'"><i class="fas fa-times"></i></button>
+</div>
 
 <div id="splash" class="splash-screen hidden">
   <div class="splash-title">GQ88</div>
@@ -347,6 +375,11 @@
       <span class="amount" id="jackpot-amount">0đ</span>
     </div>
 
+    <!-- NÚT GIFTCODE NỔI BẬT -->
+    <button class="giftcode-btn" onclick="document.getElementById('modal-giftcode').classList.add('active')">
+      <i class="fas fa-gift"></i> NHẬP GIFTCODE
+    </button>
+
     <section class="cab" id="cab">
       <div class="bulbs" aria-hidden="true"></div>
       <p class="msg" id="msg" aria-live="polite">Bấm QUAY để chia bài</p>
@@ -378,7 +411,7 @@
     <div class="controls">
       <button id="spin">QUAY NGAY</button>
       <button id="btn-allin">ALL IN</button>
-      <button class="btn-circle" onclick="document.getElementById('modal-user-history').classList.add('active'); loadUserHistory();">!</button>
+      <button class="btn-circle" onclick="loadUserTransactions()" title="Lịch sử Nạp/Rút" style="border-color: var(--gold); color: var(--gold);"><i class="fas fa-history"></i></button>
       <button class="btn-circle" onclick="document.getElementById('modal-rules').classList.add('active')">?</button>
     </div>
     <div class="status" id="status">Nhấn "QUAY NGAY" để bắt đầu!</div>
@@ -404,6 +437,28 @@
   <i class="fas fa-comment-dots"></i>
 </div>
 
+<!-- MODAL NHẬP GIFTCODE -->
+<div class="modal-overlay" id="modal-giftcode">
+  <div class="modal-box" style="background: linear-gradient(145deg, #1a2740, #0f1828); color: #fff; border: 1px solid var(--gold);">
+    <h3 style="color: var(--gold);"><i class="fas fa-gift"></i> NHẬP GIFTCODE</h3>
+    <p class="modal-sub" style="color: #ccc;">Nhập mã quà tặng để nhận tiền vào tài khoản!</p>
+    <input type="text" id="giftcode-input" placeholder="Nhập mã code tại đây..." style="text-transform: uppercase; background: rgba(0,0,0,0.4); border: 1px solid var(--neon-cyan); color: #fff; font-weight: bold; text-align: center; font-size: 16px;">
+    <button class="action-btn gold" id="btn-claim-giftcode" style="margin-top: 10px;">NHẬN QUÀ</button>
+    <button class="close-btn" onclick="document.getElementById('modal-giftcode').classList.remove('active')" style="background: transparent; color: #8f96ad; border: 1px solid #8f96ad;">Đóng</button>
+  </div>
+</div>
+
+<!-- MODAL LỊCH SỬ GIAO DỊCH CỦA USER -->
+<div class="modal-overlay" id="modal-user-transactions">
+  <div class="modal-box">
+    <h3><i class="fas fa-receipt" style="color:#ff9f43"></i> LỊCH SỬ GIAO DỊCH</h3>
+    <div id="user-transactions-list" class="history-list" style="max-height: 400px;">
+      Đang tải...
+    </div>
+    <button class="close-btn" onclick="document.getElementById('modal-user-transactions').classList.remove('active')">Đóng</button>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-rules">
   <div class="modal-box">
     <h3><i class="fas fa-info-circle" style="color:#00e5ff"></i> THỂ LỆ TRÒ CHƠI</h3>
@@ -415,16 +470,6 @@
       <p style="color: #0a8f4d; font-weight: bold;">5. HŨ SẼ TĂNG LÊN MỖI KHI NGƯỜI CHƠI THUA (10% TIỀN CƯỢC).</p>
     </div>
     <button class="close-btn" onclick="document.getElementById('modal-rules').classList.remove('active')">Đã hiểu</button>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-user-history">
-  <div class="modal-box">
-    <h3><i class="fas fa-history" style="color:#00e5ff"></i> LỊCH SỬ CHƠI CỦA BẠN</h3>
-    <div id="user-history-list" class="history-list">
-      Đang tải...
-    </div>
-    <button class="close-btn" onclick="document.getElementById('modal-user-history').classList.remove('active')">Đóng</button>
   </div>
 </div>
 
@@ -509,8 +554,11 @@
       <button class="admin-tab" data-atab="cards">DUYỆT THẺ</button>
       <button class="admin-tab" data-atab="withdrawals">DUYỆT RÚT</button>
       <button class="admin-tab" data-atab="userlist">DANH SÁCH</button>
+      <button class="admin-tab" data-atab="notice">THÔNG BÁO</button>
+      <button class="admin-tab" data-atab="giftcodes">GIFTCODE</button>
     </div>
 
+    <!-- Tab Quản lý User -->
     <div class="admin-content active" id="admin-tab-users">
       <input type="text" id="admin-target" placeholder="Username cần chỉnh">
       <div style="padding:10px;background:#f7f9fc;border-radius:8px;font-size:13px;text-align:center;margin-bottom:10px;">
@@ -518,10 +566,13 @@
       </div>
       <input type="number" id="admin-amount" placeholder="Số tiền (VNĐ)">
       
-      <div style="display:flex; gap:6px;">
+      <div style="display:flex; gap:6px; margin-bottom: 10px;">
          <button class="action-btn purple" id="btn-admin-add" style="flex:1">+ CỘNG</button>
          <button class="action-btn red" id="btn-admin-sub" style="flex:1">- TRỪ</button>
       </div>
+      
+      <!-- NÚT KHÓA TÀI KHOẢN -->
+      <button class="action-btn red" id="btn-admin-lock" style="background: #333; color: #fff; border: 1px solid #ff6b8a;">KHÓA / MỞ KHÓA TÀI KHOẢN</button>
 
       <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc;">
          <div style="font-weight: bold; font-size: 13px; margin-bottom: 8px; color: #d62839;">GIẢM NHÂN PHẨM (Tỷ lệ thua mặc định)</div>
@@ -543,7 +594,7 @@
          </div>
       </div>
 
-      <button class="action-btn gold" id="btn-admin-history" style="margin-top:15px;">XEM LỊCH SỬ</button>
+      <button class="action-btn gold" id="btn-admin-history" style="margin-top:15px;">XEM LỊCH SỬ CHƠI</button>
       <div id="admin-history-list" class="history-list" style="display:none;"></div>
     </div>
 
@@ -555,7 +606,6 @@
       <div id="admin-card-list">Đang tải danh sách...</div>
     </div>
 
-    <!-- ADMIN TAB RÚT TIỀN MỚI THÊM -->
     <div class="admin-content" id="admin-tab-withdrawals">
       <div id="admin-withdraw-list">Đang tải danh sách...</div>
     </div>
@@ -563,6 +613,29 @@
     <div class="admin-content" id="admin-tab-userlist">
       <button class="action-btn" id="btn-refresh-users">TẢI LẠI DANH SÁCH</button>
       <div id="user-list-container" style="margin-top: 10px; max-height: 300px; overflow-y: auto;">Bấm nút trên để tải...</div>
+    </div>
+    
+    <!-- Tab Thông báo -->
+    <div class="admin-content" id="admin-tab-notice">
+      <textarea id="admin-notice-msg" placeholder="Nhập thông báo gửi đến toàn bộ người chơi..." style="width:100%; height:100px; padding:10px; border-radius:8px; border:1px solid #ccc; font-family:inherit; margin-bottom:10px; resize:none;"></textarea>
+      <button class="action-btn gold" id="btn-send-notice">PHÁT THÔNG BÁO TOÀN SERVER</button>
+      <p style="font-size:12px; color:#888; margin-top:10px; text-align:center;">Lưu ý: Thông báo sẽ hiển thị dạng banner ở đầu trang của tất cả người chơi đang online.</p>
+    </div>
+
+    <!-- Tab Giftcode Mới -->
+    <div class="admin-content" id="admin-tab-giftcodes">
+      <div style="background: #f7f9fc; padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #d0d5df;">
+        <h4 style="margin: 0 0 10px; font-size: 14px; text-align: center; color: #00bcd4;">TẠO GIFTCODE MỚI</h4>
+        <input type="text" id="gc-code" placeholder="Mã Giftcode (VD: TET2024)" style="text-transform: uppercase;">
+        <input type="number" id="gc-amount" placeholder="Số tiền thưởng (VNĐ)">
+        <input type="number" id="gc-max" placeholder="Số lượt sử dụng tối đa (VD: 100)" value="100">
+        <button class="action-btn green" id="btn-create-gc">TẠO MÃ</button>
+      </div>
+      
+      <h4 style="margin: 0 0 10px; font-size: 14px; color: #333;">DANH SÁCH MÃ ĐÃ TẠO</h4>
+      <div id="admin-giftcode-list" class="history-list" style="max-height: 250px;">
+        Đang tải...
+      </div>
     </div>
 
     <button class="close-btn" onclick="document.getElementById('modal-admin').classList.remove('active')">Đóng</button>
@@ -583,7 +656,7 @@
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, increment, collection, query, where, getDocs, addDoc, arrayUnion } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, increment, collection, query, where, getDocs, addDoc, arrayUnion, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCE4j23CUaJ3yn6IrGXOgSeRg8CMc0xO_0",
@@ -608,7 +681,9 @@ let unsubscribeBalance = null;
 let unsubscribeJackpot = null;
 let unsubscribeDeposits = null;
 let unsubscribeCards = null;
-let unsubscribeWithdrawals = null; // Biến mới cho rút tiền
+let unsubscribeWithdrawals = null;
+let unsubscribeNotice = null;
+let unsubscribeGiftcodes = null;
 let selectedNapAmount = 0;
 let selectedBank = '';
 let currentTargetUser = null; 
@@ -617,16 +692,14 @@ let winTimeout = null;
 const HOUSE_EDGE_DEFAULT = 0.65; 
 let currentHouseEdge = HOUSE_EDGE_DEFAULT; 
 
-// --- AUDIO CONFIG START ---
 const bgm = document.getElementById('bgm');
 const sfxSpin = document.getElementById('sfx-spin');
 const sfxWin = document.getElementById('sfx-win');
 const btnMute = document.getElementById('btn-mute');
-let isMuted = false; // Mặc định bật tiếng
+let isMuted = false; 
 bgm.muted = false;
 sfxSpin.muted = false;
 sfxWin.muted = false;
-// --- AUDIO CONFIG END ---
 
 const loading = document.getElementById('loading');
 const authLoading = document.getElementById('auth-loading');
@@ -675,8 +748,8 @@ function updateBalance(flashType = null) {
     setTimeout(() => balanceEl.classList.remove(flashType), 800);
   }
   const bet = parseInt(betInput.value) || 0;
-  spinBtn.disabled = spinning || balance < bet || bet < 1000;
-  allinBtn.disabled = spinning || balance < 1000;
+  spinBtn.disabled = spinning || balance < bet || bet < 1000 || (currentUserData && currentUserData.isLocked);
+  allinBtn.disabled = spinning || balance < 1000 || (currentUserData && currentUserData.isLocked);
 }
 
 window.switchNapTab = (tab) => {
@@ -704,14 +777,11 @@ function spawnLoginCards() {
   }
 }
 
-// --- UNLOCK AUDIO START ---
 let isAudioUnlocked = false;
 function unlockAudio() {
   if (isAudioUnlocked) return;
   isAudioUnlocked = true;
   bgm.volume = 0.5;
-  
-  // Chỉ phát nhạc nếu không bị mute
   if (!isMuted) {
       bgm.play().catch(() => {});
   }
@@ -719,10 +789,8 @@ function unlockAudio() {
   sfxWin.load();
 }
 
-// Lắng nghe cả click (PC) và touchstart (Mobile) ở lượt chạm đầu tiên
 document.body.addEventListener('click', unlockAudio, { once: true });
 document.body.addEventListener('touchstart', unlockAudio, { once: true });
-// --- UNLOCK AUDIO END ---
 
 btnMute.addEventListener('click', () => {
   isMuted = !isMuted;
@@ -860,16 +928,21 @@ onAuthStateChanged(auth, async (user) => {
     if (!userDoc.exists()) {
       await setDoc(doc(db, 'users', user.uid), {
         username: user.email.split('@')[0],
-        balance: 0, isAdmin: false, email: user.email, history: [], createdAt: Date.now()
+        balance: 0, isAdmin: false, isLocked: false, email: user.email, history: [], createdAt: Date.now()
       });
     }
-    const data = userDoc.exists() ? userDoc.data() : { username: user.email.split('@')[0], balance: 0, isAdmin: false, history: [] };
+    const data = userDoc.exists() ? userDoc.data() : { username: user.email.split('@')[0], balance: 0, isAdmin: false, isLocked: false, history: [] };
     currentUser = { uid: user.uid, username: data.username, isAdmin: !!data.isAdmin };
     currentUserData = data;
     userBadge.textContent = data.username;
     adminBtn.style.display = data.isAdmin ? 'flex' : 'none';
     authScreen.classList.add('hidden');
     
+    // KIỂM TRA TÀI KHOẢN BỊ KHÓA
+    if (data.isLocked) {
+        alert("Tài khoản của bạn đã bị khóa bởi Admin!");
+    }
+
     const jackpotRef = doc(db, 'system', 'jackpot');
     const jackpotSnap = await getDoc(jackpotRef);
     if (!jackpotSnap.exists()) {
@@ -897,11 +970,23 @@ onAuthStateChanged(auth, async (user) => {
         jackpotEl.textContent = fmt(jackpotPool);
       }
     });
+
+    // LẮNG NGHE THÔNG BÁO TOÀN SERVER
+    if (unsubscribeNotice) unsubscribeNotice();
+    unsubscribeNotice = onSnapshot(doc(db, 'system', 'notice'), (snap) => {
+       if(snap.exists() && snap.data().msg) {
+           const noticeEl = document.getElementById('global-notice');
+           const textEl = document.getElementById('global-notice-text');
+           textEl.textContent = "📢 " + snap.data().msg;
+           noticeEl.style.display = 'block';
+       }
+    });
     
     if (data.isAdmin) {
       loadAdminDeposits();
       loadAdminCards();
-      loadAdminWithdrawals(); // Gọi load danh sách rút
+      loadAdminWithdrawals();
+      loadAdminGiftCodes();
     }
     
     cur=[0,1,2,3,4].map(()=>[0,1,2,3].map(()=>rc(.04)));
@@ -916,7 +1001,9 @@ onAuthStateChanged(auth, async (user) => {
     if (unsubscribeJackpot) { unsubscribeJackpot(); unsubscribeJackpot = null; }
     if (unsubscribeDeposits) { unsubscribeDeposits(); unsubscribeDeposits = null; }
     if (unsubscribeCards) { unsubscribeCards(); unsubscribeCards = null; }
-    if (unsubscribeWithdrawals) { unsubscribeWithdrawals(); unsubscribeWithdrawals = null; } // Clean up
+    if (unsubscribeWithdrawals) { unsubscribeWithdrawals(); unsubscribeWithdrawals = null; }
+    if (unsubscribeNotice) { unsubscribeNotice(); unsubscribeNotice = null; }
+    if (unsubscribeGiftcodes) { unsubscribeGiftcodes(); unsubscribeGiftcodes = null; }
     authScreen.classList.remove('hidden');
     spawnLoginCards(); 
   }
@@ -962,7 +1049,7 @@ document.getElementById('btn-register').addEventListener('click', async () => {
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await setDoc(doc(db, 'users', cred.user.uid), {
-      username, balance: 0, isAdmin: false, email, history: [], createdAt: Date.now()
+      username, balance: 0, isAdmin: false, isLocked: false, email, history: [], createdAt: Date.now()
     });
   } catch (e) { 
     authLoading.style.display = 'none';
@@ -974,23 +1061,191 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
   await signOut(auth); location.reload();
 });
 
-window.loadUserHistory = () => {
-  const list = document.getElementById('user-history-list');
-  if (!currentUserData || !currentUserData.history || currentUserData.history.length === 0) {
-    list.innerHTML = '<div style="text-align:center;padding:20px;">Bạn chưa có lịch sử chơi.</div>';
-    return;
-  }
+// ==================== XỬ LÝ GIFTCODE CHO USER ====================
+document.getElementById('btn-claim-giftcode').addEventListener('click', async () => {
+  const codeInput = document.getElementById('giftcode-input').value.trim().toUpperCase();
+  if (!codeInput) return alert('Vui lòng nhập mã Giftcode!');
   
-  const recent = [...currentUserData.history].reverse().slice(0, 30); 
-  list.innerHTML = recent.map(h => {
-    const date = new Date(h.time).toLocaleString('vi-VN');
-    const cls = h.result === 'win' ? 'win' : 'lose';
-    const text = h.result === 'win' ? `+${fmt(h.win)}` : `-${fmt(h.bet)}`;
-    return `<div class="history-item ${cls}">
-      <span>${date} | Cược: ${fmt(h.bet)}</div>
-      <span>${text}</span>
-    </div>`;
-  }).join('');
+  const btn = document.getElementById('btn-claim-giftcode');
+  btn.disabled = true;
+  btn.textContent = "ĐANG KIỂM TRA...";
+
+  try {
+    // Tìm mã trong database (dùng chính mã làm ID để dễ quản lý)
+    const gcRef = doc(db, 'giftcodes', codeInput);
+    const gcSnap = await getDoc(gcRef);
+
+    if (!gcSnap.exists()) {
+      alert('Mã Giftcode không tồn tại hoặc đã bị xóa!');
+      btn.disabled = false; btn.textContent = "NHẬN QUÀ";
+      return;
+    }
+
+    const gcData = gcSnap.data();
+
+    // Kiểm tra số lượt sử dụng
+    if (gcData.usedCount >= gcData.maxUses) {
+      alert('Mã Giftcode này đã hết lượt sử dụng!');
+      btn.disabled = false; btn.textContent = "NHẬN QUÀ";
+      return;
+    }
+
+    // Kiểm tra xem user đã nhập mã này chưa
+    if (gcData.claimedBy && gcData.claimedBy.includes(currentUser.uid)) {
+      alert('Bạn đã nhập mã này rồi, không thể nhập lại!');
+      btn.disabled = false; btn.textContent = "NHẬN QUÀ";
+      return;
+    }
+
+    // Nếu hợp lệ -> Cộng tiền và cập nhật trạng thái mã
+    await updateDoc(doc(db, 'users', currentUser.uid), { balance: increment(gcData.amount) });
+    await updateDoc(gcRef, {
+      usedCount: increment(1),
+      claimedBy: arrayUnion(currentUser.uid)
+    });
+
+    alert(`🎉 CHÚC MỪNG! Bạn đã nhận được ${fmt(gcData.amount)} từ Giftcode.`);
+    document.getElementById('modal-giftcode').classList.remove('active');
+    document.getElementById('giftcode-input').value = '';
+
+  } catch (e) {
+    alert('Lỗi: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = "NHẬN QUÀ";
+  }
+});
+
+// ==================== XỬ LÝ GIFTCODE CHO ADMIN ====================
+document.getElementById('btn-create-gc').addEventListener('click', async () => {
+  const code = document.getElementById('gc-code').value.trim().toUpperCase();
+  const amount = parseInt(document.getElementById('gc-amount').value);
+  const maxUses = parseInt(document.getElementById('gc-max').value) || 100;
+
+  if (!code || code.length < 3) return alert('Mã phải có ít nhất 3 ký tự!');
+  if (!amount || amount < 1000) return alert('Số tiền thưởng tối thiểu là 1.000đ!');
+  if (maxUses < 1) return alert('Số lượt sử dụng phải lớn hơn 0!');
+
+  try {
+    const gcRef = doc(db, 'giftcodes', code);
+    const gcSnap = await getDoc(gcRef);
+    if (gcSnap.exists()) return alert('Mã này đã tồn tại, vui lòng chọn mã khác!');
+
+    await setDoc(gcRef, {
+      amount: amount,
+      maxUses: maxUses,
+      usedCount: 0,
+      claimedBy: [],
+      createdAt: Date.now()
+    });
+
+    alert(`Đã tạo thành công Giftcode: ${code}`);
+    document.getElementById('gc-code').value = '';
+    document.getElementById('gc-amount').value = '';
+    document.getElementById('gc-max').value = '100';
+  } catch (e) {
+    alert('Lỗi tạo mã: ' + e.message);
+  }
+});
+
+function loadAdminGiftCodes() {
+  if (unsubscribeGiftcodes) unsubscribeGiftcodes();
+  const q = query(collection(db, 'giftcodes'));
+  unsubscribeGiftcodes = onSnapshot(q, (snapshot) => {
+    const listEl = document.getElementById('admin-giftcode-list');
+    if (snapshot.empty) { listEl.innerHTML = '<div style="text-align:center;padding:10px;color:#888;">Chưa có mã nào được tạo.</div>'; return; }
+    
+    const docs = snapshot.docs.sort((a,b) => b.data().createdAt - a.data().createdAt);
+    listEl.innerHTML = docs.map(docSnap => {
+      const d = docSnap.data();
+      const isOut = d.usedCount >= d.maxUses;
+      const statusText = isOut ? '<span style="color:#d62839;font-weight:bold;">[HẾT LƯỢT]</span>' : `<span style="color:#0a8f4d;">[${d.usedCount}/${d.maxUses}]</span>`;
+      
+      return `<div class="history-item" style="flex-direction: column; gap: 5px; padding: 10px;">
+        <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+            <b style="font-size:15px; color:#c17fff; letter-spacing:1px;">${docSnap.id}</b>
+            <button onclick="deleteGiftCode('${docSnap.id}')" style="background:#ff6b8a; color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size:11px; font-weight:bold;">XÓA</button>
+        </div>
+        <div style="display:flex; justify-content:space-between; width:100%;">
+            <span>Thưởng: <b style="color:#0a8f4d">+${fmt(d.amount)}</b></span>
+            ${statusText}
+        </div>
+      </div>`;
+    }).join('');
+  });
+}
+
+window.deleteGiftCode = async (codeId) => {
+  if (!confirm(`Bạn có chắc muốn xóa vĩnh viễn Giftcode "${codeId}"?`)) return;
+  try {
+    await deleteDoc(doc(db, 'giftcodes', codeId));
+    alert('Đã xóa Giftcode!');
+  } catch (e) {
+    alert('Lỗi xóa: ' + e.message);
+  }
+};
+
+// ==================== CÁC HÀM KHÁC ====================
+window.loadUserTransactions = async () => {
+  const list = document.getElementById('user-transactions-list');
+  list.innerHTML = 'Đang tải...';
+  document.getElementById('modal-user-transactions').classList.add('active');
+
+  try {
+    let allTx = [];
+    const q1 = query(collection(db, 'deposits'), where('uid', '==', currentUser.uid));
+    const snap1 = await getDocs(q1);
+    snap1.forEach(d => {
+      const data = d.data();
+      allTx.push({ type: 'Nạp Bank', amount: data.amount, time: data.createdAt, status: data.status, info: data.note });
+    });
+
+    const q2 = query(collection(db, 'card_deposits'), where('uid', '==', currentUser.uid));
+    const snap2 = await getDocs(q2);
+    snap2.forEach(d => {
+      const data = d.data();
+      allTx.push({ type: 'Nạp Thẻ', amount: data.amount, time: data.createdAt, status: data.status, info: data.telco + ' - ' + data.seri });
+    });
+
+    const q3 = query(collection(db, 'withdrawals'), where('uid', '==', currentUser.uid));
+    const snap3 = await getDocs(q3);
+    snap3.forEach(d => {
+      const data = d.data();
+      allTx.push({ type: 'Rút Tiền', amount: data.amount, time: data.createdAt, status: data.status, info: data.bank + ' - ' + data.stk });
+    });
+
+    if (allTx.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:20px;">Chưa có giao dịch nào.</div>';
+      return;
+    }
+
+    allTx.sort((a, b) => b.time - a.time);
+
+    list.innerHTML = allTx.map(tx => {
+      const date = new Date(tx.time).toLocaleString('vi-VN');
+      let stTxt = '', stClass = '';
+      if (tx.status === 'pending') { stTxt = 'Chờ duyệt'; stClass = 'st-pending'; }
+      else if (tx.status === 'approved') { stTxt = 'Thành công'; stClass = 'st-approved'; }
+      else { stTxt = 'Từ chối'; stClass = 'st-rejected'; }
+
+      const sign = tx.type === 'Rút Tiền' ? '-' : '+';
+      const color = tx.type === 'Rút Tiền' ? '#d62839' : '#0a8f4d';
+
+      return `<div class="history-item" style="flex-direction: column; gap: 4px;">
+        <div style="display:flex; justify-content:space-between; width:100%;">
+            <b>${tx.type}</b>
+            <span class="status-badge ${stClass}">${stTxt}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; width:100%;">
+            <span style="font-size:11px; color:#888;">${date}</span>
+            <b style="color:${color}">${sign}${fmt(tx.amount)}</b>
+        </div>
+        <div style="font-size:11px; color:#666; width:100%;">${tx.info || ''}</div>
+      </div>`;
+    }).join('');
+
+  } catch(e) {
+    list.innerHTML = 'Lỗi tải dữ liệu: ' + e.message;
+  }
 };
 
 function floatAmount(amount, type) {
@@ -1026,6 +1281,11 @@ async function spin() {
   unlockAudio();
 
   if (spinning || !currentUser) return;
+  
+  if (currentUserData && currentUserData.isLocked) {
+      return alert("Tài khoản của bạn đang bị khóa, không thể chơi!");
+  }
+
   const bet = parseInt(betInput.value) || 0;
   if (bet < 1000) { status.textContent = "Đặt tối thiểu 1.000đ!"; status.className = "status lose"; return; }
   if (balance < bet) { status.textContent = "Số dư không đủ!"; status.className = "status lose"; return; }
@@ -1247,7 +1507,6 @@ document.querySelectorAll('#rut-banks .bank-opt').forEach(btn => {
   });
 });
 
-// --- CẬP NHẬT LỆNH RÚT TIỀN USER GỬI LÊN ---
 document.getElementById('btn-submit-rut').addEventListener('click', async () => {
   const stk = document.getElementById('rut-stk').value.trim();
   const name = document.getElementById('rut-name').value.trim();
@@ -1257,10 +1516,7 @@ document.getElementById('btn-submit-rut').addEventListener('click', async () => 
   if (amt > balance) return alert('Số dư không đủ!');
   
   try {
-    // 1. Trừ tiền user
     await updateDoc(doc(db, 'users', currentUser.uid), { balance: increment(-amt) });
-    
-    // 2. Lưu yêu cầu rút vào database
     await addDoc(collection(db, 'withdrawals'), {
       uid: currentUser.uid,
       username: currentUser.username,
@@ -1290,8 +1546,10 @@ document.querySelectorAll('.admin-tab').forEach(tab => {
     document.getElementById('admin-tab-users').classList.toggle('active', target === 'users');
     document.getElementById('admin-tab-deposits').classList.toggle('active', target === 'deposits');
     document.getElementById('admin-tab-cards').classList.toggle('active', target === 'cards');
-    document.getElementById('admin-tab-withdrawals').classList.toggle('active', target === 'withdrawals'); // Tab rút
+    document.getElementById('admin-tab-withdrawals').classList.toggle('active', target === 'withdrawals');
     document.getElementById('admin-tab-userlist').classList.toggle('active', target === 'userlist');
+    document.getElementById('admin-tab-notice').classList.toggle('active', target === 'notice');
+    document.getElementById('admin-tab-giftcodes').classList.toggle('active', target === 'giftcodes');
   });
 });
 
@@ -1299,6 +1557,7 @@ const adminTargetInput = document.getElementById('admin-target');
 const adminCurrentBalance = document.getElementById('admin-current-balance');
 const adminHistoryList = document.getElementById('admin-history-list');
 const adminAmountInput = document.getElementById('admin-amount');
+const btnAdminLock = document.getElementById('btn-admin-lock');
 
 adminTargetInput.addEventListener('input', async () => {
   const t = adminTargetInput.value.trim();
@@ -1307,6 +1566,8 @@ adminTargetInput.addEventListener('input', async () => {
     adminHistoryList.innerHTML = ''; 
     adminHistoryList.style.display = 'none'; 
     currentTargetUser = null; 
+    btnAdminLock.textContent = 'KHÓA / MỞ KHÓA TÀI KHOẢN';
+    btnAdminLock.style.background = '#333';
     document.getElementById('admin-edge').value = '';
     document.getElementById('admin-force-win').value = '';
     document.getElementById('admin-force-lose').value = '';
@@ -1319,11 +1580,37 @@ adminTargetInput.addEventListener('input', async () => {
   currentTargetUser = { id: snap.docs[0].id, data: snap.docs[0].data() };
   adminCurrentBalance.textContent = fmt(currentTargetUser.data.balance || 0);
   
+  if (currentTargetUser.data.isLocked) {
+      btnAdminLock.textContent = 'MỞ KHÓA TÀI KHOẢN (Đang khóa)';
+      btnAdminLock.style.background = '#0a8f4d';
+  } else {
+      btnAdminLock.textContent = 'KHÓA TÀI KHOẢN (Đang hoạt động)';
+      btnAdminLock.style.background = '#d62839';
+  }
+
   const edge = currentTargetUser.data.house_edge !== undefined ? (currentTargetUser.data.house_edge * 100) : (HOUSE_EDGE_DEFAULT * 100);
   document.getElementById('admin-edge').value = Math.round(edge);
   
   document.getElementById('admin-force-win').value = currentTargetUser.data.force_win_under || '';
   document.getElementById('admin-force-lose').value = currentTargetUser.data.force_lose_under || '';
+});
+
+btnAdminLock.addEventListener('click', async () => {
+  if (!currentTargetUser) return alert('Nhập username trước!');
+  const newStatus = !currentTargetUser.data.isLocked;
+  try {
+    await updateDoc(doc(db, 'users', currentTargetUser.id), { isLocked: newStatus });
+    currentTargetUser.data.isLocked = newStatus;
+    alert(`Đã ${newStatus ? 'KHÓA' : 'MỞ KHÓA'} tài khoản ${currentTargetUser.data.username}!`);
+    
+    if (newStatus) {
+      btnAdminLock.textContent = 'MỞ KHÓA TÀI KHOẢN (Đang khóa)';
+      btnAdminLock.style.background = '#0a8f4d';
+    } else {
+      btnAdminLock.textContent = 'KHÓA TÀI KHOẢN (Đang hoạt động)';
+      btnAdminLock.style.background = '#d62839';
+    }
+  } catch(e) { alert('Lỗi: ' + e.message); }
 });
 
 async function adjustBalance(sign) {
@@ -1394,6 +1681,16 @@ document.getElementById('btn-admin-history').addEventListener('click', () => {
   }
 });
 
+document.getElementById('btn-send-notice').addEventListener('click', async () => {
+  const msg = document.getElementById('admin-notice-msg').value.trim();
+  if (!msg) return alert('Vui lòng nhập nội dung thông báo!');
+  try {
+    await setDoc(doc(db, 'system', 'notice'), { msg: msg, time: Date.now() });
+    alert('Đã phát thông báo toàn server!');
+    document.getElementById('admin-notice-msg').value = '';
+  } catch(e) { alert('Lỗi: ' + e.message); }
+});
+
 document.getElementById('btn-refresh-users').addEventListener('click', async () => {
   const container = document.getElementById('user-list-container');
   container.innerHTML = 'Đang tải...';
@@ -1404,8 +1701,9 @@ document.getElementById('btn-refresh-users').addEventListener('click', async () 
     snap.forEach(doc => {
       const u = doc.data();
       const edge = u.house_edge !== undefined ? (u.house_edge * 100) : (HOUSE_EDGE_DEFAULT * 100);
+      const lockIcon = u.isLocked ? '🔒 ' : '';
       html += `<div class="user-list-item">
-        <div><div class="u-name">${u.username} ${u.isAdmin ? '👑' : ''}</div><div class="u-edge">Tỷ lệ thua: ${Math.round(edge)}%</div></div>
+        <div><div class="u-name">${lockIcon}${u.username} ${u.isAdmin ? '👑' : ''}</div><div class="u-edge">Tỷ lệ thua: ${Math.round(edge)}%</div></div>
         <div class="u-bal">${fmt(u.balance || 0)}</div>
       </div>`;
     });
@@ -1495,7 +1793,6 @@ window.rejectCard = async (docId) => {
   } catch (e) { alert('Lỗi: ' + e.message); }
 };
 
-// --- CÁC HÀM XỬ LÝ RÚT TIỀN BÊN ADMIN ---
 function loadAdminWithdrawals() {
   if (unsubscribeWithdrawals) unsubscribeWithdrawals();
   const q = query(collection(db, 'withdrawals'), where('status', '==', 'pending'));
@@ -1525,7 +1822,6 @@ function loadAdminWithdrawals() {
 
 window.approveWithdrawal = async (docId) => {
   try {
-    // Chỉ cần đổi trạng thái thành công (Tiền đã bị trừ lúc User gửi lệnh)
     await updateDoc(doc(db, 'withdrawals', docId), { status: 'approved' });
     alert(`Đã duyệt lệnh rút tiền thành công!`);
   } catch (e) { alert('Lỗi duyệt: ' + e.message); }
@@ -1533,9 +1829,7 @@ window.approveWithdrawal = async (docId) => {
 
 window.rejectWithdrawal = async (docId, userUid, amount) => {
   try {
-    // 1. Đổi trạng thái thành từ chối
     await updateDoc(doc(db, 'withdrawals', docId), { status: 'rejected' });
-    // 2. Hoàn lại tiền cho User
     await updateDoc(doc(db, 'users', userUid), { balance: increment(amount) });
     alert(`Đã từ chối lệnh rút và hoàn lại ${fmt(amount)} cho user!`);
   } catch (e) { alert('Lỗi duyệt: ' + e.message); }
