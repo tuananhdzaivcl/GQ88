@@ -33,6 +33,18 @@
     background: radial-gradient(ellipse at top, rgba(52, 77, 121, 0.8) 0, rgba(18, 26, 45, 0.9) 55%, rgba(9, 14, 25, 0.95) 100%);
   }
 
+  /* MÀN HÌNH KHÓA TÀI KHOẢN */
+  #account-locked-screen { 
+    display: none; position: fixed; inset: 0; z-index: 999999; 
+    background: rgba(5, 8, 15, 0.98); flex-direction: column; align-items: center; justify-content: center; 
+    padding: 20px; text-align: center; backdrop-filter: blur(10px); 
+  }
+  .lock-icon { font-size: 70px; color: #ff6b8a; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(255,107,138,0.6)); }
+  .lock-title { color: #ff6b8a; font-size: 24px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+  .lock-msg-box { background: #17233d; padding: 20px; border-radius: 12px; border: 2px solid #ff6b8a; max-width: 400px; width: 100%; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(255,107,138,0.2); }
+  .lock-msg-title { color: #8f96ad; font-size: 14px; margin-bottom: 10px; text-transform: uppercase; font-weight: bold; }
+  .lock-msg-text { color: #fff; font-size: 16px; font-weight: bold; line-height: 1.5; word-break: break-word; }
+
   /* THÔNG BÁO TOÀN SERVER */
   #global-notice { display: none; background: linear-gradient(90deg, #ff0055, #ff9f43); color: #fff; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; position: relative; z-index: 999; box-shadow: 0 4px 15px rgba(255,0,85,0.5); animation: pulseNotice 2s infinite; }
   @keyframes pulseNotice { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
@@ -203,6 +215,7 @@
   .action-btn.purple { background: linear-gradient(135deg, #b57bff, #7a3dd8); color: #fff; }
   .action-btn.red { background: linear-gradient(135deg, #ff6b8a, #c9184a); color: #fff; }
   .action-btn.green { background: linear-gradient(135deg, #00ffae, #00b37a); color: #000; }
+  .action-btn.brown { background: linear-gradient(135deg, #8b5a2b, #5c3a21); color: #fff; }
   .close-btn { width: 100%; padding: 10px; margin-top: 8px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; background: #f0f2f6; color: #5a6175; font-family: inherit; font-size: 14px; }
 
   .admin-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid #ddd; padding-bottom: 8px; overflow-x: auto; }
@@ -297,6 +310,17 @@
 <audio id="bgm" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
 <audio id="sfx-spin" preload="auto" loop><source src="quay.mp3" type="audio/mpeg"></audio>
 <audio id="sfx-win" preload="auto"><source src="hu.mp3" type="audio/mpeg"></audio>
+
+<!-- MÀN HÌNH KHÓA TÀI KHOẢN -->
+<div id="account-locked-screen">
+  <i class="fas fa-lock lock-icon"></i>
+  <h2 id="lock-title" class="lock-title">TÀI KHOẢN BỊ KHÓA</h2>
+  <div class="lock-msg-box">
+      <p class="lock-msg-title">Lời nhắn từ Admin:</p>
+      <p id="lock-reason-text" class="lock-msg-text">Vi phạm điều khoản.</p>
+  </div>
+  <button onclick="signOut(auth); location.reload();" class="action-btn red" style="max-width:200px;">ĐĂNG XUẤT</button>
+</div>
 
 <div id="global-notice">
   <span id="global-notice-text">Thông báo toàn server!</span>
@@ -556,6 +580,7 @@
       <button class="admin-tab" data-atab="userlist">DANH SÁCH</button>
       <button class="admin-tab" data-atab="notice">THÔNG BÁO</button>
       <button class="admin-tab" data-atab="giftcodes">GIFTCODE</button>
+      <button class="admin-tab" data-atab="trash" style="color:#d62839; font-weight:bold;">THÙNG RÁC</button>
     </div>
 
     <!-- Tab Quản lý User -->
@@ -571,25 +596,28 @@
          <button class="action-btn red" id="btn-admin-sub" style="flex:1">- TRỪ</button>
       </div>
       
-      <!-- NÚT KHÓA TÀI KHOẢN -->
-      <button class="action-btn red" id="btn-admin-lock" style="background: #333; color: #fff; border: 1px solid #ff6b8a;">KHÓA / MỞ KHÓA TÀI KHOẢN</button>
+      <!-- NÚT KHÓA / HÓA TÀI KHOẢN -->
+      <div style="display:flex; gap:6px; margin-bottom: 10px;">
+        <button class="action-btn red" id="btn-admin-lock" style="flex:1; background: #333; color: #fff; border: 1px solid #ff6b8a;">KHÓA TÀI KHOẢN</button>
+        <button class="action-btn brown" id="btn-admin-delete" style="flex:1;">HÓA TÀI KHOẢN</button>
+      </div>
 
       <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc;">
-         <div style="font-weight: bold; font-size: 13px; margin-bottom: 8px; color: #d62839;">GIẢM NHÂN PHẨM (Tỷ lệ thua mặc định)</div>
+         <div style="font-weight: bold; font-size: 13px; margin-bottom: 8px; color: #d62839;">GIẢM NHÂN PHẨM (Tỷ lệ thua mặc định - Tối đa 100%)</div>
          <div style="display:flex; gap:6px; margin-bottom: 10px;">
-            <input type="number" id="admin-edge" placeholder="VD: 90 (tức 90% thua)" style="margin-bottom:0; flex:1;">
+            <input type="number" id="admin-edge" placeholder="VD: 100 (100% thua)" style="margin-bottom:0; flex:1;" max="100">
             <button class="action-btn red" id="btn-admin-edge" style="width: 100px; margin-top:0;">ÁP DỤNG</button>
          </div>
       </div>
 
       <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;">
-         <div style="font-weight: bold; font-size: 13px; margin-bottom: 8px; color: #00bcd4;">ÉP THẮNG/THUA THEO MỨC CƯỢC (Set riêng)</div>
+         <div style="font-weight: bold; font-size: 13px; margin-bottom: 8px; color: #00bcd4;">ÉP THẮNG / THUA THEO MỨC CƯỢC</div>
          <div style="display:flex; gap:6px; margin-bottom: 6px;">
-            <input type="number" id="admin-force-win" placeholder="Cược < ... thì 100% THẮNG" style="margin-bottom:0; flex:1; border-color: #0a8f4d;">
+            <input type="number" id="admin-force-win" placeholder="Cược <= ... thì 100% THẮNG" style="margin-bottom:0; flex:1; border-color: #0a8f4d;">
             <button class="action-btn" style="background:#0a8f4d; color:#fff; width: 80px; margin-top:0;" id="btn-admin-force-win">LƯU</button>
          </div>
          <div style="display:flex; gap:6px;">
-            <input type="number" id="admin-force-lose" placeholder="Cược < ... thì 100% THUA" style="margin-bottom:0; flex:1; border-color: #d62839;">
+            <input type="number" id="admin-force-lose" placeholder="Cược >= ... thì 100% THUA" style="margin-bottom:0; flex:1; border-color: #d62839;">
             <button class="action-btn" style="background:#d62839; color:#fff; width: 80px; margin-top:0;" id="btn-admin-force-lose">LƯU</button>
          </div>
       </div>
@@ -622,7 +650,7 @@
       <p style="font-size:12px; color:#888; margin-top:10px; text-align:center;">Lưu ý: Thông báo sẽ hiển thị dạng banner ở đầu trang của tất cả người chơi đang online.</p>
     </div>
 
-    <!-- Tab Giftcode Mới -->
+    <!-- Tab Giftcode -->
     <div class="admin-content" id="admin-tab-giftcodes">
       <div style="background: #f7f9fc; padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #d0d5df;">
         <h4 style="margin: 0 0 10px; font-size: 14px; text-align: center; color: #00bcd4;">TẠO GIFTCODE MỚI</h4>
@@ -634,6 +662,14 @@
       
       <h4 style="margin: 0 0 10px; font-size: 14px; color: #333;">DANH SÁCH MÃ ĐÃ TẠO</h4>
       <div id="admin-giftcode-list" class="history-list" style="max-height: 250px;">
+        Đang tải...
+      </div>
+    </div>
+
+    <!-- Tab Thùng Rác -->
+    <div class="admin-content" id="admin-tab-trash">
+      <p style="font-size:12px; color:#888; text-align:center; margin-bottom:10px;">Các tài khoản bị hóa sẽ nằm ở đây. Có thể khôi phục lại.</p>
+      <div id="admin-trash-list" class="history-list" style="max-height: 350px;">
         Đang tải...
       </div>
     </div>
@@ -684,6 +720,7 @@ let unsubscribeCards = null;
 let unsubscribeWithdrawals = null;
 let unsubscribeNotice = null;
 let unsubscribeGiftcodes = null;
+let unsubscribeTrash = null;
 let selectedNapAmount = 0;
 let selectedBank = '';
 let currentTargetUser = null; 
@@ -748,8 +785,9 @@ function updateBalance(flashType = null) {
     setTimeout(() => balanceEl.classList.remove(flashType), 800);
   }
   const bet = parseInt(betInput.value) || 0;
-  spinBtn.disabled = spinning || balance < bet || bet < 1000 || (currentUserData && currentUserData.isLocked);
-  allinBtn.disabled = spinning || balance < 1000 || (currentUserData && currentUserData.isLocked);
+  const isLocked = currentUserData && (currentUserData.isLocked || currentUserData.isDeleted);
+  spinBtn.disabled = spinning || balance < bet || bet < 1000 || isLocked;
+  allinBtn.disabled = spinning || balance < 1000 || isLocked;
 }
 
 window.switchNapTab = (tab) => {
@@ -803,12 +841,14 @@ btnMute.addEventListener('click', () => {
 
 function generateResult(winType) {
   let cards = [];
-  for (let i = 0; i < 20; i++) cards.push(rc(0)); 
-
+  
   if (winType === 'jp10') { 
+    for (let i = 0; i < 20; i++) cards.push(rc(0)); 
     const positions = shuffle([...Array(20).keys()]).slice(0, 5);
     positions.forEach(pos => cards[pos] = JK);
+    return cards;
   } else if (winType === 'jp20') { 
+    for (let i = 0; i < 20; i++) cards.push(rc(0)); 
     const suit = Math.floor(Math.random() * 4);
     const startRank = Math.floor(Math.random() * 9); 
     let sequence = [];
@@ -821,44 +861,32 @@ function generateResult(winType) {
         const row = Math.floor(Math.random() * 4);
         cards[col * 4 + row] = sequence[i];
     }
+    return cards;
   } else if (winType === 'normal') { 
+    for (let i = 0; i < 20; i++) cards.push(rc(0)); 
     const matchRank = Math.floor(Math.random() * 13);
     const suits = shuffle([0,1,2,3]);
     const positions = shuffle([...Array(20).keys()]).slice(0, 3);
     for(let i=0; i<3; i++) {
         cards[positions[i]] = suits[i] * 13 + matchRank;
     }
+    return cards;
   } else { 
-    let jokerCount = cards.filter(c => c === JK).length;
-    if (jokerCount >= 5) {
-      let toReplace = jokerCount - 4;
-      for (let i = 0; i < 20; i++) {
-        if (cards[i] === JK && toReplace > 0) { cards[i] = rc(0); toReplace--; }
-      }
-    }
-
+    // Đảm bảo 100% là bài THUA (Không có 3 lá giống, không có 5 Joker, không có dây đồng chất)
     let safe = false;
     let attempts = 0;
-    while(!safe && attempts < 50) {
-      safe = true;
-      let rankCounts = {};
-      for (let i = 0; i < 20; i++) {
-        if (cards[i] !== JK) {
-          let r = cards[i] % 13;
-          rankCounts[r] = (rankCounts[r] || 0) + 1;
-          if (rankCounts[r] >= 3) {
-             let newCard = rc(0);
-             while (newCard === JK || (newCard % 13) === r) newCard = rc(0);
-             cards[i] = newCard;
-             safe = false;
-             break;
-          }
-        }
+    while(!safe && attempts < 200) { // Tăng số lần thử lên 200 để đảm bảo
+      cards = [];
+      for (let i = 0; i < 20; i++) cards.push(rc(0.02)); // Tỉ lệ Joker rất thấp
+      
+      const check = checkWinCondition(cards);
+      if (!check.win) {
+        safe = true;
       }
       attempts++;
     }
+    return cards;
   }
-  return cards;
 }
 
 function checkWinCondition(finalCards) {
@@ -928,20 +956,15 @@ onAuthStateChanged(auth, async (user) => {
     if (!userDoc.exists()) {
       await setDoc(doc(db, 'users', user.uid), {
         username: user.email.split('@')[0],
-        balance: 0, isAdmin: false, isLocked: false, email: user.email, history: [], createdAt: Date.now()
+        balance: 0, isAdmin: false, isLocked: false, isDeleted: false, email: user.email, history: [], createdAt: Date.now()
       });
     }
-    const data = userDoc.exists() ? userDoc.data() : { username: user.email.split('@')[0], balance: 0, isAdmin: false, isLocked: false, history: [] };
+    const data = userDoc.exists() ? userDoc.data() : { username: user.email.split('@')[0], balance: 0, isAdmin: false, isLocked: false, isDeleted: false, history: [] };
     currentUser = { uid: user.uid, username: data.username, isAdmin: !!data.isAdmin };
     currentUserData = data;
     userBadge.textContent = data.username;
     adminBtn.style.display = data.isAdmin ? 'flex' : 'none';
     authScreen.classList.add('hidden');
-    
-    // KIỂM TRA TÀI KHOẢN BỊ KHÓA
-    if (data.isLocked) {
-        alert("Tài khoản của bạn đã bị khóa bởi Admin!");
-    }
 
     const jackpotRef = doc(db, 'system', 'jackpot');
     const jackpotSnap = await getDoc(jackpotRef);
@@ -960,6 +983,15 @@ onAuthStateChanged(auth, async (user) => {
         balance = data.balance || 0;
         currentHouseEdge = data.house_edge !== undefined ? data.house_edge : HOUSE_EDGE_DEFAULT;
         updateBalance(balance > oldBal ? 'flash' : balance < oldBal ? 'flash-red' : null);
+        
+        // KIỂM TRA KHÓA / XÓA TÀI KHOẢN
+        if (data.isLocked || data.isDeleted) {
+            document.getElementById('account-locked-screen').style.display = 'flex';
+            document.getElementById('lock-title').textContent = data.isDeleted ? 'TÀI KHOẢN ĐÃ BỊ XÓA' : 'TÀI KHOẢN ĐÃ BỊ KHÓA';
+            document.getElementById('lock-reason-text').textContent = data.lockReason || 'Vi phạm điều khoản của hệ thống.';
+        } else {
+            document.getElementById('account-locked-screen').style.display = 'none';
+        }
       }
     });
 
@@ -987,6 +1019,7 @@ onAuthStateChanged(auth, async (user) => {
       loadAdminCards();
       loadAdminWithdrawals();
       loadAdminGiftCodes();
+      loadTrashUsers();
     }
     
     cur=[0,1,2,3,4].map(()=>[0,1,2,3].map(()=>rc(.04)));
@@ -1004,7 +1037,9 @@ onAuthStateChanged(auth, async (user) => {
     if (unsubscribeWithdrawals) { unsubscribeWithdrawals(); unsubscribeWithdrawals = null; }
     if (unsubscribeNotice) { unsubscribeNotice(); unsubscribeNotice = null; }
     if (unsubscribeGiftcodes) { unsubscribeGiftcodes(); unsubscribeGiftcodes = null; }
+    if (unsubscribeTrash) { unsubscribeTrash(); unsubscribeTrash = null; }
     authScreen.classList.remove('hidden');
+    document.getElementById('account-locked-screen').style.display = 'none';
     spawnLoginCards(); 
   }
 });
@@ -1049,7 +1084,7 @@ document.getElementById('btn-register').addEventListener('click', async () => {
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await setDoc(doc(db, 'users', cred.user.uid), {
-      username, balance: 0, isAdmin: false, isLocked: false, email, history: [], createdAt: Date.now()
+      username, balance: 0, isAdmin: false, isLocked: false, isDeleted: false, email, history: [], createdAt: Date.now()
     });
   } catch (e) { 
     authLoading.style.display = 'none';
@@ -1071,7 +1106,6 @@ document.getElementById('btn-claim-giftcode').addEventListener('click', async ()
   btn.textContent = "ĐANG KIỂM TRA...";
 
   try {
-    // Tìm mã trong database (dùng chính mã làm ID để dễ quản lý)
     const gcRef = doc(db, 'giftcodes', codeInput);
     const gcSnap = await getDoc(gcRef);
 
@@ -1083,21 +1117,18 @@ document.getElementById('btn-claim-giftcode').addEventListener('click', async ()
 
     const gcData = gcSnap.data();
 
-    // Kiểm tra số lượt sử dụng
     if (gcData.usedCount >= gcData.maxUses) {
       alert('Mã Giftcode này đã hết lượt sử dụng!');
       btn.disabled = false; btn.textContent = "NHẬN QUÀ";
       return;
     }
 
-    // Kiểm tra xem user đã nhập mã này chưa
     if (gcData.claimedBy && gcData.claimedBy.includes(currentUser.uid)) {
       alert('Bạn đã nhập mã này rồi, không thể nhập lại!');
       btn.disabled = false; btn.textContent = "NHẬN QUÀ";
       return;
     }
 
-    // Nếu hợp lệ -> Cộng tiền và cập nhật trạng thái mã
     await updateDoc(doc(db, 'users', currentUser.uid), { balance: increment(gcData.amount) });
     await updateDoc(gcRef, {
       usedCount: increment(1),
@@ -1182,6 +1213,33 @@ window.deleteGiftCode = async (codeId) => {
   } catch (e) {
     alert('Lỗi xóa: ' + e.message);
   }
+};
+
+// ==================== TẢI THÙNG RÁC (ADMIN) ====================
+function loadTrashUsers() {
+    if (unsubscribeTrash) unsubscribeTrash();
+    const q = query(collection(db, 'users'), where('isDeleted', '==', true));
+    unsubscribeTrash = onSnapshot(q, (snapshot) => {
+        const container = document.getElementById('admin-trash-list');
+        if (snapshot.empty) return container.innerHTML = '<div style="text-align:center;padding:10px;color:#888;">Thùng rác trống.</div>';
+        let html = '';
+        snapshot.forEach(doc => {
+            const u = doc.data();
+            html += `<div class="user-list-item">
+                <div><div class="u-name">${u.username}</div><div class="u-edge" style="color:#d62839">Lý do: ${u.lockReason || 'Không có'}</div></div>
+                <button onclick="restoreUser('${doc.id}', '${u.username}')" style="background:#0a8f4d; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:11px; font-weight:bold;">KHÔI PHỤC</button>
+            </div>`;
+        });
+        container.innerHTML = html;
+    });
+}
+
+window.restoreUser = async (uid, username) => {
+    if (!confirm(`Khôi phục tài khoản "${username}"?`)) return;
+    try {
+        await updateDoc(doc(db, 'users', uid), { isDeleted: false, lockReason: '' });
+        alert('Đã khôi phục tài khoản!');
+    } catch(e) { alert('Lỗi: ' + e.message); }
 };
 
 // ==================== CÁC HÀM KHÁC ====================
@@ -1282,8 +1340,8 @@ async function spin() {
 
   if (spinning || !currentUser) return;
   
-  if (currentUserData && currentUserData.isLocked) {
-      return alert("Tài khoản của bạn đang bị khóa, không thể chơi!");
+  if (currentUserData && (currentUserData.isLocked || currentUserData.isDeleted)) {
+      return alert("Tài khoản của bạn không thể chơi!");
   }
 
   const bet = parseInt(betInput.value) || 0;
@@ -1312,11 +1370,11 @@ async function spin() {
   let winType = 'none';
   
   const forceWin = currentUserData.force_win_under;
-  const forceLose = currentUserData.force_lose_under;
-  
+  const forceLoseOver = currentUserData.force_lose_over; // Đã đổi thành OVER
+
   if (forceWin && bet <= forceWin) {
       winType = Math.random() < 0.1 ? 'jp20' : (Math.random() < 0.2 ? 'jp10' : 'normal'); 
-  } else if (forceLose && bet <= forceLose) {
+  } else if (forceLoseOver && bet >= forceLoseOver) { // Logic mới: Cược >= thì thua
       winType = 'none'; 
   } else {
       const isWin = Math.random() >= currentHouseEdge;
@@ -1550,6 +1608,7 @@ document.querySelectorAll('.admin-tab').forEach(tab => {
     document.getElementById('admin-tab-userlist').classList.toggle('active', target === 'userlist');
     document.getElementById('admin-tab-notice').classList.toggle('active', target === 'notice');
     document.getElementById('admin-tab-giftcodes').classList.toggle('active', target === 'giftcodes');
+    document.getElementById('admin-tab-trash').classList.toggle('active', target === 'trash');
   });
 });
 
@@ -1558,6 +1617,7 @@ const adminCurrentBalance = document.getElementById('admin-current-balance');
 const adminHistoryList = document.getElementById('admin-history-list');
 const adminAmountInput = document.getElementById('admin-amount');
 const btnAdminLock = document.getElementById('btn-admin-lock');
+const btnAdminDelete = document.getElementById('btn-admin-delete');
 
 adminTargetInput.addEventListener('input', async () => {
   const t = adminTargetInput.value.trim();
@@ -1566,8 +1626,12 @@ adminTargetInput.addEventListener('input', async () => {
     adminHistoryList.innerHTML = ''; 
     adminHistoryList.style.display = 'none'; 
     currentTargetUser = null; 
-    btnAdminLock.textContent = 'KHÓA / MỞ KHÓA TÀI KHOẢN';
+    btnAdminLock.style.display = 'block';
+    btnAdminDelete.style.display = 'block';
+    btnAdminLock.textContent = 'KHÓA TÀI KHOẢN';
     btnAdminLock.style.background = '#333';
+    btnAdminDelete.textContent = 'HÓA TÀI KHOẢN';
+    btnAdminDelete.style.background = '#8b5a2b';
     document.getElementById('admin-edge').value = '';
     document.getElementById('admin-force-win').value = '';
     document.getElementById('admin-force-lose').value = '';
@@ -1580,35 +1644,94 @@ adminTargetInput.addEventListener('input', async () => {
   currentTargetUser = { id: snap.docs[0].id, data: snap.docs[0].data() };
   adminCurrentBalance.textContent = fmt(currentTargetUser.data.balance || 0);
   
-  if (currentTargetUser.data.isLocked) {
-      btnAdminLock.textContent = 'MỞ KHÓA TÀI KHOẢN (Đang khóa)';
-      btnAdminLock.style.background = '#0a8f4d';
+  if (currentTargetUser.data.isAdmin) {
+      btnAdminLock.style.display = 'none';
+      btnAdminDelete.style.display = 'none';
+      adminCurrentBalance.textContent += ' (ADMIN)';
   } else {
-      btnAdminLock.textContent = 'KHÓA TÀI KHOẢN (Đang hoạt động)';
-      btnAdminLock.style.background = '#d62839';
+      btnAdminLock.style.display = 'block';
+      btnAdminDelete.style.display = 'block';
+      
+      if (currentTargetUser.data.isLocked) {
+          btnAdminLock.textContent = 'MỞ KHÓA (Đang khóa)';
+          btnAdminLock.style.background = '#0a8f4d';
+      } else {
+          btnAdminLock.textContent = 'KHÓA TÀI KHOẢN';
+          btnAdminLock.style.background = '#333';
+      }
+      
+      if (currentTargetUser.data.isDeleted) {
+          btnAdminDelete.textContent = 'KHÔI PHỤC (Đã xóa)';
+          btnAdminDelete.style.background = '#0a8f4d';
+      } else {
+          btnAdminDelete.textContent = 'HÓA TÀI KHOẢN';
+          btnAdminDelete.style.background = '#8b5a2b';
+      }
   }
 
   const edge = currentTargetUser.data.house_edge !== undefined ? (currentTargetUser.data.house_edge * 100) : (HOUSE_EDGE_DEFAULT * 100);
   document.getElementById('admin-edge').value = Math.round(edge);
   
   document.getElementById('admin-force-win').value = currentTargetUser.data.force_win_under || '';
-  document.getElementById('admin-force-lose').value = currentTargetUser.data.force_lose_under || '';
+  document.getElementById('admin-force-lose').value = currentTargetUser.data.force_lose_over || ''; // Đã đổi thành over
 });
 
 btnAdminLock.addEventListener('click', async () => {
   if (!currentTargetUser) return alert('Nhập username trước!');
+  if (currentTargetUser.data.isAdmin) return alert('Không thể thao tác trên Admin!');
+  
   const newStatus = !currentTargetUser.data.isLocked;
+  let reason = '';
+  if (newStatus) {
+      reason = prompt('Nhập LÝ DO KHÓA tài khoản (sẽ hiển thị cho user):');
+      if (reason === null) return;
+  }
+  
   try {
-    await updateDoc(doc(db, 'users', currentTargetUser.id), { isLocked: newStatus });
+    await updateDoc(doc(db, 'users', currentTargetUser.id), { 
+        isLocked: newStatus,
+        lockReason: reason || ''
+    });
     currentTargetUser.data.isLocked = newStatus;
+    currentTargetUser.data.lockReason = reason;
     alert(`Đã ${newStatus ? 'KHÓA' : 'MỞ KHÓA'} tài khoản ${currentTargetUser.data.username}!`);
     
     if (newStatus) {
-      btnAdminLock.textContent = 'MỞ KHÓA TÀI KHOẢN (Đang khóa)';
+      btnAdminLock.textContent = 'MỞ KHÓA (Đang khóa)';
       btnAdminLock.style.background = '#0a8f4d';
     } else {
-      btnAdminLock.textContent = 'KHÓA TÀI KHOẢN (Đang hoạt động)';
-      btnAdminLock.style.background = '#d62839';
+      btnAdminLock.textContent = 'KHÓA TÀI KHOẢN';
+      btnAdminLock.style.background = '#333';
+    }
+  } catch(e) { alert('Lỗi: ' + e.message); }
+});
+
+btnAdminDelete.addEventListener('click', async () => {
+  if (!currentTargetUser) return alert('Nhập username trước!');
+  if (currentTargetUser.data.isAdmin) return alert('Không thể thao tác trên Admin!');
+  
+  const newStatus = !currentTargetUser.data.isDeleted;
+  let reason = '';
+  if (newStatus) {
+      reason = prompt('Nhập LÝ DO XÓA tài khoản (sẽ hiển thị cho user):');
+      if (reason === null) return;
+  }
+  
+  try {
+    await updateDoc(doc(db, 'users', currentTargetUser.id), { 
+        isDeleted: newStatus,
+        lockReason: reason || ''
+    });
+    currentTargetUser.data.isDeleted = newStatus;
+    currentTargetUser.data.lockReason = reason;
+    alert(`Đã ${newStatus ? 'XÓA' : 'KHÔI PHỤC'} tài khoản ${currentTargetUser.data.username}!`);
+    
+    if (newStatus) {
+      btnAdminDelete.textContent = 'KHÔI PHỤC (Đã xóa)';
+      btnAdminDelete.style.background = '#0a8f4d';
+    } else {
+      btnAdminDelete.textContent = 'HÓA TÀI KHOẢN';
+      btnAdminDelete.style.background = '#8b5a2b';
     }
   } catch(e) { alert('Lỗi: ' + e.message); }
 });
@@ -1635,7 +1758,7 @@ document.getElementById('btn-admin-sub').addEventListener('click', () => adjustB
 document.getElementById('btn-admin-edge').addEventListener('click', async () => {
   if (!currentTargetUser) return alert('Nhập username trước!');
   const percent = parseInt(document.getElementById('admin-edge').value);
-  if (isNaN(percent) || percent < 0 || percent > 99) return alert('Nhập tỷ lệ từ 0 đến 99');
+  if (isNaN(percent) || percent < 0 || percent > 100) return alert('Nhập tỷ lệ từ 0 đến 100');
   const edgeValue = percent / 100;
   try {
     await updateDoc(doc(db, 'users', currentTargetUser.id), { house_edge: edgeValue });
@@ -1649,7 +1772,7 @@ document.getElementById('btn-admin-force-win').addEventListener('click', async (
   const val = parseInt(document.getElementById('admin-force-win').value) || 0;
   try {
     await updateDoc(doc(db, 'users', currentTargetUser.id), { force_win_under: val });
-    alert(`Đã set: Nếu cược < ${fmt(val)} sẽ 100% THẮNG`);
+    alert(`Đã set: Nếu cược <= ${fmt(val)} sẽ 100% THẮNG`);
     currentTargetUser.data.force_win_under = val;
   } catch(e) { alert('Lỗi: ' + e.message); }
 });
@@ -1658,9 +1781,9 @@ document.getElementById('btn-admin-force-lose').addEventListener('click', async 
   if (!currentTargetUser) return alert('Nhập username trước!');
   const val = parseInt(document.getElementById('admin-force-lose').value) || 0;
   try {
-    await updateDoc(doc(db, 'users', currentTargetUser.id), { force_lose_under: val });
-    alert(`Đã set: Nếu cược < ${fmt(val)} sẽ 100% THUA`);
-    currentTargetUser.data.force_lose_under = val;
+    await updateDoc(doc(db, 'users', currentTargetUser.id), { force_lose_over: val }); // Đã đổi thành force_lose_over
+    alert(`Đã set: Nếu cược >= ${fmt(val)} sẽ 100% THUA`);
+    currentTargetUser.data.force_lose_over = val;
   } catch(e) { alert('Lỗi: ' + e.message); }
 });
 
@@ -1700,6 +1823,7 @@ document.getElementById('btn-refresh-users').addEventListener('click', async () 
     let html = '';
     snap.forEach(doc => {
       const u = doc.data();
+      if(u.isDeleted) return; // Bỏ qua user trong thùng rác
       const edge = u.house_edge !== undefined ? (u.house_edge * 100) : (HOUSE_EDGE_DEFAULT * 100);
       const lockIcon = u.isLocked ? '🔒 ' : '';
       html += `<div class="user-list-item">
