@@ -610,14 +610,16 @@ let winTimeout = null;
 const HOUSE_EDGE_DEFAULT = 0.65; 
 let currentHouseEdge = HOUSE_EDGE_DEFAULT; 
 
+// --- AUDIO CONFIG START ---
 const bgm = document.getElementById('bgm');
 const sfxSpin = document.getElementById('sfx-spin');
 const sfxWin = document.getElementById('sfx-win');
 const btnMute = document.getElementById('btn-mute');
-let isMuted = true; 
-bgm.muted = true;
-sfxSpin.muted = true;
-sfxWin.muted = true;
+let isMuted = false; // Mặc định bật tiếng
+bgm.muted = false;
+sfxSpin.muted = false;
+sfxWin.muted = false;
+// --- AUDIO CONFIG END ---
 
 const loading = document.getElementById('loading');
 const authLoading = document.getElementById('auth-loading');
@@ -695,16 +697,25 @@ function spawnLoginCards() {
   }
 }
 
+// --- UNLOCK AUDIO START ---
 let isAudioUnlocked = false;
 function unlockAudio() {
   if (isAudioUnlocked) return;
   isAudioUnlocked = true;
   bgm.volume = 0.5;
-  bgm.play().then(() => { if(isMuted) bgm.pause(); }).catch(() => {});
+  
+  // Chỉ phát nhạc nếu không bị mute
+  if (!isMuted) {
+      bgm.play().catch(() => {});
+  }
   sfxSpin.load();
   sfxWin.load();
 }
+
+// Lắng nghe cả click (PC) và touchstart (Mobile) ở lượt chạm đầu tiên
 document.body.addEventListener('click', unlockAudio, { once: true });
+document.body.addEventListener('touchstart', unlockAudio, { once: true });
+// --- UNLOCK AUDIO END ---
 
 btnMute.addEventListener('click', () => {
   isMuted = !isMuted;
